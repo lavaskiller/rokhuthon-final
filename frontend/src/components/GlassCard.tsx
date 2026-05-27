@@ -1,16 +1,27 @@
-// ─────────────────────────────────────────────
-// GlassCard — 글래스모피즘 카드 공통 컴포넌트
-//
-// 스타일: backdrop-blur-md, bg-[rgba(218,249,255,0.2)], rounded-[200px or 20px]
-//
-// Props:
-//   variant: 'pill' | 'rounded'
-//     - pill: CTA 버튼형 (border-radius 200px) — Landing, FortuneResult 등
-//     - rounded: 카드형 (border-radius 20px) — LuckyCard, FortuneCircle 외각
-//   className?: string  — 추가 클래스 주입
-//   children: React.ReactNode
-// ─────────────────────────────────────────────
+import type { ReactNode } from 'react'
 
-// TODO: GlassCard 구현
-// interface Props { variant?: 'pill' | 'rounded'; className?: string; children: React.ReactNode }
-// export default function GlassCard({ variant = 'rounded', className, children }: Props) { ... }
+interface Props {
+  /** pill: CTA 버튼형 (radius 200px) | rounded: 카드형 (radius 20px) */
+  variant?: 'pill' | 'rounded'
+  className?: string
+  onClick?: () => void
+  children: ReactNode
+}
+
+/**
+ * 글래스모피즘 카드
+ * bg: rgba(218,249,255,0.2) + backdrop-blur
+ */
+export default function GlassCard({ variant = 'rounded', className = '', onClick, children }: Props) {
+  const radius = variant === 'pill' ? 'rounded-[200px]' : 'rounded-[20px]'
+  const cursor = onClick ? 'cursor-pointer hover:bg-[rgba(218,249,255,0.28)] transition-colors' : ''
+
+  return (
+    <div
+      className={`bg-[rgba(218,249,255,0.2)] backdrop-blur-md ${radius} ${cursor} ${className}`}
+      onClick={onClick}
+    >
+      {children}
+    </div>
+  )
+}

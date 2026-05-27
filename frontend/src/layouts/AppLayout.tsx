@@ -31,7 +31,6 @@ export default function AppLayout({
       <div className="relative min-h-screen w-full font-gowun text-white">
         {showBrand && (
           <span
-            // 좌측 세로 정렬 — Gowun Batang Regular 24pt (Figma)
             className="absolute left-4 top-1/2 z-20 -translate-y-1/2 select-none text-2xl tracking-[0.35em] text-white"
             style={{ writingMode: 'vertical-rl' }}
             aria-label="별꽃노리"

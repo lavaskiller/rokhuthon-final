@@ -9,7 +9,9 @@
       "Bash(gh repo *)",
       "Bash(git commit *)",
       "Bash(git push *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(gh pr *)",
+      "Bash(git merge *)"
     ]
   }
 }

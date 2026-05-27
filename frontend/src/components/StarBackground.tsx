@@ -12,6 +12,7 @@
 //   - Figma "별 배경"은 이미지 fill 이라 직접 추출 불가 → 80개 CSS 점으로 대체
 //   - 별 위치는 시드 기반 결정적 산포 (매 렌더 동일, SSR-safe)
 //   - 꽃잎은 5-petal SVG 한 정의를 <use> 로 재활용 → DOM/그라디언트 1회만 정의
+//   - SVG ID는 useId()로 인스턴스별 고유화 → 다중 마운트 시 전역 충돌 방지
 // ─────────────────────────────────────────────
 
 import { useId, useMemo } from 'react';
@@ -40,8 +41,8 @@ function generateStars(count: number, seed: number): Star[] {
   return Array.from({ length: count }, () => ({
     top: `${(rand() * 100).toFixed(2)}%`,
     left: `${(rand() * 100).toFixed(2)}%`,
-    size: rand() < 0.85 ? 1 : 2, // 대부분 1px, 일부 2px
-    opacity: 0.4 + rand() * 0.6,  // 0.4 ~ 1.0
+    size: rand() < 0.85 ? 1 : 2,
+    opacity: 0.4 + rand() * 0.6,
   }));
 }
 
@@ -106,13 +107,11 @@ export default function StarBackground({ starOpacity = 0.23, children }: Props) 
             <stop offset="100%" stopColor="#000F74" />
           </linearGradient>
         </defs>
-        {/* 뒤쪽 언덕 (연하게, 살짝 위로) */}
         <path
           d="M0,200 C160,140 320,180 460,160 C600,140 720,170 834,150 L834,320 L0,320 Z"
           fill={`url(#${hillGradId})`}
           opacity="0.55"
         />
-        {/* 앞쪽 언덕 (진하게) */}
         <path
           d="M0,260 C140,200 300,230 440,210 C580,190 720,220 834,200 L834,320 L0,320 Z"
           fill={`url(#${hillGradId})`}
@@ -125,7 +124,6 @@ export default function StarBackground({ starOpacity = 0.23, children }: Props) 
         className="pointer-events-none absolute inset-0"
         style={{ mixBlendMode: 'soft-light' }}
       >
-        {/* 모든 꽃잎이 공유하는 그라디언트 정의 */}
         <svg className="absolute h-0 w-0" aria-hidden>
           <defs>
             <radialGradient id={petalGradId} cx="50%" cy="50%" r="50%">
@@ -133,7 +131,6 @@ export default function StarBackground({ starOpacity = 0.23, children }: Props) 
               <stop offset="100%" stopColor="#55BEF7" />
             </radialGradient>
             <symbol id={petalSymbolId} viewBox="0 0 100 100">
-              {/* 5장 꽃잎 — 72° 간격 회전 */}
               {[0, 72, 144, 216, 288].map((angle) => (
                 <ellipse
                   key={angle}
@@ -145,7 +142,6 @@ export default function StarBackground({ starOpacity = 0.23, children }: Props) 
                   transform={`rotate(${angle} 50 50)`}
                 />
               ))}
-              {/* 중심 — 노랑 톤 (Figma Ellipse 4) */}
               <circle cx="50" cy="50" r="5" fill="#FFFFE8" opacity="0.8" />
             </symbol>
           </defs>
