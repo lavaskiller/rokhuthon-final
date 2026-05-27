@@ -29,7 +29,7 @@ export default function ZodiacSelect() {
 
   return (
     <AppLayout>
-      <div className="h-full flex flex-col overflow-hidden">
+      <div className="min-h-screen flex flex-col overflow-hidden">
         {/* 헤더 */}
         <header className="flex flex-col items-center gap-3 px-6 pt-8 pb-6">
           <p className="text-sm text-white/85">당신의 별자리를 선택하세요</p>

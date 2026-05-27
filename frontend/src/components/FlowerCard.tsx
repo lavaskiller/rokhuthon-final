@@ -9,6 +9,7 @@
 // ─────────────────────────────────────────────
 
 import type { FlowerItem } from '../types'
+import FlowerBloom from './FlowerBloom'
 
 interface Props {
   flower: FlowerItem

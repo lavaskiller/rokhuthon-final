@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import FlowerDecoration from './FlowerDecoration';
 
 interface Props {
   /** 'main' (default) | 'loading' */
@@ -99,22 +100,63 @@ export default function StarBackground({
           className="pointer-events-none absolute bottom-0 left-0 w-full"
         />
 
-        {/* 4. 콘텐츠 */}
+        {/* 4. 낙화 꽃잎 */}
+        <FlowerDecoration />
+
+        {/* 5. 콘텐츠 */}
         <div className="relative z-10">{children}</div>
       </div>
     );
   }
 
-  // main variant — Figma uiux 2 한 장 SVG
+  // main variant — 그라디언트 + 별 사진 + 언덕 레이어
   return (
-    <div className="relative min-h-screen w-full overflow-hidden">
-      <img
-        src="/assets/uiux-background.svg"
-        alt=""
-        aria-hidden
-        draggable={false}
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-      />
+    <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-b from-[#0a205c] to-[#44257e]">
+      {/* 1. 별 배경 사진 */}
+      <picture className="pointer-events-none absolute inset-0 h-full w-full">
+        <source srcSet="/assets/bg-stars.webp" type="image/webp" />
+        <img
+          src="/assets/bg-stars.png"
+          alt=""
+          aria-hidden
+          draggable={false}
+          className="h-full w-full object-cover"
+          style={{ opacity: starOpacity }}
+        />
+      </picture>
+
+      {/* 2. 반짝이는 별 procedural 레이어 */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        {stars.map((s, i) => (
+          <span
+            key={i}
+            className="absolute rounded-full bg-white"
+            style={{
+              top: s.top,
+              left: s.left,
+              width: s.size,
+              height: s.size,
+              boxShadow: s.bright
+                ? `0 0 ${s.size * 2.5}px ${s.size * 0.5}px rgba(255,255,255,0.9), 0 0 ${s.size * 5}px ${s.size * 0.8}px rgba(118,212,255,0.5)`
+                : 'none',
+              filter: s.bright ? 'none' : 'opacity(0.55)',
+              animation: `twinkle ${s.twinkleDuration}s ease-in-out ${s.twinkleDelay}s infinite`,
+              willChange: 'opacity, transform',
+            }}
+          />
+        ))}
+      </div>
+
+      {/* 3. 하단 언덕 데코 */}
+      <picture className="pointer-events-none absolute bottom-0 left-0 w-full">
+        <source srcSet="/assets/bg-hills.webp" type="image/webp" />
+        <img src="/assets/bg-hills.png" alt="" aria-hidden draggable={false} className="w-full" />
+      </picture>
+
+      {/* 4. 꽃잎 파티클 — 위치 고정 후 drift 애니메이션으로 흘러내림 */}
+      <FlowerDecoration />
+
+      {/* 5. 콘텐츠 */}
       <div className="relative z-10">{children}</div>
     </div>
   );

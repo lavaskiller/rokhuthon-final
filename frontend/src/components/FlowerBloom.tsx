@@ -24,7 +24,7 @@ import type { BloomState } from '../types'
 interface Props {
   state?: BloomState
   animated?: boolean
-  /** 단계당 ms — 기본 1100 (총 약 3.3초로 만개 도달) */
+  /** 단계당 ms — 기본 750 (총 약 3초로 만개 도달) */
   stepDuration?: number
   onComplete?: () => void
 }
@@ -42,7 +42,7 @@ const STAGE_SRC: Record<BloomState, string> = {
 export default function FlowerBloom({
   state = SEQUENCE[0],
   animated = false,
-  stepDuration = 1100,
+  stepDuration = 750,
   onComplete,
 }: Props) {
   const [current, setCurrent] = useState<BloomState>(animated ? SEQUENCE[0] : state)
@@ -114,7 +114,7 @@ export default function FlowerBloom({
             src={STAGE_SRC[s]}
             alt=""
             draggable={false}
-            className="absolute inset-0 h-full w-full object-contain transition-[opacity,transform] duration-[1300ms] ease-[cubic-bezier(0.45,0.05,0.35,1)]"
+            className="absolute inset-0 h-full w-full object-contain transition-[opacity,transform] duration-[800ms] ease-[cubic-bezier(0.45,0.05,0.35,1)]"
             style={{
               transformOrigin: '50% 55%',
               transform,

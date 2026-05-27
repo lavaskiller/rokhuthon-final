@@ -7,7 +7,7 @@ export default function Landing() {
 
   return (
     <AppLayout showFlowers>
-      <div className="h-full flex flex-col">
+      <div className="min-h-screen flex flex-col">
         {/* 상단: 별꽃노리 브랜드 (dot-line-text-line-dot) */}
         <div className="flex items-center justify-center pt-8 pb-4">
           <span className="h-[3px] w-[3px] rounded-full bg-white/70" aria-hidden />

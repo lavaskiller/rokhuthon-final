@@ -31,7 +31,7 @@ export default function FortuneResult() {
 
   return (
     <AppLayout>
-      <div className="h-full flex flex-col px-12 py-6">
+      <div className="min-h-screen flex flex-col px-12 py-6">
         {/* 날짜 */}
         <p className="font-gowun text-sm text-white/40">{dateStr}</p>
 
