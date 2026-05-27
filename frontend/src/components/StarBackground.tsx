@@ -14,7 +14,7 @@
 //   - 꽃잎은 5-petal SVG 한 정의를 <use> 로 재활용 → DOM/그라디언트 1회만 정의
 // ─────────────────────────────────────────────
 
-import { useMemo } from 'react';
+import { useId, useMemo } from 'react';
 
 interface Props {
   /** 별 배경 투명도 (Figma: 랜딩 0.23, 로딩 화면 0.40) */
@@ -63,6 +63,10 @@ const PETALS: Petal[] = [
 ];
 
 export default function StarBackground({ starOpacity = 0.23, children }: Props) {
+  const uid = useId();
+  const hillGradId = `hill-grad-${uid}`;
+  const petalGradId = `petal-grad-${uid}`;
+  const petalSymbolId = `petal-sym-${uid}`;
   const stars = useMemo(() => generateStars(80, 0xb9), []);
 
   return (
@@ -97,7 +101,7 @@ export default function StarBackground({ starOpacity = 0.23, children }: Props) 
         style={{ height: '36%' }}
       >
         <defs>
-          <linearGradient id="hill-gradient" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id={hillGradId} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#67BDFF" />
             <stop offset="100%" stopColor="#000F74" />
           </linearGradient>
@@ -105,13 +109,13 @@ export default function StarBackground({ starOpacity = 0.23, children }: Props) 
         {/* 뒤쪽 언덕 (연하게, 살짝 위로) */}
         <path
           d="M0,200 C160,140 320,180 460,160 C600,140 720,170 834,150 L834,320 L0,320 Z"
-          fill="url(#hill-gradient)"
+          fill={`url(#${hillGradId})`}
           opacity="0.55"
         />
         {/* 앞쪽 언덕 (진하게) */}
         <path
           d="M0,260 C140,200 300,230 440,210 C580,190 720,220 834,200 L834,320 L0,320 Z"
-          fill="url(#hill-gradient)"
+          fill={`url(#${hillGradId})`}
         />
       </svg>
 
@@ -124,11 +128,11 @@ export default function StarBackground({ starOpacity = 0.23, children }: Props) 
         {/* 모든 꽃잎이 공유하는 그라디언트 정의 */}
         <svg className="absolute h-0 w-0" aria-hidden>
           <defs>
-            <radialGradient id="petal-gradient" cx="50%" cy="50%" r="50%">
+            <radialGradient id={petalGradId} cx="50%" cy="50%" r="50%">
               <stop offset="0%" stopColor="#71FFFD" />
               <stop offset="100%" stopColor="#55BEF7" />
             </radialGradient>
-            <symbol id="petal-flower" viewBox="0 0 100 100">
+            <symbol id={petalSymbolId} viewBox="0 0 100 100">
               {/* 5장 꽃잎 — 72° 간격 회전 */}
               {[0, 72, 144, 216, 288].map((angle) => (
                 <ellipse
@@ -137,7 +141,7 @@ export default function StarBackground({ starOpacity = 0.23, children }: Props) 
                   cy="28"
                   rx="14"
                   ry="22"
-                  fill="url(#petal-gradient)"
+                  fill={`url(#${petalGradId})`}
                   transform={`rotate(${angle} 50 50)`}
                 />
               ))}
@@ -160,7 +164,7 @@ export default function StarBackground({ starOpacity = 0.23, children }: Props) 
             }}
             aria-hidden
           >
-            <use href="#petal-flower" width="100%" height="100%" />
+            <use href={`#${petalSymbolId}`} width="100%" height="100%" />
           </svg>
         ))}
       </div>

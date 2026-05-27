@@ -15,7 +15,7 @@
 //   - useFortuneFlow().selectZodiac(id) 로 전역 상태 + Claude 호출 트리거
 // ─────────────────────────────────────────────
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import AppLayout from '../layouts/AppLayout';
@@ -35,11 +35,15 @@ export default function ZodiacSelect() {
   // TODO: useEffect + fetchZodiacs() 로 교체. 폴백은 그대로 유지(오프라인/실패 시).
   const zodiacs = useMemo(buildFallbackRanking, []);
 
+  useEffect(() => {
+    if (!selected) return;
+    const timerId = setTimeout(() => navigate('/loading/fortune'), 180);
+    return () => clearTimeout(timerId);
+  }, [selected, navigate]);
+
   const handleSelect = (id: ZodiacSign) => {
-    if (selected) return; // 이중 네비게이션 방지
+    if (selected) return;
     setSelected(id);
-    // 가벼운 시각 피드백 후 로딩 화면으로 이동
-    window.setTimeout(() => navigate('/loading/fortune'), 180);
   };
 
   return (
