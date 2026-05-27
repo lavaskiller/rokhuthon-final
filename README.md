@@ -67,7 +67,7 @@ rokhuthon_final/
 
 ### 🎨 공통 컴포넌트
 - [x] `StarBackground` — 딥 네이비-퍼플 그라디언트 + 별 이미지 + 언덕 실루엣 배경
-- [ ] `FlowerDecoration` — 꽃잎 파티클 scatter (mix-blend-mode: soft-light)
+- [x] `FlowerDecoration` — 꽃잎 파티클 scatter (mix-blend-mode: soft-light)
 - [x] `GlassCard` — 글래스모피즘 카드 (`backdrop-blur`, `rgba(218,249,255,0.2)`)
 - [x] `AppLayout` — 공통 배경 + "별꽃노리" 브랜드 텍스트 레이아웃
 
@@ -87,9 +87,9 @@ rokhuthon_final/
 - [x] `components/FlowerBloom` — 꽃 개화 상태 (prop: 25 | 50 | 75 | 100, animated 모드)
 - [x] `components/LoadingArc` — 회전 호(arc) 로딩 인디케이터
 - [x] `components/LuckyCard` — 행운 요소 카드 (타입: 장소/행동/색상)
-- [ ] `components/FlowerCard` — 꽃 추천 메인 카드 (이미지 + 이름 + 설명)
-- [ ] `components/PrintCard` — 인쇄용 카드 (흰 배경 + 노란 하단 띠)
-- [ ] `components/FortuneBadge` — 미니 운세 뱃지 (소형 원형, uiux 15에서 사용)
+- [x] `components/FlowerCard` — 꽃 추천 메인 카드 (이미지 + 이름 + 설명)
+- [x] `components/PrintCard` — 인쇄용 카드 (흰 배경 + 노란 하단 띠)
+- [x] `components/FortuneBadge` — `FortuneCircle size="sm"` 으로 대체
 - [x] `components/NavArrow` — "← 이전 / 다음 →" 네비게이션 링크
 
 ### 🔌 백엔드 API
@@ -106,11 +106,11 @@ rokhuthon_final/
 ### 🎬 애니메이션
 - [x] FortuneLoading: 로딩 arc 회전 애니메이션 (CSS animate-spin, 반대방향 이중 호)
 - [x] FlowerLoading: 25→50→75→100% 개화 시퀀스 전환 (800ms setInterval)
-- [ ] 페이지 전환: fade-in/out 트랜지션
+- [x] 페이지 전환: fade-in/out 트랜지션
 
 ### 🖨️ 출력 기능
 - [x] `FlowerPrint` 페이지에서 `window.print()` 트리거
-- [ ] 인쇄용 CSS 미디어쿼리 (`@media print`) — 카드 영역만 출력
+- [x] 인쇄용 CSS 미디어쿼리 (`@media print`) — 카드 영역만 출력
 
 ### 🧪 QA
 - [ ] 전체 유저 플로우 E2E 동선 확인

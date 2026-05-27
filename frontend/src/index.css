@@ -14,3 +14,24 @@ body {
   min-height: 100vh;
   color: white;
 }
+
+@keyframes page-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-enter {
+  animation: page-fade-in 0.25s ease-out;
+}
+
+@media print {
+  body * { visibility: hidden; }
+  #print-card,
+  #print-card * { visibility: visible; }
+  #print-card {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+  }
+}
