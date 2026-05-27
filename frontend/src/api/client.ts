@@ -1,26 +1,31 @@
-// ─────────────────────────────────────────────
-// API 클라이언트 — 백엔드 FastAPI 연결
-//
-// baseURL: import.meta.env.VITE_API_BASE_URL (기본: http://localhost:8000)
-// ─────────────────────────────────────────────
+import type { ZodiacMeta, FortuneResult, LuckyElements, FlowerResult, FortuneScores } from '../types'
 
-import type { ZodiacSign, FortuneResult, LuckyElements, FlowerResult, ZodiacMeta } from '../types';
+const BASE = import.meta.env.VITE_API_BASE_URL ?? '/api'
 
-// TODO: axios 또는 fetch wrapper 구현
-// const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000';
+async function request<T>(path: string, options?: RequestInit): Promise<T> {
+  const res = await fetch(`${BASE}${path}`, {
+    headers: { 'Content-Type': 'application/json' },
+    ...options,
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}))
+    throw new Error(err.detail ?? `HTTP ${res.status}`)
+  }
+  return res.json() as Promise<T>
+}
 
-// GET /api/zodiacs
-// 오늘 날짜 기준 12개 별자리 순위 포함 메타 반환
-// export async function fetchZodiacs(): Promise<ZodiacMeta[]>
+/** 12개 별자리 + 오늘의 순위 */
+export const fetchZodiacs = (): Promise<ZodiacMeta[]> =>
+  request('/zodiacs')
 
-// POST /api/fortune  { zodiac: ZodiacSign }
-// Claude API로 생성한 총운 텍스트 + 관계/금전/업무 수치 반환
-// export async function fetchFortune(zodiac: ZodiacSign): Promise<FortuneResult>
+/** 별자리 → 총운 텍스트 + 관계/금전/업무 수치 */
+export const fetchFortune = (zodiac: string): Promise<FortuneResult> =>
+  request('/fortune', { method: 'POST', body: JSON.stringify({ zodiac }) })
 
-// POST /api/lucky  { zodiac: ZodiacSign }
-// Claude API로 생성한 행운 요소(장소/행동/색상) 반환
-// export async function fetchLucky(zodiac: ZodiacSign): Promise<LuckyElements>
+/** 별자리 → 행운 요소 (장소/행동/색상) */
+export const fetchLucky = (zodiac: string): Promise<LuckyElements> =>
+  request('/lucky', { method: 'POST', body: JSON.stringify({ zodiac }) })
 
-// POST /api/flower  { zodiac: ZodiacSign, scores: FortuneScores }
-// Claude API로 생성한 꽃 추천 결과 반환
-// export async function fetchFlower(zodiac: ZodiacSign, scores: FortuneScores): Promise<FlowerResult>
+/** 별자리 + 운세 수치 → 꽃 추천 (main 1 + subs 2) */
+export const fetchFlower = (zodiac: string, scores: FortuneScores): Promise<FlowerResult> =>
+  request('/flower', { method: 'POST', body: JSON.stringify({ zodiac, scores }) })
