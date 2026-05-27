@@ -4,6 +4,7 @@ import AppLayout from '../layouts/AppLayout'
 import FortuneCircle from '../components/FortuneCircle'
 import NavArrow from '../components/NavArrow'
 import GlassCard from '../components/GlassCard'
+import ZodiacIconPlaceholder from '../components/ZodiacIconPlaceholder'
 import { useFortuneFlow } from '../hooks/useFortuneFlow'
 import { getZodiacMeta } from '../constants/zodiacs'
 import type { ZodiacSign } from '../types'
@@ -34,55 +35,56 @@ export default function FortuneResult() {
         {/* 날짜 */}
         <p className="font-gowun text-sm text-white/40">{dateStr}</p>
 
-        <div className="flex-1 flex flex-col items-center justify-center gap-5">
-          {/* 별자리 헤더 */}
-          <div className="flex flex-col items-center gap-2">
-            {meta && (
-              <img
-                src={meta.iconUrl}
-                alt={meta.name}
-                className="w-16 h-16 rounded-full border-2 border-[#71fffd] object-cover"
-                onError={(e) => { e.currentTarget.style.display = 'none' }}
-              />
-            )}
-            <span className="font-gowun text-2xl font-bold text-white">{meta?.name}</span>
-            <div className="flex items-center gap-3">
-              <span className="h-px w-16 bg-white/30" aria-hidden />
-              <span className="font-gowun text-xs text-white/60">총운</span>
-              <span className="h-px w-16 bg-white/30" aria-hidden />
-            </div>
+        <div className="flex-1 flex flex-col items-center justify-center gap-8 py-6">
+          {/* 별자리 헤더 — 이름 위, 아이콘 아래 (외곽 원 없음, glow) */}
+          <div className="flex flex-col items-center gap-3">
+            <span className="font-gowun text-2xl font-bold text-white">
+              {meta?.name}
+            </span>
+            <ZodiacIconPlaceholder
+              size={160}
+              className="text-[#71fffd]"
+              style={{
+                filter:
+                  'drop-shadow(0 4px 4px #1a2144) drop-shadow(0 0 6px #71fffd55) drop-shadow(0 0 14px #71fffd22)',
+              }}
+            />
           </div>
 
-          {/* 총운 카드 */}
-          <GlassCard variant="rounded" className="w-full max-w-xl p-6">
-            <p className="font-gowun text-sm text-white/90 leading-7 text-center">
+          {/* 총운 — 박스 없이, 양 끝에 구슬 달린 구분선 */}
+          <div className="w-full max-w-sm text-center">
+            <p className="font-gowun text-sm text-white mb-3">총운</p>
+            <div className="flex items-center justify-center gap-1.5 mb-4">
+              <span className="w-1.5 h-1.5 rounded-full bg-white" />
+              <span className="flex-1 h-px bg-white" />
+              <span className="w-1.5 h-1.5 rounded-full bg-white" />
+            </div>
+            <p className="font-gowun text-sm text-white leading-7">
               {fortune.summary}
             </p>
-          </GlassCard>
+          </div>
 
-          {/* 운세 게이지 3개 */}
-          <div className="flex gap-10 justify-center">
-            <FortuneCircle type="relationship" score={fortune.scores.relationship} />
-            <FortuneCircle type="money"        score={fortune.scores.money} />
-            <FortuneCircle type="work"         score={fortune.scores.work} />
+          {/* 운세 게이지 3개 + 좌우 NavArrow (세로) */}
+          <div className="flex items-center justify-center gap-10">
+            <NavArrow direction="left" label="다시 선택하기" to="/select" vertical />
+            <div className="flex gap-8">
+              <FortuneCircle type="relationship" score={fortune.scores.relationship} />
+              <FortuneCircle type="money"        score={fortune.scores.money} />
+              <FortuneCircle type="work"         score={fortune.scores.work} />
+            </div>
+            <NavArrow direction="right" label="행운 요소 확인하기" to={`/fortune/${zodiac}/lucky`} vertical />
           </div>
 
           {/* CTA */}
           <GlassCard
             variant="pill"
-            className="px-8 py-3"
+            className="px-14 py-5"
             onClick={() => navigate(`/fortune/${zodiac}/lucky`)}
           >
-            <span className="font-gowun text-sm text-white">
+            <span className="font-gowun text-lg text-white">
               당신에게 필요한 꽃을 확인해보세요
             </span>
           </GlassCard>
-        </div>
-
-        {/* 하단 네비 */}
-        <div className="flex justify-between">
-          <NavArrow direction="left"  label="다시 선택하기"     to="/select" />
-          <NavArrow direction="right" label="행운 요소 확인하기" to={`/fortune/${zodiac}/lucky`} />
         </div>
       </div>
     </AppLayout>
