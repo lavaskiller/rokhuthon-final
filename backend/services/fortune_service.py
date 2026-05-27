@@ -76,21 +76,31 @@ def get_lucky(zodiac: str) -> dict:
 
 def get_flower(zodiac: str, scores: dict) -> dict:
     """별자리 + 운세 수치 → 꽃 추천 반환
-    dominant_type: scores 중 가장 높은 항목으로 subtitle 결정
+    main  : 가장 낮은 운 타입 → 보완해주는 꽃
+    subs  : 나머지 2개 운 타입 꽃 (작게 표시용)
     """
-    flower = FLOWER_TABLE.get(zodiac)
-    if not flower:
+    zodiac_flowers = FLOWER_TABLE.get(zodiac)
+    if not zodiac_flowers:
         raise ValueError(f"Unknown zodiac: {zodiac}")
 
-    dominant_type = max(scores, key=lambda k: scores[k])
-    subtitle = SUBTITLE_BY_TYPE.get(dominant_type, "오늘의 꽃")
+    sorted_types = sorted(scores, key=lambda k: scores[k])  # 낮은 순
+    lowest_type  = sorted_types[0]
+    sub_types    = sorted_types[1:]
+
+    def build_entry(fortune_type: str) -> dict:
+        f = zodiac_flowers[fortune_type]
+        return {
+            "name":        f["name"],
+            "fortuneType": fortune_type,
+            "subtitle":    SUBTITLE_BY_TYPE.get(fortune_type, "오늘의 꽃"),
+            "description": f["description"],
+            "meanings":    f["meanings"],
+            "luckItems":   f["luck_items"],
+            "places":      f["places"],
+            "imageUrl":    f"/assets/flowers/{zodiac}_{fortune_type}.jpg",
+        }
 
     return {
-        "name":        flower["name"],
-        "subtitle":    subtitle,
-        "description": flower["description"],
-        "meanings":    flower["meanings"],
-        "luckItems":   flower["luck_items"],
-        "places":      flower["places"],
-        "imageUrl":    f"/assets/flowers/{zodiac}.jpg",
+        "main": build_entry(lowest_type),
+        "subs": [build_entry(t) for t in sub_types],
     }

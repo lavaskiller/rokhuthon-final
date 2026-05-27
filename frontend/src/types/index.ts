@@ -40,15 +40,24 @@ export interface LuckyElements {
   color: string;   // ex. "라벤더 퍼플"
 }
 
+// 꽃 단일 항목
+export interface FlowerItem {
+  name: string;           // ex. "아네모네"
+  fortuneType: FortuneType; // 어떤 운을 보완하는 꽃인지
+  subtitle: string;       // ex. "관계운을 담은 꽃"
+  description: string;    // 꽃 소개 2줄
+  meanings: string[];     // 꽃말 3가지
+  luckItems: string[];    // 기대되는 행운 3가지
+  places: string[];       // 함께 두면 좋은 장소 3가지
+  imageUrl?: string;
+}
+
 // 꽃 추천 결과 (POST /api/flower 응답)
+// main: 가장 낮은 운 → 보완 꽃 (크게 표시)
+// subs: 나머지 2개 운 → 서브 꽃 (작게 표시, UX 디자인 예정)
 export interface FlowerResult {
-  name: string;         // ex. "프리지아"
-  subtitle: string;     // ex. "금전운을 담은 꽃"
-  description: string;  // 꽃 소개 2줄
-  meanings: string[];   // 꽃말 3가지
-  luckItems: string[];  // 기대되는 행운 3가지
-  places: string[];     // 함께 두면 좋은 장소 3가지
-  imageUrl?: string;    // 꽃 이미지 URL (AI 생성 or 스태틱)
+  main: FlowerItem;
+  subs: [FlowerItem, FlowerItem];
 }
 
 // 꽃 개화 상태 (FlowerBloom 컴포넌트 prop)
