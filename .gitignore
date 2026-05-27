@@ -1,5 +1,7 @@
 # Dependencies
 node_modules/
+frontend/node_modules/
+nul
 .pnp
 .pnp.js
 
@@ -7,6 +9,10 @@ node_modules/
 dist/
 build/
 *.local
+frontend/dist/
+
+# Env
+.env
 
 # Env
 .env
