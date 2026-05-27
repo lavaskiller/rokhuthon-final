@@ -79,16 +79,10 @@ def get_flower(zodiac: str, scores: dict) -> dict:
     main  : 가장 낮은 운 타입 → 보완해주는 꽃
     subs  : 나머지 2개 운 타입 꽃 (작게 표시용)
     """
-    zodiac_flowers = FLOWER_TABLE.get(zodiac)
-    if not zodiac_flowers:
-        raise ValueError(f"Unknown zodiac: {zodiac}")
-
     sorted_types = sorted(scores, key=lambda k: scores[k])  # 낮은 순
-    lowest_type  = sorted_types[0]
-    sub_types    = sorted_types[1:]
 
     def build_entry(fortune_type: str) -> dict:
-        f = zodiac_flowers[fortune_type]
+        f = FLOWER_TABLE[fortune_type]
         return {
             "name":        f["name"],
             "fortuneType": fortune_type,
@@ -97,10 +91,10 @@ def get_flower(zodiac: str, scores: dict) -> dict:
             "meanings":    f["meanings"],
             "luckItems":   f["luck_items"],
             "places":      f["places"],
-            "imageUrl":    f"/assets/flowers/{zodiac}_{fortune_type}.jpg",
+            "imageUrl":    f"/assets/flowers/{fortune_type}.jpg",
         }
 
     return {
-        "main": build_entry(lowest_type),
-        "subs": [build_entry(t) for t in sub_types],
+        "main": build_entry(sorted_types[0]),
+        "subs": [build_entry(t) for t in sorted_types[1:]],
     }
