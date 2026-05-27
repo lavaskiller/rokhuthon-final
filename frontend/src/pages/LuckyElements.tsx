@@ -48,11 +48,9 @@ export default function LuckyElements() {
 
   return (
     <AppLayout>
-      <div className="relative min-h-screen w-full">
+      <div className="relative min-h-screen flex flex-col px-8 py-6">
         {/* 좌상단 — 오늘 날짜 */}
-        <p className="absolute left-8 top-8 font-gowun text-sm text-white/85">
-          {dateStr}
-        </p>
+        <p className="font-gowun text-sm text-white/85">{dateStr}</p>
 
         {/* 좌측 중앙 — 총운 확인하기 (NavArrow) */}
         <div className="absolute left-6 top-1/2 -translate-y-1/2">
@@ -63,31 +61,33 @@ export default function LuckyElements() {
           />
         </div>
 
-        {/* 메인 콘텐츠 — 가운데 컬럼 */}
-        <div className="mx-auto flex min-h-screen max-w-3xl flex-col items-center px-8 pt-16">
+        {/* 메인 콘텐츠 — 세로 중앙 정렬 */}
+        <div className="flex-1 flex flex-col items-center justify-center gap-5 mx-auto w-full max-w-3xl">
           {/* 별자리 이름 */}
           <h2 className="font-gowun text-[28px] font-bold text-white">
             {meta?.name ?? '별자리'}
           </h2>
 
-          {/* 큰 별자리 아이콘 — Figma shiny: stroke 그라디언트 + navy drop-shadow */}
+          {/* 큰 별자리 아이콘 */}
           <div
-            className="mt-6 flex h-32 w-32 items-center justify-center"
+            className="flex h-32 w-32 items-center justify-center"
             style={{ filter: 'drop-shadow(0 4px 4px rgba(26,33,68,1))' }}
           >
             <ZodiacIconPlaceholder size={96} strokeWidth={1.7} shiny />
           </div>
 
-          {/* "행운 요소" 라벨 + 가로선 (양 끝에 작은 흰색 구슬) */}
-          <p className="mt-6 font-gowun text-base text-white/90">행운 요소</p>
-          <div className="mt-3 flex items-center">
-            <span className="h-[3px] w-[3px] rounded-full bg-white" aria-hidden />
-            <span className="h-px w-72 bg-white/60" aria-hidden />
-            <span className="h-[3px] w-[3px] rounded-full bg-white" aria-hidden />
+          {/* "행운 요소" 라벨 + 가로선 */}
+          <div className="flex flex-col items-center gap-3">
+            <p className="font-gowun text-base text-white/90">행운 요소</p>
+            <div className="flex items-center">
+              <span className="h-[3px] w-[3px] rounded-full bg-white" aria-hidden />
+              <span className="h-px w-72 bg-white/60" aria-hidden />
+              <span className="h-[3px] w-[3px] rounded-full bg-white" aria-hidden />
+            </div>
           </div>
 
-          {/* 카드 3개 — 데이터 로드되면 표시, 아니면 placeholder */}
-          <section className="mt-8 flex flex-wrap items-start justify-center gap-x-10 gap-y-6">
+          {/* 카드 3개 */}
+          <section className="flex flex-wrap items-start justify-center gap-x-10 gap-y-6">
             {lucky ? (
               <>
                 <LuckyCard category="장소" content={lucky.place} />
@@ -103,12 +103,12 @@ export default function LuckyElements() {
             )}
           </section>
 
-          {/* CTA — 하단 글래스 pill */}
+          {/* CTA */}
           <button
             type="button"
             onClick={handleFlowerCTA}
             disabled={!lucky}
-            className="mt-12 mb-12 rounded-full border border-white/20 bg-[rgba(218,249,255,0.2)] px-10 py-3 font-gowun text-base text-white backdrop-blur-md transition-all hover:bg-[rgba(218,249,255,0.3)] disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-full border border-white/20 bg-[rgba(218,249,255,0.2)] px-10 py-3 font-gowun text-base text-white backdrop-blur-md transition-all hover:bg-[rgba(218,249,255,0.3)] disabled:cursor-not-allowed disabled:opacity-50"
           >
             당신에게 필요한 꽃을 확인해보세요
           </button>

@@ -90,8 +90,8 @@ export default function FlowerResult() {
 
   return (
     <AppLayout>
-      <div className="relative min-h-screen w-full">
-        <div className="mx-auto flex max-w-[1600px] flex-col gap-8 px-8 py-10">
+      <div className="relative min-h-screen flex flex-col px-8 py-6">
+        <div className="flex-1 flex flex-col gap-8 max-w-[1600px] w-full mx-auto justify-center">
           {/* 헤더 */}
           <header className="flex items-start justify-between gap-8">
             {/* 좌측: 날짜 + 큰 제목 */}
