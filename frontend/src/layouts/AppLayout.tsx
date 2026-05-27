@@ -28,7 +28,7 @@ export default function AppLayout({
 }: Props) {
   return (
     <StarBackground starOpacity={starOpacity}>
-      <div className="relative min-h-screen w-full font-gowun text-white">
+      <div className="relative min-h-screen w-full font-gowun text-white page-enter">
         {showBrand && (
           <span
             className="absolute left-4 top-1/2 z-20 -translate-y-1/2 select-none text-2xl tracking-[0.35em] text-white"
