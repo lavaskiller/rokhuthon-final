@@ -1,0 +1,16 @@
+# fortune.txt — Claude API 운세 생성 프롬프트 템플릿
+#
+# 변수: {zodiac_name}, {date}
+# 응답 형식: JSON (markdown 코드블록 없이 순수 JSON만 반환)
+#
+# TODO: 실제 프롬프트 작성
+# 예시 구조:
+#   오늘은 {date}입니다.
+#   {zodiac_name}의 오늘 운세를 아래 JSON 형식으로 작성해주세요.
+#   말투는 따뜻하고 시적인 한국어로 해주세요.
+#   {
+#     "summary": "총운 설명 (2문장 이내)",
+#     "relationship": 0~100 사이 정수,
+#     "money": 0~100 사이 정수,
+#     "work": 0~100 사이 정수
+#   }

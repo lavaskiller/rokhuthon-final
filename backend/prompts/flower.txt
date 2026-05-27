@@ -1,0 +1,18 @@
+# flower.txt — Claude API 꽃 추천 프롬프트 템플릿
+#
+# 변수: {zodiac_name}, {fortune_type}, {score}
+# 응답 형식: JSON (markdown 코드블록 없이 순수 JSON만 반환)
+#
+# TODO: 실제 프롬프트 작성
+# 예시 구조:
+#   오늘 {zodiac_name}에게 어울리는 꽃을 추천해주세요.
+#   오늘의 가장 강한 운세는 {fortune_type}운({score}점)입니다.
+#   말투는 따뜻하고 시적인 한국어로 해주세요.
+#   {
+#     "name": "꽃 이름 (한글)",
+#     "subtitle": "한 줄 소개 (ex. 금전운을 담은 꽃)",
+#     "description": "꽃 소개 2문장",
+#     "meanings": ["꽃말1", "꽃말2", "꽃말3"],
+#     "luckItems": ["기대행운1", "기대행운2", "기대행운3"],
+#     "places": ["추천장소1", "추천장소2", "추천장소3"]
+#   }
