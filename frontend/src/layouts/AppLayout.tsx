@@ -1,15 +1,30 @@
-// ─────────────────────────────────────────────
-// AppLayout — 모든 화면에 공통 적용되는 레이아웃
-//
-// 포함 요소:
-//   - 딥 네이비-퍼플 그라디언트 전체 배경 (#0a205c → #44257e)
-//   - 별 배경 이미지 (opacity 23~40%, 화면별 상이)
-//   - 물결 언덕 실루엣 (하단 고정)
-//   - 꽃잎 파티클 장식 (FlowerDecoration, mix-blend-mode: soft-light)
-//   - 좌측 세로 "별꽃노리" 브랜드 텍스트
-//   - children: 각 페이지 콘텐츠 주입 슬롯
-// ─────────────────────────────────────────────
+import type { ReactNode } from 'react'
+import StarBackground from '../components/StarBackground'
 
-// TODO: AppLayout 구현
-// interface Props { children: React.ReactNode }
-// export default function AppLayout({ children }: Props) { ... }
+interface Props {
+  children: ReactNode
+  /** 별 배경 투명도 (기본 0.23, 로딩 화면 0.40) */
+  starOpacity?: number
+}
+
+/**
+ * 공통 앱 레이아웃
+ * - StarBackground (배경 레이어)
+ * - 좌측 세로 "별꽃노리" 브랜드 텍스트
+ * - children 슬롯
+ */
+export default function AppLayout({ children, starOpacity }: Props) {
+  return (
+    <StarBackground starOpacity={starOpacity}>
+      {/* 좌측 세로 브랜드 텍스트 */}
+      <div className="absolute left-7 top-1/2 z-20 flex -translate-y-1/2 -rotate-90 items-center gap-3">
+        <div className="h-px w-10 bg-white/40" />
+        <span className="font-gowun text-lg whitespace-nowrap text-white">별꽃노리</span>
+        <div className="h-px w-10 bg-white/40" />
+      </div>
+
+      {/* 페이지 콘텐츠 */}
+      <div className="relative z-10 min-h-screen">{children}</div>
+    </StarBackground>
+  )
+}

@@ -66,10 +66,10 @@ rokhuthon_final/
 - [ ] React Router v6 설정 (`src/router.tsx`)
 
 ### 🎨 공통 컴포넌트
-- [ ] `StarBackground` — 딥 네이비-퍼플 그라디언트 + 별 이미지 + 언덕 실루엣 배경
+- [x] `StarBackground` — 딥 네이비-퍼플 그라디언트 + 별 이미지 + 언덕 실루엣 배경
 - [ ] `FlowerDecoration` — 꽃잎 파티클 scatter (mix-blend-mode: soft-light)
-- [ ] `GlassCard` — 글래스모피즘 카드 (`backdrop-blur`, `rgba(218,249,255,0.2)`)
-- [ ] `AppLayout` — 공통 배경 + "별꽃노리" 브랜드 텍스트 레이아웃
+- [x] `GlassCard` — 글래스모피즘 카드 (`backdrop-blur`, `rgba(218,249,255,0.2)`)
+- [x] `AppLayout` — 공통 배경 + "별꽃노리" 브랜드 텍스트 레이아웃
 
 ### 📱 페이지 구현
 - [ ] `pages/Landing` — uiux 1: 메인 타이틀 + CTA 버튼
@@ -83,7 +83,7 @@ rokhuthon_final/
 
 ### 🧩 도메인 컴포넌트
 - [ ] `components/FortuneCircle` — 원형 게이지 (타입: 관계운/금전운/업무운, 수치: 0~100)
-- [ ] `components/ZodiacButton` — 별자리 선택 버튼 (아이콘 + 이름 + 날짜범위 + 순위)
+- [x] `components/ZodiacButton` — 별자리 선택 버튼 (아이콘 + 이름 + 날짜범위 + 순위)
 - [ ] `components/FlowerBloom` — 꽃 개화 상태 SVG (prop: 25 | 50 | 75 | 100)
 - [ ] `components/LoadingArc` — 회전 호(arc) 로딩 인디케이터
 - [ ] `components/LuckyCard` — 행운 요소 카드 (타입: 장소/행동/색상)
