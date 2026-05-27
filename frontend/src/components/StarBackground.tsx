@@ -16,6 +16,7 @@
 // ─────────────────────────────────────────────
 
 import { useId, useMemo } from 'react';
+import FlowerDecoration from './FlowerDecoration';
 
 interface Props {
   /** 별 베이스 투명도 (Figma: 랜딩 0.23, 로딩 화면 0.40) */
@@ -72,8 +73,8 @@ interface Petal {
   duration: number;
   delay: number;
   variant: 'drift' | 'drift-alt';
-  flip: boolean;            // 좌우 반전 (자연스러운 다양성)
-  startRotation: number;    // 초기 회전 — 같은 SVG 가 여러 각도로 보이게
+  flip: boolean;
+  startRotation: number;
 }
 function generatePetals(count: number, seed: number): Petal[] {
   const rand = mulberry32(seed);
@@ -81,9 +82,9 @@ function generatePetals(count: number, seed: number): Petal[] {
     const r = rand();
     return {
       left: `${(rand() * 100).toFixed(2)}%`,
-      size: 18 + Math.floor(rand() * 14), // 18 ~ 32px — 좁은 폭
-      duration: 22 + rand() * 12,         // 22 ~ 34초 — 천천히
-      delay: -rand() * 34,                // 음수 delay → 시작 분산
+      size: 18 + Math.floor(rand() * 14),
+      duration: 22 + rand() * 12,
+      delay: -rand() * 34,
       variant: r < 0.5 ? 'drift' : 'drift-alt',
       flip: rand() < 0.5,
       startRotation: Math.floor(rand() * 360),
@@ -95,8 +96,6 @@ export default function StarBackground({ starOpacity = 0.23, children }: Props) 
   const uid = useId();
   const petalSymbolId = `petal-sym-${uid}`;
   const stars = useMemo(() => generateStars(90, 0xb9), []);
-  // starOpacity 는 전체 별 레이어의 베이스 밝기 — 작은 별엔 곱해서 적용,
-  // 큰 별(bright)은 항상 잘 보이게 풀 밝기로 둠
   const dimOpacity = Math.max(0.35, starOpacity + 0.15);
   const petals = useMemo(() => generatePetals(12, 0x5af), []);
 
@@ -147,7 +146,6 @@ export default function StarBackground({ starOpacity = 0.23, children }: Props) 
         <svg className="absolute h-0 w-0" aria-hidden>
           <defs>
             <symbol id={petalSymbolId} viewBox="0 0 48.2298 47.9421">
-              {/* Figma "꽃 로딩=25" Vector 35 — 평면 단색 채움 */}
               <path
                 d="M1.73589 26.7453C7.17728 39.5533 28.5427 45.3041 38.5453 46.5785C45.427 50.0196 49.3482 46.3395 47.9478 42.2772C46.5475 38.215 40.0124 19.4173 38.5453 9.30162C36.3046 -3.31519 18.5401 -0.415869 9.93798 2.61089C4.9367 5.31904 -3.70551 13.9373 1.73589 26.7453Z"
                 fill="#3A88C2"
@@ -156,7 +154,6 @@ export default function StarBackground({ starOpacity = 0.23, children }: Props) 
           </defs>
         </svg>
         {petals.map((p, i) => (
-          // 외부 div: drift 애니메이션 담당 (translate + 회전)
           <div
             key={i}
             className="absolute"
@@ -164,14 +161,12 @@ export default function StarBackground({ starOpacity = 0.23, children }: Props) 
               top: 0,
               left: p.left,
               width: p.size,
-              // Figma Vector 35 비율 ≈ 1:1 (48.23 × 47.94)
               height: p.size,
               animation: `${p.variant} ${p.duration}s linear ${p.delay}s infinite`,
               willChange: 'transform, opacity',
             }}
             aria-hidden
           >
-            {/* 내부 svg: 초기 회전 + 좌우 반전 (다양성 부여) */}
             <svg
               viewBox="0 0 48.2298 47.9421"
               className="block h-full w-full"
