@@ -8,7 +8,7 @@
 |--------|------|
 | Frontend | React + Vite + TypeScript + Tailwind CSS |
 | Backend | FastAPI (Python) |
-| AI | Claude API (운세 / 꽃 추천 텍스트 생성) |
+| 데이터 | 정적 가상 테이블 (운세 3종 × 12 별자리, 꽃 12종) |
 | Font | Gowun Batang (Google Fonts) |
 
 ## 유저 플로우
@@ -99,9 +99,9 @@ rokhuthon_final/
 - [ ] `GET /api/zodiacs` — 12개 별자리 메타데이터 목록 반환
 - [ ] CORS 미들웨어 설정
 
-### 🤖 AI 프롬프트
-- [ ] `prompts/fortune.txt` — 별자리별 운세 생성 프롬프트 (JSON 응답 형식 정의)
-- [ ] `prompts/flower.txt` — 꽃 추천 프롬프트 (꽃말/행운/장소 포함 JSON)
+### 📦 데이터 테이블 (`backend/data/`)
+- [x] `fortune_table.py` — 별자리 12종 × 운세 3종 (총운/행운요소/수치)
+- [x] `flower_table.py` — 별자리 12종 꽃 추천 (꽃말/행운/장소)
 
 ### 🎬 애니메이션
 - [ ] FortuneLoading: 로딩 arc 회전 애니메이션 (CSS `@keyframes rotate`)

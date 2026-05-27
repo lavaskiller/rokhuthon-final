@@ -1,26 +1,37 @@
-# ─────────────────────────────────────────────
-# routers/fortune.py — 운세 관련 엔드포인트
-# ─────────────────────────────────────────────
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
+from services.fortune_service import get_zodiacs, get_fortune, get_lucky
 
-# POST /api/fortune
-#   요청: { zodiac: str }
-#   응답: FortuneResult
-#     { zodiac, date, summary: str, scores: { relationship, money, work } }
-#   처리: fortune_service.generate_fortune(zodiac) 호출
+router = APIRouter()
 
-# POST /api/lucky
-#   요청: { zodiac: str }
-#   응답: LuckyElements
-#     { place: str, action: str, color: str }
-#   처리: fortune_service.generate_lucky(zodiac) 호출
 
-# GET /api/zodiacs
-#   응답: ZodiacMeta[]
-#     [{ id, name, dateRange, rank, iconUrl }]
-#   처리: 오늘 날짜 시드로 12개 별자리 순위 랜덤 생성 후 반환
-#         (같은 날 같은 결과 보장 위해 date 기반 seed 사용)
+class FortuneRequest(BaseModel):
+    zodiac: str
 
-# TODO: 라우터 구현
-# from fastapi import APIRouter
-# from services.fortune_service import generate_fortune, generate_lucky, get_zodiacs
-# router = APIRouter()
+
+class LuckyRequest(BaseModel):
+    zodiac: str
+
+
+@router.get("/zodiacs")
+def list_zodiacs():
+    """12개 별자리 + 오늘의 순위 반환"""
+    return get_zodiacs()
+
+
+@router.post("/fortune")
+def fortune(req: FortuneRequest):
+    """별자리 → 오늘의 운세 (총운 텍스트 + 관계/금전/업무 수치)"""
+    try:
+        return get_fortune(req.zodiac)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.post("/lucky")
+def lucky(req: LuckyRequest):
+    """별자리 → 오늘의 행운 요소 (장소/행동/색상)"""
+    try:
+        return get_lucky(req.zodiac)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
