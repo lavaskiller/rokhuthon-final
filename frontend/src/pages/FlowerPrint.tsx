@@ -18,7 +18,7 @@ export default function FlowerPrint() {
 
   return (
     <AppLayout>
-      <div className="h-full flex items-stretch">
+      <div className="min-h-screen flex items-stretch">
         {/* 좌측: 출력 카드 */}
         <div className="flex-1 flex items-center justify-center">
           <PrintCard flower={flower.main} />
