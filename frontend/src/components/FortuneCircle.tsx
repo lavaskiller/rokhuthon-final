@@ -50,12 +50,9 @@ export default function FortuneCircle({ type, score, size = 'lg' }: Props) {
 }
 
 // ─────────── sm (Figma uiux 15 총운 미니) ───────────
-//   - SVG progress arc — 점수%만큼 그라디언트 stroke
-//   - 투명 내부 (메인 배경 그대로 비침)
-//   - 원 안: 점수 + 라벨 함께 표시
 function FortuneMini({ type, score }: { type: FortuneType; score: number }) {
   const dim = 80
-  const strokeW = 2.5         // 얇은 게이지
+  const strokeW = 2.5
   const radius = dim / 2 - strokeW
   const circumference = 2 * Math.PI * radius
   const dashOffset = circumference * (1 - score / 100)
@@ -114,7 +111,7 @@ function FortuneMini({ type, score }: { type: FortuneType; score: number }) {
           style={{ transition: 'stroke-dashoffset 1s ease' }}
         />
       </svg>
-      {/* 원 안 — 라벨 위, 점수 아래 (크기 살짝 키움, 여백 줄임) */}
+      {/* 원 안 — 라벨 위, 점수 아래 */}
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
         <span className="font-gowun text-[13px] text-white/95 leading-none">
           {label}
@@ -131,7 +128,7 @@ function FortuneMini({ type, score }: { type: FortuneType; score: number }) {
   )
 }
 
-// ─────────── lg (기존 progress arc, uiux 6/7) ───────────
+// ─────────── lg (결과 화면 메인, uiux 6/7) ───────────
 function FortuneArc({ type, score }: { type: FortuneType; score: number }) {
   const dim = 120
   const strokeW = 8
@@ -144,15 +141,21 @@ function FortuneArc({ type, score }: { type: FortuneType; score: number }) {
   return (
     <div className="flex flex-col items-center gap-2">
       <div className="relative" style={{ width: dim, height: dim }}>
-        <svg width={dim} height={dim} style={{ transform: 'rotate(-90deg)' }}>
+        <svg
+          width={dim}
+          height={dim}
+          style={{ transform: 'rotate(-90deg)', overflow: 'visible' }}
+        >
+          {/* Track */}
           <circle
             cx={dim / 2}
             cy={dim / 2}
             r={radius}
             fill="none"
-            stroke={`${color}30`}
+            stroke={`${color}25`}
             strokeWidth={strokeW}
           />
+          {/* Progress arc (glow via drop-shadow) */}
           <circle
             cx={dim / 2}
             cy={dim / 2}
@@ -163,21 +166,30 @@ function FortuneArc({ type, score }: { type: FortuneType; score: number }) {
             strokeDasharray={circumference}
             strokeDashoffset={dashOffset}
             strokeLinecap="round"
-            style={{ transition: 'stroke-dashoffset 1s ease' }}
+            style={{
+              transition: 'stroke-dashoffset 1s ease',
+              filter: `drop-shadow(0 0 6px ${color}cc) drop-shadow(0 0 12px ${color}66)`,
+            }}
           />
         </svg>
-        <div className="absolute inset-0 flex items-center justify-center">
+
+        {/* Center overlay: 라벨 위, 점수 아래 */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center leading-none">
+          <span
+            className="font-gowun mb-1 text-white"
+            style={{ fontSize: 15 }}
+          >
+            {label}
+          </span>
           <span
             className="font-gowun font-bold"
-            style={{ color, fontSize: 22 }}
+            style={{ color, fontSize: 26 }}
           >
             {score}
+            <span style={{ fontSize: 16, marginLeft: 1 }}>%</span>
           </span>
         </div>
       </div>
-      <span className="font-gowun text-xs" style={{ color: `${color}cc` }}>
-        {label}
-      </span>
     </div>
   )
 }

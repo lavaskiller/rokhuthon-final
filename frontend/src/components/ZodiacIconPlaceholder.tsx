@@ -18,11 +18,13 @@ interface Props {
   strokeWidth?: number;
   /** stroke 를 Figma shiny 그라디언트(흰→mute cyan)로 적용 */
   shiny?: boolean;
+  style?: React.CSSProperties;
 }
 
 export default function ZodiacIconPlaceholder({
   size = 26,
   className,
+  style,
   strokeWidth = 1,
   shiny = false,
 }: Props) {
@@ -45,6 +47,7 @@ export default function ZodiacIconPlaceholder({
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
+      style={style}
       aria-hidden
       strokeWidth={strokeWidth}
     >
