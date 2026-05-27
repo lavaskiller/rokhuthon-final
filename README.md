@@ -8,7 +8,7 @@
 |--------|------|
 | Frontend | React + Vite + TypeScript + Tailwind CSS |
 | Backend | FastAPI (Python) |
-| 데이터 | 정적 가상 테이블 (운세 3종 × 12 별자리, 꽃 12종) |
+| 데이터 | 정적 가상 테이블 (운세 3종 × 12 별자리, 꽃 3종) |
 | Font | Gowun Batang (Google Fonts) |
 
 ## 유저 플로우
@@ -58,11 +58,11 @@ rokhuthon_final/
 ## TODO
 
 ### 🔧 환경 세팅
-- [ ] `frontend/` — Vite + React + TypeScript 프로젝트 초기화
-- [ ] Tailwind CSS 설정 (`tailwind.config.js`, `postcss.config.js`)
-- [ ] Gowun Batang 폰트 import (Google Fonts)
-- [ ] `backend/` — FastAPI 프로젝트 초기화 (`requirements.txt`)
-- [ ] `.env` — Claude API 키, CORS origin 설정
+- [x] `frontend/` — Vite + React + TypeScript 프로젝트 초기화
+- [x] Tailwind CSS 설정 (`tailwind.config.js`, `postcss.config.cjs`)
+- [x] Gowun Batang 폰트 import (Google Fonts)
+- [x] `backend/` — FastAPI 프로젝트 초기화 (`requirements.txt`)
+- [x] `.env.example` — CORS origin 설정
 - [ ] React Router v6 설정 (`src/router.tsx`)
 
 ### 🎨 공통 컴포넌트
@@ -93,15 +93,15 @@ rokhuthon_final/
 - [ ] `components/NavArrow` — "← 이전 / 다음 →" 네비게이션 링크
 
 ### 🔌 백엔드 API
-- [ ] `POST /api/fortune` — 별자리 → 총운 텍스트 + 관계/금전/업무 수치 생성 (Claude API)
-- [ ] `POST /api/lucky` — 별자리 → 장소/행동/색상 행운 요소 생성 (Claude API)
-- [ ] `POST /api/flower` — 별자리 + 운세 수치 → 꽃 추천 (이름/꽃말/기대행운/추천장소) (Claude API)
-- [ ] `GET /api/zodiacs` — 12개 별자리 메타데이터 목록 반환
-- [ ] CORS 미들웨어 설정
+- [x] `POST /api/fortune` — 별자리 → 총운 텍스트 + 관계/금전/업무 수치 (테이블 조회)
+- [x] `POST /api/lucky` — 별자리 → 장소/행동/색상 행운 요소 (테이블 조회)
+- [x] `POST /api/flower` — 별자리 + 수치 → 꽃 추천 (main 1 + subs 2, 최저 운 보완)
+- [x] `GET /api/zodiacs` — 12개 별자리 + 오늘의 순위 반환
+- [x] CORS 미들웨어 설정
 
 ### 📦 데이터 테이블 (`backend/data/`)
-- [x] `fortune_table.py` — 별자리 12종 × 운세 3종 (총운/행운요소/수치)
-- [x] `flower_table.py` — 별자리 12종 꽃 추천 (꽃말/행운/장소)
+- [x] `fortune_table.py` — 별자리 12종 × 운세 변형 3종 (총운/행운요소/수치)
+- [x] `flower_table.py` — 운 타입별 꽃 3종 (장미/해바라기/라벤더)
 
 ### 🎬 애니메이션
 - [ ] FortuneLoading: 로딩 arc 회전 애니메이션 (CSS `@keyframes rotate`)
