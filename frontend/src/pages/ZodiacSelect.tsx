@@ -2,9 +2,8 @@
 // ZodiacSelect — uiux 2: 별자리 선택 화면
 //
 // 레이아웃:
-//   AppLayout
-//   └─ 헤더: "당신의 별자리를 선택하세요" + "오늘의 별자리 순위"
-//   └─ 2열 그리드 ZodiacButton (순위 오름차순)
+//   - 헤더: "당신의 별자리를 선택하세요" + 양쪽 가로선 사이 "오늘의 별자리 순위"
+//   - 그리드: 2열 × 6행, 컬럼 우선 채움 (좌:1~6, 우:7~12)
 //
 // 동작:
 //   마운트 시 fetchZodiacs() 호출 (실패 시 정적 폴백)
@@ -30,47 +29,53 @@ export default function ZodiacSelect() {
     fetchZodiacs()
       .then(setZodiacs)
       .catch(() => {
-        // 서버 없을 때 정적 폴백
         setZodiacs(ZODIAC_LIST.map((z, i) => ({ ...z, rank: i + 1 })))
       })
       .finally(() => setLoading(false))
   }, [])
 
   const handleSelect = (id: ZodiacSign) => {
-    void selectZodiac(id)   // 백그라운드 fetchFortune 시작
+    void selectZodiac(id)
     navigate('/loading/fortune')
   }
 
   return (
     <AppLayout>
-      <div className="min-h-screen flex flex-col px-8 py-10">
-        {/* 헤더 */}
-        <div className="mb-8">
-          <p className="font-gowun text-sm text-white/50 mb-1">
-            당신의 별자리를 선택하세요
-          </p>
-          <h2 className="font-gowun text-2xl font-bold text-white">
+      {/* 헤더 */}
+      <header className="flex flex-col items-center gap-3 px-6 pb-10 pt-14">
+        <p className="text-sm text-white/85">당신의 별자리를 선택하세요</p>
+        <div className="flex items-center gap-4">
+          <span className="h-px w-24 bg-white/70" aria-hidden />
+          <h1 className="text-xl font-bold tracking-[0.18em]">
             오늘의 별자리 순위
-          </h2>
+          </h1>
+          <span className="h-px w-24 bg-white/70" aria-hidden />
         </div>
+      </header>
 
+      <section className="mx-auto max-w-2xl px-5 pb-12">
         {loading ? (
-          <div className="flex-1 flex items-center justify-center">
-            <p className="font-gowun text-sm text-white/50">불러오는 중…</p>
+          <div className="flex items-center justify-center py-20">
+            <p className="text-sm text-white/50">불러오는 중…</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-3">
-            {zodiacs.map((meta) => (
-              <ZodiacButton
-                key={meta.id}
-                meta={meta}
-                selected={state.selectedZodiac === meta.id}
-                onClick={handleSelect}
-              />
+          <ul
+            role="listbox"
+            aria-label="별자리 선택"
+            className="grid grid-flow-col grid-cols-2 grid-rows-6 gap-x-4 gap-y-3"
+          >
+            {zodiacs.map((z) => (
+              <li key={z.id} role="option" aria-selected={state.selectedZodiac === z.id}>
+                <ZodiacButton
+                  meta={z}
+                  selected={state.selectedZodiac === z.id}
+                  onClick={handleSelect}
+                />
+              </li>
             ))}
-          </div>
+          </ul>
         )}
-      </div>
+      </section>
     </AppLayout>
   )
 }
