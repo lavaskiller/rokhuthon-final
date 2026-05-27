@@ -10,18 +10,18 @@ const PETAL_SRCS = [
 ]
 
 const PETALS = [
-  { top: '8%',  left: '38%', size: 36, rotate: 62,   duration: 7.2, delay: -1.5, alt: false, src: 0 },
-  { top: '12%', left: '78%', size: 32, rotate: 62,   duration: 6.5, delay: -0.8, alt: true,  src: 1 },
-  { top: '28%', left: '12%', size: 40, rotate: 174,  duration: 8.0, delay: -2.4, alt: false, src: 2 },
-  { top: '32%', left: '60%', size: 50, rotate: -79,  duration: 6.8, delay: -3.2, alt: true,  src: 3 },
-  { top: '45%', left: '32%', size: 38, rotate: 151,  duration: 7.5, delay: -1.0, alt: false, src: 4 },
-  { top: '52%', left: '88%', size: 34, rotate: 62,   duration: 6.2, delay: -4.0, alt: true,  src: 0 },
-  { top: '58%', left: '14%', size: 36, rotate: 62,   duration: 7.8, delay: -2.0, alt: false, src: 0 },
-  { top: '64%', left: '56%', size: 42, rotate: -88,  duration: 6.5, delay: -0.5, alt: true,  src: 1 },
-  { top: '72%', left: '72%', size: 30, rotate: -22,  duration: 8.2, delay: -3.5, alt: false, src: 2 },
-  { top: '78%', left: '22%', size: 54, rotate: -140, duration: 7.0, delay: -1.8, alt: true,  src: 3 },
-  { top: '86%', left: '50%', size: 32, rotate: 62,   duration: 6.9, delay: -4.5, alt: false, src: 4 },
-  { top: '92%', left: '82%', size: 48, rotate: -79,  duration: 7.4, delay: -2.8, alt: true,  src: 1 },
+  { top: '8%',  left: '38%', size: 22, rotate: 62,   duration: 7.2, delay: -1.5, alt: false, src: 0 },
+  { top: '12%', left: '78%', size: 20, rotate: 62,   duration: 6.5, delay: -0.8, alt: true,  src: 1 },
+  { top: '28%', left: '12%', size: 26, rotate: 174,  duration: 8.0, delay: -2.4, alt: false, src: 2 },
+  { top: '32%', left: '60%', size: 32, rotate: -79,  duration: 6.8, delay: -3.2, alt: true,  src: 3 },
+  { top: '45%', left: '32%', size: 24, rotate: 151,  duration: 7.5, delay: -1.0, alt: false, src: 4 },
+  { top: '52%', left: '88%', size: 20, rotate: 62,   duration: 6.2, delay: -4.0, alt: true,  src: 0 },
+  { top: '58%', left: '14%', size: 22, rotate: 62,   duration: 7.8, delay: -2.0, alt: false, src: 0 },
+  { top: '64%', left: '56%', size: 28, rotate: -88,  duration: 6.5, delay: -0.5, alt: true,  src: 1 },
+  { top: '72%', left: '72%', size: 18, rotate: -22,  duration: 8.2, delay: -3.5, alt: false, src: 2 },
+  { top: '78%', left: '22%', size: 34, rotate: -140, duration: 7.0, delay: -1.8, alt: true,  src: 3 },
+  { top: '86%', left: '50%', size: 20, rotate: 62,   duration: 6.9, delay: -4.5, alt: false, src: 4 },
+  { top: '92%', left: '82%', size: 30, rotate: -79,  duration: 7.4, delay: -2.8, alt: true,  src: 1 },
 ]
 
 export default function FlowerDecoration() {
