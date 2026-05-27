@@ -3,22 +3,61 @@
 //
 // 레이아웃:
 //   AppLayout (starOpacity=0.40)
-//   └─ 좌상단: 날짜
-//   └─ 중앙: FlowerBloom(animated=true, onComplete=handleComplete)
-//            개화 시퀀스: 25→50→75→100% (각 800ms)
-//   └─ 하단 텍스트: "오늘의 꽃을 피우는 중이에요"
+//   └─ 중앙: FlowerBloom (animated=true, 25→50→75→100%, 각 800ms)
+//   └─ 하단: "오늘의 꽃을 피우는 중이에요"
 //
 // 동작:
-//   FlowerBloom onComplete → navigate('/flower/:zodiac')
-//   flower 데이터가 API 응답 전 onComplete 도달 시:
-//     navigate를 지연 (flower 수신 대기 후 이동)
+//   애니메이션 완료 + flower 데이터 수신 시 /flower/:zodiac 이동
+//   데이터가 먼저 도착하면 애니메이션 완료 대기, 반대도 마찬가지
 //
 // 라우트: /loading/flower
 // ─────────────────────────────────────────────
 
-// TODO: FlowerLoading 구현
-// import AppLayout from '../layouts/AppLayout';
-// import FlowerBloom from '../components/FlowerBloom';
-// import { useFortuneFlow } from '../hooks/useFortuneFlow';
-// import { useNavigate } from 'react-router-dom';
-// export default function FlowerLoading() { ... }
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import AppLayout from '../layouts/AppLayout'
+import FlowerBloom from '../components/FlowerBloom'
+import { useFortuneFlow } from '../hooks/useFortuneFlow'
+
+export default function FlowerLoading() {
+  const navigate = useNavigate()
+  const { state } = useFortuneFlow()
+  const { selectedZodiac, flower } = state
+  const [animDone, setAnimDone] = useState(false)
+
+  // Guard
+  useEffect(() => {
+    if (!selectedZodiac) navigate('/', { replace: true })
+  }, [selectedZodiac, navigate])
+
+  // 애니메이션 완료 AND 데이터 수신 → 결과 화면
+  useEffect(() => {
+    if (animDone && flower && selectedZodiac) {
+      navigate(`/flower/${selectedZodiac}`, { replace: true })
+    }
+  }, [animDone, flower, selectedZodiac, navigate])
+
+  const today = new Date()
+  const dateStr = [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, '0'),
+    String(today.getDate()).padStart(2, '0'),
+  ].join('. ')
+
+  return (
+    <AppLayout starOpacity={0.4}>
+      <div className="relative min-h-screen flex flex-col items-center justify-center">
+        {/* 날짜 */}
+        <p className="absolute top-8 left-16 font-gowun text-sm text-white/40">
+          {dateStr}
+        </p>
+
+        <FlowerBloom animated onComplete={() => setAnimDone(true)} />
+
+        <p className="mt-6 font-gowun text-base text-white/70">
+          오늘의 꽃을 피우는 중이에요
+        </p>
+      </div>
+    </AppLayout>
+  )
+}

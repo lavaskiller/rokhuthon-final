@@ -5,23 +5,39 @@
 //   /                          Landing
 //   /select                    ZodiacSelect
 //   /loading/fortune           FortuneLoading
-//   /fortune/:zodiac           FortuneResult   (총운)
-//   /fortune/:zodiac/lucky     LuckyElements   (행운 요소)
+//   /fortune/:zodiac           FortuneResult
+//   /fortune/:zodiac/lucky     LuckyElements
 //   /loading/flower            FlowerLoading
-//   /flower/:zodiac            FlowerResult    (꽃 추천)
-//   /flower/:zodiac/print      FlowerPrint     (출력 카드)
+//   /flower/:zodiac            FlowerResult
+//   /flower/:zodiac/print      FlowerPrint
 //   *                          → / 리다이렉트
 //
 // 가드:
-//   FortuneLoading, FortuneResult 이후 화면은 selectedZodiac 없으면 /로 리다이렉트
-//   (각 페이지 컴포넌트 내에서 useEffect로 처리)
+//   각 페이지 컴포넌트에서 useEffect로 selectedZodiac/fortune 없으면 / 리다이렉트
 // ─────────────────────────────────────────────
 
-// TODO: 라우터 구현
-// import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
-// import Landing from './pages/Landing';
-// import ZodiacSelect from './pages/ZodiacSelect';
-// ... (나머지 import)
-//
-// export const router = createBrowserRouter([...]);
-// export default function Router() { return <RouterProvider router={router} />; }
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
+import Landing       from './pages/Landing'
+import ZodiacSelect  from './pages/ZodiacSelect'
+import FortuneLoading from './pages/FortuneLoading'
+import FortuneResult  from './pages/FortuneResult'
+import LuckyElements  from './pages/LuckyElements'
+import FlowerLoading  from './pages/FlowerLoading'
+import FlowerResult   from './pages/FlowerResult'
+import FlowerPrint    from './pages/FlowerPrint'
+
+const router = createBrowserRouter([
+  { path: '/',                      element: <Landing /> },
+  { path: '/select',                element: <ZodiacSelect /> },
+  { path: '/loading/fortune',       element: <FortuneLoading /> },
+  { path: '/fortune/:zodiac',       element: <FortuneResult /> },
+  { path: '/fortune/:zodiac/lucky', element: <LuckyElements /> },
+  { path: '/loading/flower',        element: <FlowerLoading /> },
+  { path: '/flower/:zodiac',        element: <FlowerResult /> },
+  { path: '/flower/:zodiac/print',  element: <FlowerPrint /> },
+  { path: '*',                      element: <Navigate to="/" replace /> },
+])
+
+export default function Router() {
+  return <RouterProvider router={router} />
+}

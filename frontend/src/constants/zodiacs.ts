@@ -6,9 +6,8 @@
 import type { ZodiacMeta, ZodiacSign } from '../types';
 
 // 별자리 기본 정보 (이름, 날짜범위)
-// 아이콘 이미지는 public/assets/zodiacs/ 에 {id}.png 로 저장
+// iconUrl 은 추후 실제 에셋 경로로 교체 — 미배치 시 ZodiacIconPlaceholder 폴백 표시
 export const ZODIAC_LIST: Omit<ZodiacMeta, 'rank'>[] = [
-  // TODO: iconUrl을 실제 에셋 경로로 교체
   { id: 'aries',       name: '양자리',     dateRange: '3.21–4.19',  iconUrl: '/assets/zodiacs/aries.png' },
   { id: 'taurus',      name: '황소자리',   dateRange: '4.20–5.20',  iconUrl: '/assets/zodiacs/taurus.png' },
   { id: 'gemini',      name: '쌍둥이자리', dateRange: '5.21–6.21',  iconUrl: '/assets/zodiacs/gemini.png' },

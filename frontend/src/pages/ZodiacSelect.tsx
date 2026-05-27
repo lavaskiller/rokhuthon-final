@@ -2,25 +2,80 @@
 // ZodiacSelect — uiux 2: 별자리 선택 화면
 //
 // 레이아웃:
-//   AppLayout
-//   └─ 헤더 세로 텍스트
-//       ├─ 서브: "당신의 별자리를 선택하세요"
-//       └─ 메인: "오늘의 별자리 순위" (Bold)
-//   └─ 2열 6행 ZodiacButton 그리드 (순위 1~12)
-//
-// 데이터:
-//   마운트 시 fetchZodiacs() 호출 → 순위 포함 ZodiacMeta[] 수신
-//   로딩 중: 스켈레톤 or LoadingArc 표시
+//   - 헤더: "당신의 별자리를 선택하세요" + 양쪽 가로선 사이 "오늘의 별자리 순위"
+//   - 그리드: 2열 × 6행, 컬럼 우선 채움 (좌:1~6, 우:7~12)
 //
 // 동작:
-//   ZodiacButton 클릭 → selectZodiac(id) → navigate('/loading/fortune')
+//   마운트 시 fetchZodiacs() 호출 (실패 시 정적 폴백)
+//   선택 → selectZodiac(id) 비동기 호출 + navigate('/loading/fortune')
 // ─────────────────────────────────────────────
 
-// TODO: ZodiacSelect 구현
-// import { useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import AppLayout from '../layouts/AppLayout';
-// import ZodiacButton from '../components/ZodiacButton';
-// import { useFortuneFlow } from '../hooks/useFortuneFlow';
-// import { fetchZodiacs } from '../api/client';
-// export default function ZodiacSelect() { ... }
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import AppLayout from '../layouts/AppLayout'
+import ZodiacButton from '../components/ZodiacButton'
+import { useFortuneFlow } from '../hooks/useFortuneFlow'
+import { fetchZodiacs } from '../api/client'
+import { ZODIAC_LIST } from '../constants/zodiacs'
+import type { ZodiacMeta, ZodiacSign } from '../types'
+
+export default function ZodiacSelect() {
+  const navigate = useNavigate()
+  const { state, selectZodiac } = useFortuneFlow()
+  const [zodiacs, setZodiacs] = useState<ZodiacMeta[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchZodiacs()
+      .then(setZodiacs)
+      .catch(() => {
+        setZodiacs(ZODIAC_LIST.map((z, i) => ({ ...z, rank: i + 1 })))
+      })
+      .finally(() => setLoading(false))
+  }, [])
+
+  const handleSelect = (id: ZodiacSign) => {
+    void selectZodiac(id)
+    navigate('/loading/fortune')
+  }
+
+  return (
+    <AppLayout>
+      {/* 헤더 */}
+      <header className="flex flex-col items-center gap-3 px-6 pb-10 pt-14">
+        <p className="text-sm text-white/85">당신의 별자리를 선택하세요</p>
+        <div className="flex items-center gap-4">
+          <span className="h-px w-24 bg-white/70" aria-hidden />
+          <h1 className="text-xl font-bold tracking-[0.18em]">
+            오늘의 별자리 순위
+          </h1>
+          <span className="h-px w-24 bg-white/70" aria-hidden />
+        </div>
+      </header>
+
+      <section className="mx-auto max-w-2xl px-5 pb-12">
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <p className="text-sm text-white/50">불러오는 중…</p>
+          </div>
+        ) : (
+          <ul
+            role="listbox"
+            aria-label="별자리 선택"
+            className="grid grid-flow-col grid-cols-2 grid-rows-6 gap-x-4 gap-y-3"
+          >
+            {zodiacs.map((z) => (
+              <li key={z.id} role="option" aria-selected={state.selectedZodiac === z.id}>
+                <ZodiacButton
+                  meta={z}
+                  selected={state.selectedZodiac === z.id}
+                  onClick={handleSelect}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    </AppLayout>
+  )
+}
