@@ -10,13 +10,13 @@ export type ZodiacSign =
   | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
 
 // 별자리 메타데이터 (ZodiacSelect 화면에서 렌더링)
+// 아이콘: iconUrl 이 로드되면 그 PNG, 실패하면 Figma placeholder(ZodiacIconPlaceholder) 표시
 export interface ZodiacMeta {
   id: ZodiacSign;
   name: string;       // 한글 이름 ex. "물고기 자리"
   dateRange: string;  // ex. "2.19–3.20"
   rank: number;       // 오늘의 별자리 순위 1~12 (서버에서 결정)
-  iconUrl: string;    // 원형 아이콘 이미지 경로 (없으면 symbol 폴백)
-  symbol: string;     // Unicode 별자리 기호 ex. "♓" — iconUrl 미로드 시 표시
+  iconUrl: string;    // 원형 아이콘 이미지 경로 (미배치 시 placeholder 폴백)
 }
 
 // 운세 수치 (0~100)

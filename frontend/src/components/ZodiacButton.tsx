@@ -10,6 +10,7 @@
 // ─────────────────────────────────────────────
 
 import type { ZodiacMeta, ZodiacSign } from '../types';
+import ZodiacIconPlaceholder from './ZodiacIconPlaceholder';
 
 interface Props {
   meta: ZodiacMeta;
@@ -40,17 +41,11 @@ export default function ZodiacButton({ meta, selected, onClick }: Props) {
             : 'border-white/15 bg-[rgba(218,249,255,0.18)] group-hover:bg-[rgba(218,249,255,0.28)] group-focus-visible:ring-2 group-focus-visible:ring-[#71fffd]',
         ].join(' ')}
       >
-        {/* 원형 아이콘 (시안 보더) — Unicode 기호 폴백 + iconUrl 이미지 오버레이 */}
+        {/* 원형 아이콘 (시안 보더) — Figma placeholder 아이콘 + iconUrl 이미지 오버레이 */}
         <span className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#71fffd] bg-[#0a205c]/60">
-          {/* Unicode 별자리 기호 — 항상 표시 (이미지 로드 실패 시 그대로 노출) */}
-          <span
-            className="text-[18px] leading-none text-white/90"
-            style={{ textShadow: '0 0 6px rgba(113,255,253,0.6)' }}
-            aria-hidden
-          >
-            {meta.symbol}
-          </span>
-          {/* iconUrl 이미지 — 로드되면 기호 위에 덮어쓰기, 실패하면 숨김 */}
+          {/* Figma "컴포넌트 정리" placeholder — 12개 별자리 동일 */}
+          <ZodiacIconPlaceholder size={22} className="text-[#71fffd]" />
+          {/* iconUrl 이미지 — 로드되면 placeholder 위에 덮어쓰기, 실패하면 숨김 */}
           <img
             src={meta.iconUrl}
             alt=""
