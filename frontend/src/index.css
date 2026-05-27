@@ -15,6 +15,53 @@ body {
   color: white;
 }
 
+/* ── 별 반짝임 ─────────────────────────────────────────
+   각 별마다 animation-delay 를 다르게 줘서 비동기 트윙클 */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.25);
+  }
+}
+
+/* ── 꽃잎 흩날림 ───────────────────────────────────────
+   화면 위에서 아래로 떨어지면서 좌우로 살짝 흔들리고 회전 */
+@keyframes drift {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% { opacity: 0.85; }
+  50% {
+    transform: translate3d(24px, 50vh, 0) rotate(180deg);
+  }
+  90% { opacity: 0.85; }
+  100% {
+    transform: translate3d(-12px, 110vh, 0) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes drift-alt {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% { opacity: 0.7; }
+  50% {
+    transform: translate3d(-32px, 55vh, 0) rotate(-200deg);
+  }
+  90% { opacity: 0.7; }
+  100% {
+    transform: translate3d(20px, 110vh, 0) rotate(-420deg);
+    opacity: 0;
+  }
+}
+
 @keyframes page-fade-in {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
