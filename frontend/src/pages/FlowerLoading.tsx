@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout'
 import FlowerBloom from '../components/FlowerBloom'
+import LoadingArc from '../components/LoadingArc'
 import { useFortuneFlow } from '../hooks/useFortuneFlow'
 
 export default function FlowerLoading() {
@@ -10,6 +11,7 @@ export default function FlowerLoading() {
   const { selectedZodiac, flower } = state
   const [animDone, setAnimDone] = useState(false)
 
+  // Guard: 직접 URL 접근 방지
   useEffect(() => {
     if (!selectedZodiac) navigate('/', { replace: true })
   }, [selectedZodiac, navigate])
@@ -27,17 +29,31 @@ export default function FlowerLoading() {
     String(today.getDate()).padStart(2, '0'),
   ].join('. ')
 
+  const ARC_SIZE = 220
+
   return (
-    <AppLayout starOpacity={0.4}>
-      <div className="h-full flex flex-col items-center justify-center">
-        {/* 날짜 */}
-        <p className="absolute top-8 left-10 font-gowun text-sm text-white/40">
+    <AppLayout variant="loading" starOpacity={0.4}>
+      <div className="relative min-h-screen flex flex-col items-center justify-center">
+        {/* 날짜 — 좌상단 (Figma: 20px, white/85) */}
+        <p className="absolute top-8 left-10 font-gowun text-xl text-white/85">
           {dateStr}
         </p>
 
-        <FlowerBloom animated onComplete={() => setAnimDone(true)} />
+        {/* 중앙: 회전 arc + 꽃 개화 그래픽 */}
+        <div
+          className="relative flex items-center justify-center"
+          style={{ width: ARC_SIZE, height: ARC_SIZE }}
+          role="status"
+          aria-label="꽃을 피우는 중"
+        >
+          <LoadingArc size={ARC_SIZE} />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <FlowerBloom animated onComplete={() => setAnimDone(true)} />
+          </div>
+        </div>
 
-        <p className="mt-6 font-gowun text-base text-white/70">
+        {/* 메시지 (Figma: 28px white) */}
+        <p className="mt-12 font-gowun text-2xl text-white">
           오늘의 꽃을 피우는 중이에요
         </p>
       </div>

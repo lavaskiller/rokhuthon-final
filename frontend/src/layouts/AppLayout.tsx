@@ -16,6 +16,8 @@
 import StarBackground from '../components/StarBackground';
 
 interface Props {
+  /** 'main' | 'loading' — 로딩 화면(FortuneLoading/FlowerLoading)은 'loading' */
+  variant?: 'main' | 'loading';
   starOpacity?: number;
   showBrand?: boolean;
   showFlowers?: boolean;
@@ -23,25 +25,43 @@ interface Props {
 }
 
 export default function AppLayout({
+  variant = 'main',
   starOpacity,
   showBrand = false,
   showFlowers = false,
   children,
 }: Props) {
-  return (
-    <StarBackground starOpacity={starOpacity} showFlowers={showFlowers}>
-      <div className="relative h-full w-full font-gowun text-white page-enter">
-        {showBrand && (
-          <span
-            className="absolute left-4 top-1/2 z-20 -translate-y-1/2 select-none text-2xl tracking-[0.35em] text-white"
-            style={{ writingMode: 'vertical-rl' }}
-            aria-label="별꽃노리"
-          >
-            별꽃노리
-          </span>
-        )}
-        {children}
+  const inner = (
+    <div className="relative min-h-screen w-full font-gowun text-white page-enter">
+      {showBrand && (
+        <span
+          className="absolute left-4 top-1/2 z-20 -translate-y-1/2 select-none text-2xl tracking-[0.35em] text-white"
+          style={{ writingMode: 'vertical-rl' }}
+          aria-label="별꽃노리"
+        >
+          별꽃노리
+        </span>
+      )}
+      {children}
+    </div>
+  );
+
+  if (showFlowers) {
+    return (
+      <div className="relative min-h-screen w-full overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a205c] to-[#44257e]" />
+        <picture className="pointer-events-none absolute inset-0 h-full w-full">
+          <source srcSet="/assets/bg-flowers.webp" type="image/webp" />
+          <img src="/assets/bg-flowers.png" alt="" aria-hidden draggable={false} className="h-full w-full object-cover" />
+        </picture>
+        <div className="relative z-10">{inner}</div>
       </div>
+    );
+  }
+
+  return (
+    <StarBackground variant={variant} starOpacity={starOpacity}>
+      {inner}
     </StarBackground>
   );
 }
