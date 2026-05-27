@@ -16,11 +16,11 @@ interface Props {
 export default function AppLayout({ children, starOpacity }: Props) {
   return (
     <StarBackground starOpacity={starOpacity}>
-      {/* 좌측 세로 브랜드 텍스트 */}
-      <div className="absolute left-7 top-1/2 z-20 flex -translate-y-1/2 -rotate-90 items-center gap-3">
-        <div className="h-px w-10 bg-white/40" />
-        <span className="font-gowun text-lg whitespace-nowrap text-white">별꽃노리</span>
-        <div className="h-px w-10 bg-white/40" />
+      {/* 상단 중앙 브랜드 텍스트 */}
+      <div className="absolute left-1/2 top-10 z-20 flex -translate-x-1/2 items-center gap-4">
+        <div className="h-px w-24 bg-white/40" />
+        <span className="font-gowun text-xl whitespace-nowrap text-white tracking-wider">별꽃노리</span>
+        <div className="h-px w-24 bg-white/40" />
       </div>
 
       {/* 페이지 콘텐츠 */}

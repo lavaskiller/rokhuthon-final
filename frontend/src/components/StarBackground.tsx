@@ -32,6 +32,13 @@ export default function StarBackground({ starOpacity = 0.23, children }: Props) 
         className="pointer-events-none absolute bottom-0 left-0 w-full"
       />
 
+      {/* 하늘색 꽃 장식 (꽃들) */}
+      <img
+        src="/assets/bg-flowers.png"
+        alt=""
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+      />
+
       {/* 꽃잎 파티클 */}
       <div
         className="pointer-events-none absolute inset-0"

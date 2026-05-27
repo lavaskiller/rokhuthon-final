@@ -3,12 +3,28 @@
 // import { router } from './router'
 // export default function App() { return <RouterProvider router={router} /> }
 
+import AppLayout from './layouts/AppLayout'
+import GlassCard from './components/GlassCard'
+
 export default function App() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center font-gowun">
-      <p className="text-[#76d4ff] text-5xl font-bold mb-4">별꽃노리</p>
-      <p className="text-white/60 text-lg">오늘의 별꽃 운세</p>
-      <p className="text-white/30 text-sm mt-8">개발 진행 중 🌸</p>
-    </div>
+    <AppLayout>
+      <div className="absolute inset-0 flex flex-col items-center justify-center font-gowun gap-10">
+        <div className="flex flex-col items-center gap-3 text-center">
+          <p className="text-white/85 text-[20px]">당신에게 맞는 꽃을 추천해 드려요</p>
+          <h1 className="text-white text-[48px] font-bold leading-tight">
+            오늘의 <span className="text-[#76d4ff]">별꽃 운세</span>
+          </h1>
+        </div>
+
+        <GlassCard
+          variant="pill"
+          className="px-12 py-5"
+          onClick={() => alert('내 별꽃 운세 보러가기')}
+        >
+          <span className="text-white text-[22px]">내 별꽃 운세 보러가기</span>
+        </GlassCard>
+      </div>
+    </AppLayout>
   )
 }
