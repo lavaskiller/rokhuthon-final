@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout'
 import LoadingArc from '../components/LoadingArc'
@@ -9,16 +9,22 @@ export default function FortuneLoading() {
   const navigate = useNavigate()
   const { state } = useFortuneFlow()
   const { selectedZodiac, isLoadingFortune, fortune } = state
+  const [minTimePassed, setMinTimePassed] = useState(false)
 
   useEffect(() => {
     if (!selectedZodiac) navigate('/', { replace: true })
   }, [selectedZodiac, navigate])
 
   useEffect(() => {
-    if (selectedZodiac && !isLoadingFortune && fortune) {
+    const t = setTimeout(() => setMinTimePassed(true), 1800)
+    return () => clearTimeout(t)
+  }, [])
+
+  useEffect(() => {
+    if (selectedZodiac && !isLoadingFortune && fortune && minTimePassed) {
       navigate(`/fortune/${selectedZodiac}`, { replace: true })
     }
-  }, [selectedZodiac, isLoadingFortune, fortune, navigate])
+  }, [selectedZodiac, isLoadingFortune, fortune, minTimePassed, navigate])
 
   const today = new Date()
   const dateStr = [
@@ -30,8 +36,8 @@ export default function FortuneLoading() {
   const ARC_SIZE = 180
 
   return (
-    <AppLayout starOpacity={0.4}>
-      <div className="h-full flex flex-col items-center justify-center">
+    <AppLayout variant="loading" starOpacity={0.4}>
+      <div className="min-h-screen flex flex-col items-center justify-center">
         {/* 날짜 — 좌상단 */}
         <p className="absolute top-8 left-10 font-gowun text-xl text-white/85">
           {dateStr}
