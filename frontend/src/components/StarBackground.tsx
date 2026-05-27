@@ -16,7 +16,6 @@
 // ─────────────────────────────────────────────
 
 import { useId, useMemo } from 'react';
-import FlowerDecoration from './FlowerDecoration';
 
 interface Props {
   /** 별 베이스 투명도 (Figma: 랜딩 0.23, 로딩 화면 0.40) */
