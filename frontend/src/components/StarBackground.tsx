@@ -1,13 +1,14 @@
-import { useId, useMemo } from 'react';
+import { useMemo } from 'react';
 
 interface Props {
+  /** 'main' (default) | 'loading' */
+  variant?: 'main' | 'loading';
+  /** loading variant 의 별 사진 투명도 (Figma 기본 0.40) */
   starOpacity?: number;
-  /** true 일 때 Landing 전용 꽃 장식 오버레이(bg-flowers)를 추가 렌더 */
-  showFlowers?: boolean;
   children?: React.ReactNode;
 }
 
-// 시드 기반 의사난수 — 매 마운트 동일한 패턴 보장
+// 시드 기반 의사난수 — 매 마운트 동일 패턴 (SSR-safe)
 function mulberry32(seed: number) {
   return () => {
     seed |= 0;
@@ -18,99 +19,103 @@ function mulberry32(seed: number) {
   };
 }
 
-interface Petal {
+interface ProcStar {
+  top: string;
   left: string;
   size: number;
-  duration: number;
-  delay: number;
-  variant: 'drift' | 'drift-alt';
-  flip: boolean;
-  startRotation: number;
+  bright: boolean;
+  twinkleDuration: number;
+  twinkleDelay: number;
 }
-function generatePetals(count: number, seed: number): Petal[] {
+function generateStars(count: number, seed: number): ProcStar[] {
   const rand = mulberry32(seed);
   return Array.from({ length: count }, () => {
     const r = rand();
+    let size = 1;
+    let bright = false;
+    if (r < 0.55) size = 1;
+    else if (r < 0.82) { size = 2; bright = true; }
+    else if (r < 0.95) { size = 3; bright = true; }
+    else { size = 4; bright = true; }
     return {
+      top: `${(rand() * 100).toFixed(2)}%`,
       left: `${(rand() * 100).toFixed(2)}%`,
-      size: 18 + Math.floor(rand() * 14),
-      duration: 22 + rand() * 12,
-      delay: -rand() * 34,
-      variant: r < 0.5 ? 'drift' : 'drift-alt',
-      flip: rand() < 0.5,
-      startRotation: Math.floor(rand() * 360),
+      size,
+      bright,
+      twinkleDuration: 1.8 + rand() * 2.6,
+      twinkleDelay: -rand() * 4,
     };
   });
 }
 
-export default function StarBackground({ showFlowers = false, children }: Props) {
-  const uid = useId();
-  const petalSymbolId = `petal-sym-${uid}`;
-  const petals = useMemo(() => generatePetals(12, 0x5af), []);
+export default function StarBackground({
+  variant = 'main',
+  starOpacity = 0.4,
+  children,
+}: Props) {
+  const stars = useMemo(() => generateStars(60, 0x4a5b), []);
 
-  return (
-    <div className="relative h-screen w-full overflow-hidden">
-      {showFlowers ? (
-        /* Landing(uiux 1) 전용 배경 — CSS 그라디언트 위에 꽃 오버레이
-           원래 구현(9e2f25b)과 동일한 레이어 구조. uiux-background.svg는
-           uiux 2 전용이라 Landing에 덮으면 우측 색조 불일치가 발생해 제외. */
-        <>
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a205c] to-[#44257e]" />
-          <picture className="pointer-events-none absolute inset-0 h-full w-full">
-            <source srcSet="/assets/bg-flowers.webp" type="image/webp" />
-            <img src="/assets/bg-flowers.png" alt="" aria-hidden draggable={false} className="h-full w-full object-cover" />
-          </picture>
-        </>
-      ) : (
-        /* uiux 2 이후 화면 — Figma uiux 2 원본 배경 (그라디언트 + 꽃잎 + 언덕) */
+  if (variant === 'loading') {
+    return (
+      <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-r from-[#002075] to-[#583a8e]">
+        {/* 1. 별 배경 사진 — Figma uiux 11 "별 배경사진" */}
         <img
-          src="/assets/uiux-background.svg"
+          src="/assets/loading-stars.png"
           alt=""
           aria-hidden
           draggable={false}
           className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+          style={{ opacity: starOpacity }}
         />
-      )}
 
-      {/* 낙하 꽃잎 — drift/drift-alt 애니메이션 (ae11a86 에서 유실, 복원) */}
-      <div aria-hidden className="pointer-events-none absolute inset-0">
-        <svg className="absolute h-0 w-0" aria-hidden>
-          <defs>
-            <symbol id={petalSymbolId} viewBox="0 0 48.2298 47.9421">
-              <path
-                d="M1.73589 26.7453C7.17728 39.5533 28.5427 45.3041 38.5453 46.5785C45.427 50.0196 49.3482 46.3395 47.9478 42.2772C46.5475 38.215 40.0124 19.4173 38.5453 9.30162C36.3046 -3.31519 18.5401 -0.415869 9.93798 2.61089C4.9367 5.31904 -3.70551 13.9373 1.73589 26.7453Z"
-                fill="#3A88C2"
-              />
-            </symbol>
-          </defs>
-        </svg>
-        {petals.map((p, i) => (
-          <div
-            key={i}
-            className="absolute"
-            style={{
-              top: 0,
-              left: p.left,
-              width: p.size,
-              height: p.size,
-              animation: `${p.variant} ${p.duration}s linear ${p.delay}s infinite`,
-              willChange: 'transform, opacity',
-            }}
-          >
-            <svg
-              viewBox="0 0 48.2298 47.9421"
-              className="block h-full w-full"
-              style={{ transform: `rotate(${p.startRotation}deg)${p.flip ? ' scaleX(-1)' : ''}` }}
-              aria-hidden
-            >
-              <use href={`#${petalSymbolId}`} />
-            </svg>
-          </div>
-        ))}
+        {/* 2. 반짝이는 별 procedural 레이어 — twinkle 애니메이션 */}
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          {stars.map((s, i) => (
+            <span
+              key={i}
+              className="absolute rounded-full bg-white"
+              style={{
+                top: s.top,
+                left: s.left,
+                width: s.size,
+                height: s.size,
+                boxShadow: s.bright
+                  ? `0 0 ${s.size * 2.5}px ${s.size * 0.5}px rgba(255,255,255,0.9), 0 0 ${s.size * 5}px ${s.size * 0.8}px rgba(118,212,255,0.5)`
+                  : 'none',
+                filter: s.bright ? 'none' : 'opacity(0.55)',
+                animation: `twinkle ${s.twinkleDuration}s ease-in-out ${s.twinkleDelay}s infinite`,
+                willChange: 'opacity, transform',
+              }}
+            />
+          ))}
+        </div>
+
+        {/* 3. 하단 언덕 + 꽃잎 데코 — Figma "배경(꽃잎+언덕)" */}
+        <img
+          src="/assets/loading-decor.png"
+          alt=""
+          aria-hidden
+          draggable={false}
+          className="pointer-events-none absolute bottom-0 left-0 w-full"
+        />
+
+        {/* 4. 콘텐츠 */}
+        <div className="relative z-10">{children}</div>
       </div>
+    );
+  }
 
-      {/* 콘텐츠 — 배경 위 */}
-      <div className="relative z-10 h-full">{children}</div>
+  // main variant — Figma uiux 2 한 장 SVG
+  return (
+    <div className="relative min-h-screen w-full overflow-hidden">
+      <img
+        src="/assets/uiux-background.svg"
+        alt=""
+        aria-hidden
+        draggable={false}
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+      />
+      <div className="relative z-10">{children}</div>
     </div>
   );
 }
