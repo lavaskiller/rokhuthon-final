@@ -1,9 +1,3 @@
-// ─────────────────────────────────────────────
-// LuckyElements — uiux 8/9/10: 행운 요소 화면
-//
-// 라우트: /fortune/:zodiac/lucky
-// ─────────────────────────────────────────────
-
 import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout'
@@ -20,19 +14,17 @@ export default function LuckyElements() {
   const { state, loadLucky, loadFlower } = useFortuneFlow()
   const { selectedZodiac, lucky, fortune } = state
 
-  // Guard
   useEffect(() => {
     if (!selectedZodiac || !fortune) navigate('/', { replace: true })
   }, [selectedZodiac, fortune, navigate])
 
-  // 행운 요소 로드
   useEffect(() => {
     loadLucky()
   }, [loadLucky])
 
   const handleFlowerCTA = () => {
-    void loadFlower()           // 백그라운드 fetchFlower 시작
-    navigate('/loading/flower') // 바로 로딩 화면으로 이동
+    void loadFlower()
+    navigate('/loading/flower')
   }
 
   const meta = zodiac ? getZodiacMeta(zodiac as ZodiacSign) : undefined
@@ -45,30 +37,32 @@ export default function LuckyElements() {
 
   return (
     <AppLayout>
-      <div className="min-h-screen flex flex-col px-8 py-8">
-        {/* 헤더 */}
-        <div className="flex items-center gap-3 mb-6">
-          {meta && (
-            <img
-              src={meta.iconUrl}
-              alt={meta.name}
-              className="w-8 h-8 rounded-full border border-[#71fffd] object-cover"
-              onError={(e) => { e.currentTarget.style.display = 'none' }}
-            />
-          )}
-          <div>
-            <p className="font-gowun text-xs text-white/40">{dateStr}</p>
-            <p className="font-gowun text-base text-white">{meta?.name}</p>
+      <div className="h-full flex flex-col px-12 py-6">
+        {/* 날짜 */}
+        <p className="font-gowun text-sm text-white/40">{dateStr}</p>
+
+        <div className="flex-1 flex flex-col items-center justify-center gap-6">
+          {/* 별자리 헤더 */}
+          <div className="flex flex-col items-center gap-2">
+            {meta && (
+              <img
+                src={meta.iconUrl}
+                alt={meta.name}
+                className="w-14 h-14 rounded-full border-2 border-[#71fffd] object-cover"
+                onError={(e) => { e.currentTarget.style.display = 'none' }}
+              />
+            )}
+            <span className="font-gowun text-2xl font-bold text-white">{meta?.name}</span>
+            <div className="flex items-center gap-3">
+              <span className="h-px w-16 bg-white/30" aria-hidden />
+              <span className="font-gowun text-xs text-white/60">행운 요소</span>
+              <span className="h-px w-16 bg-white/30" aria-hidden />
+            </div>
           </div>
-        </div>
 
-        <p className="font-gowun text-xs text-white/50 mb-1">✦ 행운 요소 ✦</p>
-        <div className="h-px bg-white/20 mb-8" />
-
-        <div className="flex-1 flex flex-col items-center justify-center gap-8">
           {/* 행운 카드 3개 */}
           {lucky ? (
-            <div className="flex gap-4 justify-center">
+            <div className="grid grid-cols-3 gap-5 w-full max-w-2xl">
               <LuckyCard category="장소" content={lucky.place} />
               <LuckyCard category="행동" content={lucky.action} />
               <LuckyCard category="색상" content={lucky.color} />

@@ -1,9 +1,3 @@
-// ─────────────────────────────────────────────
-// FortuneResult — uiux 6/7: 운세 결과 화면 (총운)
-//
-// 라우트: /fortune/:zodiac
-// ─────────────────────────────────────────────
-
 import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout'
@@ -36,43 +30,44 @@ export default function FortuneResult() {
 
   return (
     <AppLayout>
-      <div className="min-h-screen flex flex-col px-8 py-8">
+      <div className="h-full flex flex-col px-12 py-6">
         {/* 날짜 */}
         <p className="font-gowun text-sm text-white/40">{dateStr}</p>
 
-        <div className="flex-1 flex flex-col items-center justify-center gap-6 py-6">
+        <div className="flex-1 flex flex-col items-center justify-center gap-5">
           {/* 별자리 헤더 */}
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col items-center gap-2">
             {meta && (
               <img
                 src={meta.iconUrl}
                 alt={meta.name}
-                className="w-12 h-12 rounded-full border-2 border-[#71fffd] object-cover"
+                className="w-16 h-16 rounded-full border-2 border-[#71fffd] object-cover"
                 onError={(e) => { e.currentTarget.style.display = 'none' }}
               />
             )}
-            <span className="font-gowun text-2xl font-bold text-white">
-              {meta?.name}
-            </span>
+            <span className="font-gowun text-2xl font-bold text-white">{meta?.name}</span>
+            <div className="flex items-center gap-3">
+              <span className="h-px w-16 bg-white/30" aria-hidden />
+              <span className="font-gowun text-xs text-white/60">총운</span>
+              <span className="h-px w-16 bg-white/30" aria-hidden />
+            </div>
           </div>
 
           {/* 총운 카드 */}
-          <GlassCard variant="rounded" className="w-full max-w-sm p-6">
-            <p className="font-gowun text-xs text-white/50 mb-3 text-center">✦ 총운 ✦</p>
-            <div className="h-px bg-white/20 mb-4" />
-            <p className="font-gowun text-sm text-white/90 leading-7">
+          <GlassCard variant="rounded" className="w-full max-w-xl p-6">
+            <p className="font-gowun text-sm text-white/90 leading-7 text-center">
               {fortune.summary}
             </p>
           </GlassCard>
 
           {/* 운세 게이지 3개 */}
-          <div className="flex gap-8 justify-center">
+          <div className="flex gap-10 justify-center">
             <FortuneCircle type="relationship" score={fortune.scores.relationship} />
             <FortuneCircle type="money"        score={fortune.scores.money} />
             <FortuneCircle type="work"         score={fortune.scores.work} />
           </div>
 
-          {/* 꽃 추천 CTA */}
+          {/* CTA */}
           <GlassCard
             variant="pill"
             className="px-8 py-3"
