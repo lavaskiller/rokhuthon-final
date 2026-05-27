@@ -91,14 +91,17 @@ export default function StarBackground({
           ))}
         </div>
 
-        {/* 3. 하단 언덕 + 꽃잎 데코 — Figma "배경(꽃잎+언덕)" */}
-        <img
-          src="/assets/loading-decor.png"
-          alt=""
-          aria-hidden
-          draggable={false}
-          className="pointer-events-none absolute bottom-0 left-0 w-full"
-        />
+        {/* 3. 하단 언덕 */}
+        <picture className="pointer-events-none absolute bottom-0 left-0 w-full">
+          <source srcSet="/assets/bg-hills.webp" type="image/webp" />
+          <img
+            src="/assets/bg-hills.png"
+            alt=""
+            aria-hidden
+            draggable={false}
+            className="w-full"
+          />
+        </picture>
 
         {/* 4. 낙화 꽃잎 애니메이션 */}
         <FlowerDecoration />
