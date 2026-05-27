@@ -100,10 +100,7 @@ export default function StarBackground({
           className="pointer-events-none absolute bottom-0 left-0 w-full"
         />
 
-        {/* 4. 낙화 꽃잎 */}
-        <FlowerDecoration />
-
-        {/* 5. 콘텐츠 */}
+        {/* 4. 콘텐츠 */}
         <div className="relative z-10">{children}</div>
       </div>
     );
