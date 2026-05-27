@@ -46,7 +46,7 @@ export default function FlowerLoading() {
           role="status"
           aria-label="꽃을 피우는 중"
         >
-          <LoadingArc size={ARC_SIZE} />
+          <LoadingArc size={ARC_SIZE} showInner={false} />
           <div className="absolute inset-0 flex items-center justify-center">
             <FlowerBloom animated onComplete={() => setAnimDone(true)} />
           </div>

@@ -8,9 +8,11 @@
 interface Props {
   size?: number
   color?: string
+  /** false 이면 안쪽 작은 호를 숨김 (기본 true) */
+  showInner?: boolean
 }
 
-export default function LoadingArc({ size = 160, color = '#76d4ff' }: Props) {
+export default function LoadingArc({ size = 160, color = '#76d4ff', showInner = true }: Props) {
   return (
     <div style={{ width: size, height: size }} className="relative">
       {/* 바깥 호 — 느리게 회전 */}
@@ -24,16 +26,18 @@ export default function LoadingArc({ size = 160, color = '#76d4ff' }: Props) {
         }}
       />
       {/* 안쪽 호 — 빠르게 회전 (같은 방향) */}
-      <div
-        className="absolute rounded-full border-4 border-transparent animate-spin"
-        style={{
-          inset: size * 0.12,
-          borderTopColor: color,
-          borderLeftColor: `${color}40`,
-          animationDuration: '1.4s',
-          animationTimingFunction: 'linear',
-        }}
-      />
+      {showInner && (
+        <div
+          className="absolute rounded-full border-4 border-transparent animate-spin"
+          style={{
+            inset: size * 0.12,
+            borderTopColor: color,
+            borderLeftColor: `${color}40`,
+            animationDuration: '1.4s',
+            animationTimingFunction: 'linear',
+          }}
+        />
+      )}
     </div>
   )
 }
