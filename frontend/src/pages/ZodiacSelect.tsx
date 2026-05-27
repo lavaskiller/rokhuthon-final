@@ -29,9 +29,9 @@ export default function ZodiacSelect() {
 
   return (
     <AppLayout>
-      <div className="min-h-screen flex flex-col overflow-hidden">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-6 overflow-hidden px-12 py-8">
         {/* 헤더 */}
-        <header className="flex flex-col items-center gap-3 px-6 pt-8 pb-6">
+        <header className="flex flex-col items-center gap-3">
           <p className="text-sm text-white/85">당신의 별자리를 선택하세요</p>
           <div className="flex items-center">
             <span className="h-[3px] w-[3px] rounded-full bg-white" aria-hidden />
@@ -44,16 +44,16 @@ export default function ZodiacSelect() {
           </div>
         </header>
 
-        <section className="flex-1 w-full px-12 pb-6 overflow-hidden">
+        <section className="w-full">
           {loading ? (
-            <div className="flex items-center justify-center h-full">
+            <div className="flex items-center justify-center py-12">
               <p className="text-sm text-white/50">불러오는 중…</p>
             </div>
           ) : (
             <ul
               role="listbox"
               aria-label="별자리 선택"
-              className="grid grid-flow-col grid-cols-2 grid-rows-6 gap-x-6 gap-y-3 h-full"
+              className="grid grid-flow-col grid-cols-2 grid-rows-6 gap-x-6 gap-y-3"
             >
               {zodiacs.map((z) => (
                 <li key={z.id} role="option" aria-selected={state.selectedZodiac === z.id}>
