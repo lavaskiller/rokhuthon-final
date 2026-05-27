@@ -44,7 +44,7 @@ export default function ZodiacSelect() {
           </div>
         </header>
 
-        <section className="flex-1 mx-auto w-full max-w-4xl px-8 pb-6 overflow-hidden">
+        <section className="flex-1 w-full px-12 pb-6 overflow-hidden">
           {loading ? (
             <div className="flex items-center justify-center h-full">
               <p className="text-sm text-white/50">불러오는 중…</p>
