@@ -13,7 +13,7 @@ export default function App() {
         <div className="flex flex-col items-center gap-3 text-center">
           <p className="text-white/85 text-[20px]">당신에게 맞는 꽃을 추천해 드려요</p>
           <h1 className="text-white text-[48px] font-bold leading-tight">
-            오늘의 <span className="text-[#76d4ff]">별꽃 운세</span>
+            오늘의 <span className="text-accent">별꽃 운세</span>
           </h1>
         </div>
 

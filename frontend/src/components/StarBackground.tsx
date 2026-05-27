@@ -18,38 +18,34 @@ export default function StarBackground({ starOpacity = 0.23, children }: Props) 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-r from-[#0a205c] to-[#44257e]">
       {/* 별 배경 */}
-      <img
-        src="/assets/bg-stars.png"
-        alt=""
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+      <picture
+        className="pointer-events-none absolute inset-0 h-full w-full"
         style={{ opacity: starOpacity }}
-      />
+      >
+        <source srcSet="/assets/bg-stars.webp" type="image/webp" />
+        <img src="/assets/bg-stars.png" alt="" className="h-full w-full object-cover" />
+      </picture>
 
       {/* 물결 언덕 실루엣 */}
-      <img
-        src="/assets/bg-hills.png"
-        alt=""
-        className="pointer-events-none absolute bottom-0 left-0 w-full"
-      />
+      <picture className="pointer-events-none absolute bottom-0 left-0 w-full">
+        <source srcSet="/assets/bg-hills.webp" type="image/webp" />
+        <img src="/assets/bg-hills.png" alt="" className="w-full" />
+      </picture>
 
-      {/* 하늘색 꽃 장식 (꽃들) */}
-      <img
-        src="/assets/bg-flowers.png"
-        alt=""
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-      />
+      {/* 하늘색 꽃 장식 */}
+      <picture className="pointer-events-none absolute inset-0 h-full w-full">
+        <source srcSet="/assets/bg-flowers.webp" type="image/webp" />
+        <img src="/assets/bg-flowers.png" alt="" className="h-full w-full object-cover" />
+      </picture>
 
       {/* 꽃잎 파티클 */}
-      <div
-        className="pointer-events-none absolute inset-0"
+      <picture
+        className="pointer-events-none absolute inset-0 h-full w-full"
         style={{ mixBlendMode: 'soft-light' }}
       >
-        <img
-          src="/assets/bg-petals.png"
-          alt=""
-          className="h-full w-full object-cover"
-        />
-      </div>
+        <source srcSet="/assets/bg-petals.webp" type="image/webp" />
+        <img src="/assets/bg-petals.png" alt="" className="h-full w-full object-cover" />
+      </picture>
 
       {/* 콘텐츠 */}
       <div className="relative z-10">{children}</div>
