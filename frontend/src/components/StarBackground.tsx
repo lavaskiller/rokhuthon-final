@@ -5,8 +5,9 @@
 //   1. 그라디언트 배경 (#0a205c → #44257e)
 //   2. 별 산포 (작은 흰색 점, opacity prop 으로 강도 조절)
 //   3. 언덕 SVG 실루엣 (하단 고정, linear gradient #67BDFF → #000F74)
-//   4. 꽃잎 파티클 (SVG, mix-blend-mode: soft-light, 산발 배치)
-//   5. children — 페이지 콘텐츠 (z-index 10)
+//   4. 하늘색 꽃 장식 (bg-flowers WebP/PNG)
+//   5. 꽃잎 파티클 (SVG, mix-blend-mode: soft-light, 산발 배치)
+//   6. children — 페이지 콘텐츠 (z-index 10)
 //
 // 결정 사항:
 //   - Figma "별 배경"은 이미지 fill 이라 직접 추출 불가 → 80개 CSS 점으로 대체
@@ -118,7 +119,13 @@ export default function StarBackground({ starOpacity = 0.23, children }: Props) 
         />
       </svg>
 
-      {/* 3. 꽃잎 파티클 — soft-light 블렌드로 배경에 녹아드는 글로우 */}
+      {/* 3. 하늘색 꽃 장식 */}
+      <picture className="pointer-events-none absolute inset-0 h-full w-full">
+        <source srcSet="/assets/bg-flowers.webp" type="image/webp" />
+        <img src="/assets/bg-flowers.png" alt="" className="h-full w-full object-cover" />
+      </picture>
+
+      {/* 4. 꽃잎 파티클 — soft-light 블렌드로 배경에 녹아드는 글로우 */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
@@ -165,7 +172,7 @@ export default function StarBackground({ starOpacity = 0.23, children }: Props) 
         ))}
       </div>
 
-      {/* 4. 콘텐츠 — 항상 배경 위 */}
+      {/* 5. 콘텐츠 — 항상 배경 위 */}
       <div className="relative z-10">{children}</div>
     </div>
   );
