@@ -26,30 +26,30 @@ export default function ZodiacButton({ meta, selected, onClick }: Props) {
       aria-label={`${meta.name} ${meta.dateRange}, 오늘의 운세 순위 ${meta.rank}위`}
       className="group flex w-full items-center gap-2.5 focus:outline-none"
     >
-      {/* 순위 — pill 밖, 좌측 정렬 */}
-      <span className="w-7 shrink-0 text-center text-[28px] font-bold leading-none text-white/80 tabular-nums">
+      {/* 순위 — pill 밖, 조금 작고 얇게 (font-normal = Gowun Batang Regular) */}
+      <span className="w-7 shrink-0 text-center text-[22px] font-normal leading-none text-white/80 tabular-nums">
         {meta.rank}
       </span>
 
-      {/* 글래스모피즘 pill */}
+      {/* 글래스모피즘 pill — 슬라이딩 토글, h-12 → h-[50px] 로 두께 살짝 더 */}
       <div
         className={[
-          'flex flex-1 min-w-0 items-center gap-2 rounded-full border py-1.5 pl-1.5 pr-3 backdrop-blur-md',
+          'flex h-[50px] flex-1 min-w-0 items-center gap-3 rounded-full border p-0 pr-4 backdrop-blur-md',
           'transition-all duration-150',
           selected
             ? 'border-[#71fffd] bg-white/30 shadow-[0_0_14px_rgba(113,255,253,0.5)]'
             : 'border-white/15 bg-[rgba(218,249,255,0.18)] group-hover:bg-[rgba(218,249,255,0.28)] group-focus-visible:ring-2 group-focus-visible:ring-[#71fffd]',
         ].join(' ')}
       >
-        {/* 원형 아이콘 (시안 보더) — Figma placeholder 아이콘 + iconUrl 이미지 오버레이 */}
-        <span className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#71fffd] bg-[#0a205c]/60">
-          {/* Figma "컴포넌트 정리" placeholder — 12개 별자리 동일 */}
-          <ZodiacIconPlaceholder size={22} className="text-[#71fffd]" />
+        {/* 원형 thumb — pill 과 같은 크기(h-[50px] = 50px), 좌측 끝 정확히 맞붙음 */}
+        <span className="relative flex h-[50px] w-[50px] shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#71fffd] bg-[#0a205c]/60">
+          {/* Figma "컴포넌트 정리" placeholder — size 34 → 30 으로 sign 살짝 축소 */}
+          <ZodiacIconPlaceholder size={30} className="text-[#71fffd]" />
           {/* iconUrl 이미지 — 로드되면 placeholder 위에 덮어쓰기, 실패하면 숨김 */}
           <img
             src={meta.iconUrl}
             alt=""
-            className="absolute inset-0 m-auto h-6 w-6 object-contain"
+            className="absolute inset-0 m-auto h-8 w-8 object-contain"
             loading="lazy"
             draggable={false}
             onError={(e) => {
@@ -58,14 +58,10 @@ export default function ZodiacButton({ meta, selected, onClick }: Props) {
           />
         </span>
 
-        {/* 한글 이름 */}
-        <span className="truncate text-sm tracking-wide text-white">
+        {/* 한글 이름 + 괄호 안 날짜 — 한 줄, 이름과 날짜 사이 ml-2 여백 */}
+        <span className="whitespace-nowrap text-lg tracking-wide text-white">
           {meta.name}
-        </span>
-
-        {/* 날짜 범위 (우측 정렬) */}
-        <span className="ml-auto shrink-0 text-[11px] text-white/60">
-          {meta.dateRange}
+          <span className="ml-2 text-white">({meta.dateRange})</span>
         </span>
       </div>
     </button>
