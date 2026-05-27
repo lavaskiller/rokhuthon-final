@@ -20,7 +20,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout'
 import FortuneCircle from '../components/FortuneCircle'
 import FlowerCard from '../components/FlowerCard'
-import FlowerDecoration from '../components/FlowerDecoration'
 import { useFortuneFlow } from '../hooks/useFortuneFlow'
 import type { FlowerResult as FlowerResultData, FortuneResult } from '../types'
 
@@ -92,7 +91,6 @@ export default function FlowerResult() {
   return (
     <AppLayout>
       <div className="relative min-h-screen w-full">
-        <FlowerDecoration />
         <div className="mx-auto flex max-w-[1600px] flex-col gap-8 px-8 py-10">
           {/* 헤더 */}
           <header className="flex items-start justify-between gap-8">

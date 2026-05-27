@@ -149,7 +149,15 @@ export default function StarBackground({
         <img src="/assets/bg-hills.png" alt="" aria-hidden draggable={false} className="w-full" />
       </picture>
 
-      {/* 4. 콘텐츠 */}
+      {/* 4. 꽃잎 파티클 오버레이 */}
+      <div className="pointer-events-none absolute inset-0" style={{ mixBlendMode: 'soft-light' }}>
+        <picture className="absolute inset-0 h-full w-full">
+          <source srcSet="/assets/bg-petals.webp" type="image/webp" />
+          <img src="/assets/bg-petals.png" alt="" aria-hidden draggable={false} className="h-full w-full object-cover" />
+        </picture>
+      </div>
+
+      {/* 5. 콘텐츠 */}
       <div className="relative z-10">{children}</div>
     </div>
   );
