@@ -1,22 +1,7 @@
-// ─────────────────────────────────────────────
-// FlowerResult — uiux 15: 꽃 추천 결과 화면
-//
-// 레이아웃:
-//   AppLayout
-//   └─ 상단: 헤딩 + FortuneCircle 3개 (FortuneBadge sm)
-//   └─ 중단: 메인 꽃 이름/부제/설명
-//   └─ 하단 3열: 꽃말 / 기대되는 행운 / 함께 두면 좋은 장소
-//   └─ 서브 꽃 2개 (작은 카드)
-//   └─ "꽃 출력하기 →" → /flower/:zodiac/print
-//
-// 라우트: /flower/:zodiac
-// ─────────────────────────────────────────────
-
 import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout'
 import FortuneCircle from '../components/FortuneCircle'
-import FlowerCard from '../components/FlowerCard'
 import GlassCard from '../components/GlassCard'
 import { useFortuneFlow } from '../hooks/useFortuneFlow'
 
@@ -34,36 +19,75 @@ export default function FlowerResult() {
 
   return (
     <AppLayout>
-      <div className="min-h-screen flex flex-col px-8 py-8 gap-5 overflow-y-auto">
-        {/* 상단: 헤딩 + 배지 */}
-        <div className="flex items-start justify-between">
-          <p className="font-gowun text-sm text-white/70 max-w-[180px] leading-snug">
+      <div className="h-full flex flex-col px-12 py-6 gap-4">
+        {/* 상단: 헤딩 + 운세 배지 */}
+        <div className="flex items-center justify-between">
+          <p className="font-gowun text-sm text-white/70">
             오늘을 위한 꽃 추천을 해드릴게요
           </p>
-          <div className="flex gap-3">
+          <div className="flex gap-4">
             <FortuneCircle type="relationship" score={fortune.scores.relationship} size="sm" />
             <FortuneCircle type="money"        score={fortune.scores.money}        size="sm" />
             <FortuneCircle type="work"         score={fortune.scores.work}         size="sm" />
           </div>
         </div>
 
-        <FlowerCard flower={flower.main} />
+        {/* 메인 꽃 카드 — 가로 분할 */}
+        <GlassCard variant="rounded" className="flex-1 flex flex-row min-h-0 overflow-hidden">
+          {/* 이미지 영역 */}
+          <div className="w-56 shrink-0 flex items-center justify-center p-6 border-r border-white/10">
+            {flower.main.imageUrl ? (
+              <img
+                src={flower.main.imageUrl}
+                alt={flower.main.name}
+                className="w-full h-full object-cover rounded-xl"
+              />
+            ) : (
+              <span className="text-6xl">🌸</span>
+            )}
+          </div>
 
-        {/* 서브 꽃 2개 */}
-        <div className="flex gap-3">
+          {/* 텍스트 영역 */}
+          <div className="flex-1 flex flex-col gap-3 p-6 overflow-auto">
+            <div>
+              <h2 className="font-gowun text-2xl font-bold text-white">{flower.main.name}</h2>
+              <p className="font-gowun text-sm text-white/55 mt-1">{flower.main.subtitle}</p>
+            </div>
+            <p className="font-gowun text-sm text-white/90 leading-7">{flower.main.description}</p>
+            <div className="grid grid-cols-3 gap-3 mt-auto">
+              <div>
+                <p className="font-gowun text-xs text-white/50 mb-1">꽃말</p>
+                {flower.main.meanings.map((m, i) => (
+                  <p key={i} className="font-gowun text-xs text-white leading-5">{m}</p>
+                ))}
+              </div>
+              <div>
+                <p className="font-gowun text-xs text-white/50 mb-1">기대되는 행운</p>
+                {flower.main.luckItems.map((l, i) => (
+                  <p key={i} className="font-gowun text-xs text-white leading-5">{l}</p>
+                ))}
+              </div>
+              <div>
+                <p className="font-gowun text-xs text-white/50 mb-1">함께 두면 좋은 장소</p>
+                {flower.main.places.map((p, i) => (
+                  <p key={i} className="font-gowun text-xs text-white leading-5">{p}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </GlassCard>
+
+        {/* 하단: 서브 꽃 + CTA */}
+        <div className="flex items-center gap-3">
           {flower.subs.map((sub, i) => (
-            <GlassCard key={i} variant="rounded" className="flex-1 p-4 text-center">
+            <GlassCard key={i} variant="rounded" className="flex-1 py-3 px-4 text-center">
               <p className="font-gowun text-base font-bold text-white">{sub.name}</p>
               <p className="font-gowun text-xs text-white/50 mt-1">{sub.subtitle}</p>
             </GlassCard>
           ))}
-        </div>
-
-        {/* CTA */}
-        <div className="flex justify-end">
           <GlassCard
             variant="pill"
-            className="px-8 py-3"
+            className="px-8 py-3 shrink-0"
             onClick={() => navigate(`/flower/${zodiac}/print`)}
           >
             <span className="font-gowun text-sm text-white">꽃 출력하기 →</span>

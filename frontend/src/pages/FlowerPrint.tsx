@@ -1,18 +1,3 @@
-// ─────────────────────────────────────────────
-// FlowerPrint — uiux 16: 꽃 출력 카드 화면
-//
-// 레이아웃:
-//   AppLayout
-//   └─ 좌측: PrintCard (흰 배경 + 꽃 이름 + 이미지 + 노란 하단 띠)
-//   └─ 우측: "출력하기 →" 버튼
-//
-// 동작:
-//   "출력하기" 클릭 → window.print()
-//   @media print: #print-card만 표시
-//
-// 라우트: /flower/:zodiac/print
-// ─────────────────────────────────────────────
-
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout'
@@ -33,17 +18,22 @@ export default function FlowerPrint() {
 
   return (
     <AppLayout>
-      <div className="min-h-screen flex items-center justify-center gap-8 px-8">
-        <PrintCard flower={flower.main} />
+      <div className="h-full flex items-stretch">
+        {/* 좌측: 출력 카드 */}
+        <div className="flex-1 flex items-center justify-center">
+          <PrintCard flower={flower.main} />
+        </div>
 
-        {/* 출력 버튼 */}
-        <GlassCard
-          variant="pill"
-          className="px-8 py-4"
-          onClick={() => window.print()}
-        >
-          <span className="font-gowun text-base text-white">출력하기 →</span>
-        </GlassCard>
+        {/* 우측: 출력 버튼 */}
+        <div className="flex-1 flex items-center justify-center">
+          <GlassCard
+            variant="pill"
+            className="px-8 py-4"
+            onClick={() => window.print()}
+          >
+            <span className="font-gowun text-base text-white">출력하기 →</span>
+          </GlassCard>
+        </div>
       </div>
     </AppLayout>
   )
