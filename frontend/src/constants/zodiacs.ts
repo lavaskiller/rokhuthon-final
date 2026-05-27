@@ -5,22 +5,21 @@
 
 import type { ZodiacMeta, ZodiacSign } from '../types';
 
-// 별자리 기본 정보 (이름, 날짜범위)
-// 아이콘 이미지는 public/assets/zodiacs/ 에 {id}.png 로 저장
+// 별자리 기본 정보 (이름, 날짜범위, 기호)
+// iconUrl 은 추후 실제 에셋 경로로 교체 — 없으면 symbol(Unicode 기호) 로 폴백 표시
 export const ZODIAC_LIST: Omit<ZodiacMeta, 'rank'>[] = [
-  // TODO: iconUrl을 실제 에셋 경로로 교체
-  { id: 'aries',       name: '양자리',     dateRange: '3.21–4.19',  iconUrl: '/assets/zodiacs/aries.png' },
-  { id: 'taurus',      name: '황소자리',   dateRange: '4.20–5.20',  iconUrl: '/assets/zodiacs/taurus.png' },
-  { id: 'gemini',      name: '쌍둥이자리', dateRange: '5.21–6.21',  iconUrl: '/assets/zodiacs/gemini.png' },
-  { id: 'cancer',      name: '게자리',     dateRange: '6.22–7.22',  iconUrl: '/assets/zodiacs/cancer.png' },
-  { id: 'leo',         name: '사자자리',   dateRange: '7.23–8.22',  iconUrl: '/assets/zodiacs/leo.png' },
-  { id: 'virgo',       name: '처녀자리',   dateRange: '8.23–9.22',  iconUrl: '/assets/zodiacs/virgo.png' },
-  { id: 'libra',       name: '천칭자리',   dateRange: '9.23–10.22', iconUrl: '/assets/zodiacs/libra.png' },
-  { id: 'scorpio',     name: '전갈자리',   dateRange: '10.23–11.21',iconUrl: '/assets/zodiacs/scorpio.png' },
-  { id: 'sagittarius', name: '사수자리',   dateRange: '11.22–12.21',iconUrl: '/assets/zodiacs/sagittarius.png' },
-  { id: 'capricorn',   name: '염소자리',   dateRange: '12.22–1.19', iconUrl: '/assets/zodiacs/capricorn.png' },
-  { id: 'aquarius',    name: '물병자리',   dateRange: '1.20–2.18',  iconUrl: '/assets/zodiacs/aquarius.png' },
-  { id: 'pisces',      name: '물고기자리', dateRange: '2.19–3.20',  iconUrl: '/assets/zodiacs/pisces.png' },
+  { id: 'aries',       name: '양자리',     dateRange: '3.21–4.19',  symbol: '♈', iconUrl: '/assets/zodiacs/aries.png' },
+  { id: 'taurus',      name: '황소자리',   dateRange: '4.20–5.20',  symbol: '♉', iconUrl: '/assets/zodiacs/taurus.png' },
+  { id: 'gemini',      name: '쌍둥이자리', dateRange: '5.21–6.21',  symbol: '♊', iconUrl: '/assets/zodiacs/gemini.png' },
+  { id: 'cancer',      name: '게자리',     dateRange: '6.22–7.22',  symbol: '♋', iconUrl: '/assets/zodiacs/cancer.png' },
+  { id: 'leo',         name: '사자자리',   dateRange: '7.23–8.22',  symbol: '♌', iconUrl: '/assets/zodiacs/leo.png' },
+  { id: 'virgo',       name: '처녀자리',   dateRange: '8.23–9.22',  symbol: '♍', iconUrl: '/assets/zodiacs/virgo.png' },
+  { id: 'libra',       name: '천칭자리',   dateRange: '9.23–10.22', symbol: '♎', iconUrl: '/assets/zodiacs/libra.png' },
+  { id: 'scorpio',     name: '전갈자리',   dateRange: '10.23–11.21',symbol: '♏', iconUrl: '/assets/zodiacs/scorpio.png' },
+  { id: 'sagittarius', name: '사수자리',   dateRange: '11.22–12.21',symbol: '♐', iconUrl: '/assets/zodiacs/sagittarius.png' },
+  { id: 'capricorn',   name: '염소자리',   dateRange: '12.22–1.19', symbol: '♑', iconUrl: '/assets/zodiacs/capricorn.png' },
+  { id: 'aquarius',    name: '물병자리',   dateRange: '1.20–2.18',  symbol: '♒', iconUrl: '/assets/zodiacs/aquarius.png' },
+  { id: 'pisces',      name: '물고기자리', dateRange: '2.19–3.20',  symbol: '♓', iconUrl: '/assets/zodiacs/pisces.png' },
 ];
 
 // 별자리 ID → 메타 조회 헬퍼

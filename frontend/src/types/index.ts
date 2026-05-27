@@ -15,7 +15,8 @@ export interface ZodiacMeta {
   name: string;       // 한글 이름 ex. "물고기 자리"
   dateRange: string;  // ex. "2.19–3.20"
   rank: number;       // 오늘의 별자리 순위 1~12 (서버에서 결정)
-  iconUrl: string;    // 원형 아이콘 이미지 경로
+  iconUrl: string;    // 원형 아이콘 이미지 경로 (없으면 symbol 폴백)
+  symbol: string;     // Unicode 별자리 기호 ex. "♓" — iconUrl 미로드 시 표시
 }
 
 // 운세 수치 (0~100)
