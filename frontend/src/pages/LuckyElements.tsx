@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import AppLayout from '../layouts/AppLayout'
+import GlassCard from '../components/GlassCard'
 import LuckyCard from '../components/LuckyCard'
 import NavArrow from '../components/NavArrow'
 import ZodiacIconPlaceholder from '../components/ZodiacIconPlaceholder'
@@ -48,70 +49,73 @@ export default function LuckyElements() {
 
   return (
     <AppLayout>
-      <div className="relative min-h-screen flex flex-col px-8 py-6">
-        {/* 좌상단 — 오늘 날짜 */}
-        <p className="font-gowun text-sm text-white/85">{dateStr}</p>
+      <div className="min-h-screen flex flex-col px-12 py-6">
+        {/* 날짜 */}
+        <p className="font-gowun text-sm text-white/40">{dateStr}</p>
 
-        {/* 좌측 중앙 — 총운 확인하기 (NavArrow) */}
-        <div className="absolute left-6 top-1/2 -translate-y-1/2">
-          <NavArrow
-            direction="left"
-            label="총운 확인하기"
-            to={`/fortune/${zodiac}`}
-          />
-        </div>
-
-        {/* 메인 콘텐츠 — 세로 중앙 정렬 */}
-        <div className="flex-1 flex flex-col items-center justify-center gap-5 mx-auto w-full max-w-3xl">
-          {/* 별자리 이름 */}
-          <h2 className="font-gowun text-[28px] font-bold text-white">
-            {meta?.name ?? '별자리'}
-          </h2>
-
-          {/* 큰 별자리 아이콘 */}
-          <div
-            className="flex h-32 w-32 items-center justify-center"
-            style={{ filter: 'drop-shadow(0 4px 4px rgba(26,33,68,1))' }}
-          >
-            <ZodiacIconPlaceholder size={96} strokeWidth={1.7} shiny />
+        <div className="flex-1 flex flex-col items-center justify-center gap-8 py-6">
+          {/* 별자리 헤더 */}
+          <div className="flex flex-col items-center gap-3">
+            <span className="font-gowun text-2xl font-bold text-white">
+              {meta?.name ?? '별자리'}
+            </span>
+            <ZodiacIconPlaceholder
+              size={160}
+              className="text-[#71fffd]"
+              style={{
+                filter:
+                  'drop-shadow(0 4px 4px #1a2144) drop-shadow(0 0 6px #71fffd55) drop-shadow(0 0 14px #71fffd22)',
+              }}
+            />
           </div>
 
-          {/* "행운 요소" 라벨 + 가로선 */}
-          <div className="flex flex-col items-center gap-3">
-            <p className="font-gowun text-base text-white/90">행운 요소</p>
-            <div className="flex items-center">
-              <span className="h-[3px] w-[3px] rounded-full bg-white" aria-hidden />
-              <span className="h-px w-72 bg-white/60" aria-hidden />
-              <span className="h-[3px] w-[3px] rounded-full bg-white" aria-hidden />
+          {/* 행운 요소 라벨 + 구분선 */}
+          <div className="w-full max-w-sm text-center">
+            <p className="font-gowun text-sm text-white mb-3">행운 요소</p>
+            <div className="flex items-center justify-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-white" />
+              <span className="flex-1 h-px bg-white" />
+              <span className="w-1.5 h-1.5 rounded-full bg-white" />
             </div>
           </div>
 
-          {/* 카드 3개 */}
-          <section className="flex flex-wrap items-start justify-center gap-x-10 gap-y-6">
-            {lucky ? (
-              <>
-                <LuckyCard category="장소" content={lucky.place} />
-                <LuckyCard category="행동" content={lucky.action} />
-                <LuckyCard category="색상" content={lucky.color} />
-              </>
-            ) : (
-              <>
-                <LuckyCard category="장소" content="…" />
-                <LuckyCard category="행동" content="…" />
-                <LuckyCard category="색상" content="…" />
-              </>
-            )}
-          </section>
+          {/* 카드 3개 + 좌측 NavArrow */}
+          <div className="flex items-center justify-center gap-10">
+            <NavArrow
+              direction="left"
+              label="총운 확인하기"
+              to={`/fortune/${zodiac}`}
+              vertical
+            />
+            <section className="flex gap-8">
+              {lucky ? (
+                <>
+                  <LuckyCard category="장소" content={lucky.place} />
+                  <LuckyCard category="행동" content={lucky.action} />
+                  <LuckyCard category="색상" content={lucky.color} />
+                </>
+              ) : (
+                <>
+                  <LuckyCard category="장소" content="…" />
+                  <LuckyCard category="행동" content="…" />
+                  <LuckyCard category="색상" content="…" />
+                </>
+              )}
+            </section>
+            {/* 우측 균형용 빈 공간 */}
+            <div className="w-10" />
+          </div>
 
           {/* CTA */}
-          <button
-            type="button"
+          <GlassCard
+            variant="pill"
+            className="px-14 py-5"
             onClick={handleFlowerCTA}
-            disabled={!lucky}
-            className="rounded-full border border-white/20 bg-[rgba(218,249,255,0.2)] px-10 py-3 font-gowun text-base text-white backdrop-blur-md transition-all hover:bg-[rgba(218,249,255,0.3)] disabled:cursor-not-allowed disabled:opacity-50"
           >
-            당신에게 필요한 꽃을 확인해보세요
-          </button>
+            <span className="font-gowun text-lg text-white">
+              당신에게 필요한 꽃을 확인해보세요
+            </span>
+          </GlassCard>
         </div>
       </div>
     </AppLayout>
