@@ -9,7 +9,8 @@
 body {
   margin: 0;
   font-family: 'Gowun Batang', serif;
-  background: linear-gradient(to right, #0a205c, #44257e);
+  /* 배경 그라디언트는 화면별 <AppLayout>/<StarBackground> 가 담당.
+     body 에 두면 StarBackground 의 세로 그라디언트와 충돌해 가장자리가 어긋남. */
   min-height: 100vh;
   color: white;
 }

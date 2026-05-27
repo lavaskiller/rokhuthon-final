@@ -1,15 +1,46 @@
 // ─────────────────────────────────────────────
-// AppLayout — 모든 화면에 공통 적용되는 레이아웃
+// AppLayout — 모든 화면 공통 레이아웃
 //
-// 포함 요소:
-//   - 딥 네이비-퍼플 그라디언트 전체 배경 (#0a205c → #44257e)
-//   - 별 배경 이미지 (opacity 23~40%, 화면별 상이)
-//   - 물결 언덕 실루엣 (하단 고정)
-//   - 꽃잎 파티클 장식 (FlowerDecoration, mix-blend-mode: soft-light)
-//   - 좌측 세로 "별꽃노리" 브랜드 텍스트
-//   - children: 각 페이지 콘텐츠 주입 슬롯
+// 책임:
+//   - StarBackground 합성 (그라디언트 + 별 + 언덕 + 꽃잎)
+//   - 좌측 세로 "별꽃노리" 브랜드 텍스트 (옵션)
+//   - children: 페이지 콘텐츠 슬롯
+//
+// Props:
+//   starOpacity?     — 화면별 별 투명도 (기본 0.23, 로딩 화면 0.40)
+//   showBrand?       — 좌측 브랜드 텍스트 표시 여부 (기본 false)
+//                       Landing(uiux 1) 등에서만 true
+//   children         — 페이지 콘텐츠
 // ─────────────────────────────────────────────
 
-// TODO: AppLayout 구현
-// interface Props { children: React.ReactNode }
-// export default function AppLayout({ children }: Props) { ... }
+import StarBackground from '../components/StarBackground';
+
+interface Props {
+  starOpacity?: number;
+  showBrand?: boolean;
+  children: React.ReactNode;
+}
+
+export default function AppLayout({
+  starOpacity,
+  showBrand = false,
+  children,
+}: Props) {
+  return (
+    <StarBackground starOpacity={starOpacity}>
+      <div className="relative min-h-screen w-full font-gowun text-white">
+        {showBrand && (
+          <span
+            // 좌측 세로 정렬 — Gowun Batang Regular 24pt (Figma)
+            className="absolute left-4 top-1/2 z-20 -translate-y-1/2 select-none text-2xl tracking-[0.35em] text-white"
+            style={{ writingMode: 'vertical-rl' }}
+            aria-label="별꽃노리"
+          >
+            별꽃노리
+          </span>
+        )}
+        {children}
+      </div>
+    </StarBackground>
+  );
+}
