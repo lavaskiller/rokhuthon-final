@@ -5,11 +5,22 @@ import LoadingArc from '../components/LoadingArc'
 import ZodiacIconPlaceholder from '../components/ZodiacIconPlaceholder'
 import { useFortuneFlow } from '../hooks/useFortuneFlow'
 
+const LOADING_MESSAGES = [
+  '별의 흐름을 읽는 중이에요…',
+  '당신에게 닿을 운세를 찾고 있어요.',
+  '밤하늘에서 행운을 수집하는 중…',
+  '별과 행성이 정렬되는 중…',
+  '오늘을 우주에서 불러오는 중…',
+  '오늘의 행운 좌표를 계산 중이에요.',
+  '당신의 별자리를 따라가는 중…',
+]
+
 export default function FortuneLoading() {
   const navigate = useNavigate()
   const { state } = useFortuneFlow()
   const { selectedZodiac, isLoadingFortune, fortune } = state
   const [minTimePassed, setMinTimePassed] = useState(false)
+  const [msgIndex] = useState(() => Math.floor(Math.random() * LOADING_MESSAGES.length))
 
   useEffect(() => {
     if (!selectedZodiac) navigate('/', { replace: true })
@@ -59,7 +70,7 @@ export default function FortuneLoading() {
 
         {/* 로딩 메시지 */}
         <p className="mt-12 font-gowun text-2xl text-white">
-          별의 흐름을 읽는 중이에요…
+          {LOADING_MESSAGES[msgIndex]}
         </p>
       </div>
     </AppLayout>
