@@ -18,17 +18,19 @@ import StarBackground from '../components/StarBackground';
 interface Props {
   starOpacity?: number;
   showBrand?: boolean;
+  showFlowers?: boolean;
   children: React.ReactNode;
 }
 
 export default function AppLayout({
   starOpacity,
   showBrand = false,
+  showFlowers = false,
   children,
 }: Props) {
   return (
-    <StarBackground starOpacity={starOpacity}>
-      <div className="relative min-h-screen w-full font-gowun text-white page-enter">
+    <StarBackground starOpacity={starOpacity} showFlowers={showFlowers}>
+      <div className="relative h-full w-full font-gowun text-white page-enter">
         {showBrand && (
           <span
             className="absolute left-4 top-1/2 z-20 -translate-y-1/2 select-none text-2xl tracking-[0.35em] text-white"
