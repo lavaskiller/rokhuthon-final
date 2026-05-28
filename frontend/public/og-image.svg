@@ -6,207 +6,267 @@
     </style>
 
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#0d1b4b"/>
+      <stop offset="0%" stop-color="#0c1a48"/>
       <stop offset="100%" stop-color="#3a1f6e"/>
     </linearGradient>
 
+    <!-- Subtle horizontal light streak across center -->
+    <linearGradient id="streak" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="white" stop-opacity="0"/>
+      <stop offset="35%"  stop-color="white" stop-opacity="0.03"/>
+      <stop offset="60%"  stop-color="white" stop-opacity="0.055"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    </linearGradient>
+
     <radialGradient id="vig" cx="50%" cy="50%" r="70%">
-      <stop offset="30%" stop-color="#000" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#000" stop-opacity="0.5"/>
+      <stop offset="20%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.55"/>
     </radialGradient>
 
+    <!-- Upper-right corner bloom behind flower -->
+    <radialGradient id="cornerBloom" cx="82%" cy="25%" r="55%">
+      <stop offset="0%"   stop-color="#4468c8" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#0c1a48"  stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Flower aura -->
     <radialGradient id="aura" cx="50%" cy="50%" r="50%">
-      <stop offset="0%"  stop-color="#76d4ff" stop-opacity="0.22"/>
-      <stop offset="55%" stop-color="#4a90d9" stop-opacity="0.08"/>
-      <stop offset="100%" stop-color="#3a1f6e" stop-opacity="0"/>
+      <stop offset="0%"   stop-color="#76d4ff" stop-opacity="0.25"/>
+      <stop offset="50%"  stop-color="#4a90d9" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#3a1f6e"  stop-opacity="0"/>
     </radialGradient>
 
+    <!-- Flower center gradient -->
     <radialGradient id="cdot" cx="38%" cy="32%" r="60%">
       <stop offset="0%"   stop-color="#ffffff"/>
-      <stop offset="100%" stop-color="#b8e6ff"/>
+      <stop offset="100%" stop-color="#9dd5ff"/>
     </radialGradient>
 
-    <!-- Petal templates — no fill, inherited from <use> -->
-    <ellipse id="po" cx="0" cy="-98" rx="15" ry="60"/>
-    <ellipse id="pi" cx="0" cy="-68" rx="10" ry="42"/>
+    <!-- Petal templates — fill inherited from <use> -->
+    <ellipse id="po" cx="0" cy="-105" rx="16" ry="65"/>
+    <ellipse id="pi" cx="0" cy="-72"  rx="11" ry="46"/>
 
+    <!-- Glow filter -->
     <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
       <feGaussianBlur in="SourceGraphic" stdDeviation="4.5" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
 
+    <!-- Heavy soft glow -->
     <filter id="sglow" x="-150%" y="-150%" width="400%" height="400%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="28"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="32"/>
     </filter>
+
+    <!-- Clip for the frame border -->
+    <clipPath id="frame">
+      <rect x="0" y="0" width="1200" height="630" rx="0"/>
+    </clipPath>
   </defs>
 
-  <!-- Background -->
+  <!-- ── Background layers ── -->
   <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- Corner bloom -->
+  <rect width="1200" height="630" fill="url(#cornerBloom)"/>
+  <!-- Horizontal atmosphere streak -->
+  <rect x="0" y="215" width="1200" height="200" fill="url(#streak)"/>
+  <!-- Vignette -->
   <rect width="1200" height="630" fill="url(#vig)"/>
 
-  <!-- Stars — top row -->
-  <circle cx="45"  cy="18" r="1.5" fill="white" opacity="0.85"/>
-  <circle cx="97"  cy="42" r="1"   fill="white" opacity="0.60"/>
-  <circle cx="153" cy="12" r="1"   fill="white" opacity="0.70"/>
-  <circle cx="210" cy="65" r="1.5" fill="white" opacity="0.75"/>
-  <circle cx="278" cy="28" r="1"   fill="white" opacity="0.50"/>
-  <circle cx="345" cy="48" r="1.5" fill="white" opacity="0.80"/>
-  <circle cx="412" cy="15" r="1"   fill="white" opacity="0.65"/>
-  <circle cx="475" cy="72" r="1"   fill="white" opacity="0.55"/>
-  <circle cx="543" cy="32" r="1.5" fill="white" opacity="0.70"/>
-  <circle cx="615" cy="20" r="1"   fill="white" opacity="0.60"/>
-  <circle cx="688" cy="55" r="1"   fill="white" opacity="0.75"/>
-  <circle cx="752" cy="28" r="1.5" fill="white" opacity="0.85"/>
-  <circle cx="818" cy="12" r="1"   fill="white" opacity="0.50"/>
-  <circle cx="880" cy="62" r="1"   fill="white" opacity="0.60"/>
-  <circle cx="948" cy="25" r="1.5" fill="white" opacity="0.70"/>
-  <circle cx="1015" cy="45" r="1"  fill="white" opacity="0.65"/>
-  <circle cx="1082" cy="18" r="1"  fill="white" opacity="0.80"/>
-  <circle cx="1142" cy="52" r="1.5" fill="white" opacity="0.55"/>
-  <circle cx="1178" cy="28" r="1"  fill="white" opacity="0.70"/>
+  <!-- ── Stars — top row ── -->
+  <circle cx="45"   cy="18"  r="1.5" fill="white" opacity="0.85"/>
+  <circle cx="97"   cy="42"  r="1"   fill="white" opacity="0.60"/>
+  <circle cx="153"  cy="12"  r="1"   fill="white" opacity="0.70"/>
+  <circle cx="210"  cy="65"  r="1.5" fill="white" opacity="0.75"/>
+  <circle cx="278"  cy="28"  r="1"   fill="white" opacity="0.50"/>
+  <circle cx="345"  cy="48"  r="1.5" fill="white" opacity="0.80"/>
+  <circle cx="412"  cy="15"  r="1"   fill="white" opacity="0.65"/>
+  <circle cx="475"  cy="72"  r="1"   fill="white" opacity="0.55"/>
+  <circle cx="543"  cy="32"  r="1.5" fill="white" opacity="0.70"/>
+  <circle cx="615"  cy="20"  r="1"   fill="white" opacity="0.60"/>
+  <circle cx="688"  cy="55"  r="1"   fill="white" opacity="0.75"/>
+  <circle cx="752"  cy="28"  r="1.5" fill="white" opacity="0.85"/>
+  <circle cx="818"  cy="12"  r="1"   fill="white" opacity="0.50"/>
+  <circle cx="880"  cy="62"  r="1"   fill="white" opacity="0.60"/>
+  <circle cx="948"  cy="25"  r="1.5" fill="white" opacity="0.70"/>
+  <circle cx="1015" cy="45"  r="1"   fill="white" opacity="0.65"/>
+  <circle cx="1082" cy="18"  r="1"   fill="white" opacity="0.80"/>
+  <circle cx="1142" cy="52"  r="1.5" fill="white" opacity="0.55"/>
+  <circle cx="1178" cy="28"  r="1"   fill="white" opacity="0.70"/>
 
   <!-- Stars — upper-mid row -->
-  <circle cx="28"  cy="142" r="1"   fill="white" opacity="0.50"/>
-  <circle cx="85"  cy="122" r="1.5" fill="white" opacity="0.70"/>
-  <circle cx="165" cy="165" r="1"   fill="white" opacity="0.60"/>
-  <circle cx="235" cy="138" r="1"   fill="white" opacity="0.55"/>
-  <circle cx="318" cy="178" r="1.5" fill="white" opacity="0.80"/>
-  <circle cx="420" cy="148" r="1"   fill="white" opacity="0.60"/>
-  <circle cx="490" cy="162" r="1"   fill="white" opacity="0.50"/>
-  <circle cx="565" cy="128" r="1.5" fill="white" opacity="0.75"/>
-  <circle cx="635" cy="168" r="1"   fill="white" opacity="0.65"/>
-  <circle cx="712" cy="140" r="1"   fill="white" opacity="0.70"/>
-  <circle cx="778" cy="158" r="1.5" fill="white" opacity="0.55"/>
-  <circle cx="842" cy="122" r="1"   fill="white" opacity="0.80"/>
-  <circle cx="1058" cy="135" r="1"  fill="white" opacity="0.60"/>
+  <circle cx="28"   cy="142" r="1"   fill="white" opacity="0.50"/>
+  <circle cx="85"   cy="122" r="1.5" fill="white" opacity="0.70"/>
+  <circle cx="165"  cy="165" r="1"   fill="white" opacity="0.60"/>
+  <circle cx="235"  cy="138" r="1"   fill="white" opacity="0.55"/>
+  <circle cx="318"  cy="178" r="1.5" fill="white" opacity="0.80"/>
+  <circle cx="420"  cy="148" r="1"   fill="white" opacity="0.60"/>
+  <circle cx="490"  cy="162" r="1"   fill="white" opacity="0.50"/>
+  <circle cx="565"  cy="128" r="1.5" fill="white" opacity="0.75"/>
+  <circle cx="635"  cy="168" r="1"   fill="white" opacity="0.65"/>
+  <circle cx="712"  cy="140" r="1"   fill="white" opacity="0.70"/>
+  <circle cx="778"  cy="158" r="1.5" fill="white" opacity="0.55"/>
+  <circle cx="842"  cy="122" r="1"   fill="white" opacity="0.80"/>
+  <circle cx="1058" cy="135" r="1"   fill="white" opacity="0.60"/>
   <circle cx="1128" cy="165" r="1.5" fill="white" opacity="0.70"/>
-  <circle cx="1165" cy="118" r="1"  fill="white" opacity="0.55"/>
+  <circle cx="1165" cy="118" r="1"   fill="white" opacity="0.55"/>
 
-  <!-- Stars — mid (sparse, avoid text area) -->
-  <circle cx="22"  cy="288" r="1"   fill="white" opacity="0.50"/>
-  <circle cx="55"  cy="348" r="1"   fill="white" opacity="0.45"/>
-  <circle cx="30"  cy="420" r="1.5" fill="white" opacity="0.60"/>
-  <circle cx="65"  cy="480" r="1"   fill="white" opacity="0.55"/>
-  <circle cx="1155" cy="280" r="1"  fill="white" opacity="0.60"/>
-  <circle cx="1188" cy="355" r="1"  fill="white" opacity="0.50"/>
-  <circle cx="1162" cy="422" r="1.5" fill="white" opacity="0.55"/>
+  <!-- Stars — mid sparse (avoid text area x=80–680, y=180–490) -->
+  <circle cx="22"   cy="290" r="1"   fill="white" opacity="0.50"/>
+  <circle cx="55"   cy="352" r="1"   fill="white" opacity="0.45"/>
+  <circle cx="30"   cy="422" r="1.5" fill="white" opacity="0.60"/>
+  <circle cx="65"   cy="478" r="1"   fill="white" opacity="0.55"/>
+  <circle cx="1152" cy="278" r="1"   fill="white" opacity="0.60"/>
+  <circle cx="1188" cy="358" r="1"   fill="white" opacity="0.50"/>
+  <circle cx="1162" cy="425" r="1.5" fill="white" opacity="0.55"/>
 
   <!-- Stars — lower-mid row -->
-  <circle cx="48"  cy="492" r="1"   fill="white" opacity="0.65"/>
-  <circle cx="115" cy="468" r="1.5" fill="white" opacity="0.70"/>
-  <circle cx="195" cy="512" r="1"   fill="white" opacity="0.55"/>
-  <circle cx="272" cy="488" r="1"   fill="white" opacity="0.60"/>
-  <circle cx="368" cy="508" r="1.5" fill="white" opacity="0.80"/>
-  <circle cx="448" cy="472" r="1"   fill="white" opacity="0.65"/>
-  <circle cx="512" cy="495" r="1"   fill="white" opacity="0.55"/>
-  <circle cx="572" cy="478" r="1.5" fill="white" opacity="0.70"/>
-  <circle cx="642" cy="515" r="1"   fill="white" opacity="0.60"/>
-  <circle cx="718" cy="490" r="1"   fill="white" opacity="0.75"/>
-  <circle cx="788" cy="508" r="1"   fill="white" opacity="0.50"/>
-  <circle cx="858" cy="478" r="1.5" fill="white" opacity="0.65"/>
-  <circle cx="930" cy="510" r="1"   fill="white" opacity="0.70"/>
-  <circle cx="1008" cy="492" r="1"  fill="white" opacity="0.60"/>
+  <circle cx="48"   cy="492" r="1"   fill="white" opacity="0.65"/>
+  <circle cx="115"  cy="468" r="1.5" fill="white" opacity="0.70"/>
+  <circle cx="195"  cy="512" r="1"   fill="white" opacity="0.55"/>
+  <circle cx="272"  cy="488" r="1"   fill="white" opacity="0.60"/>
+  <circle cx="368"  cy="508" r="1.5" fill="white" opacity="0.80"/>
+  <circle cx="448"  cy="472" r="1"   fill="white" opacity="0.65"/>
+  <circle cx="512"  cy="495" r="1"   fill="white" opacity="0.55"/>
+  <circle cx="572"  cy="478" r="1.5" fill="white" opacity="0.70"/>
+  <circle cx="642"  cy="515" r="1"   fill="white" opacity="0.60"/>
+  <circle cx="718"  cy="490" r="1"   fill="white" opacity="0.75"/>
+  <circle cx="788"  cy="508" r="1"   fill="white" opacity="0.50"/>
+  <circle cx="858"  cy="478" r="1.5" fill="white" opacity="0.65"/>
+  <circle cx="930"  cy="510" r="1"   fill="white" opacity="0.70"/>
+  <circle cx="1008" cy="492" r="1"   fill="white" opacity="0.60"/>
   <circle cx="1088" cy="515" r="1.5" fill="white" opacity="0.55"/>
-  <circle cx="1152" cy="480" r="1"  fill="white" opacity="0.80"/>
+  <circle cx="1152" cy="480" r="1"   fill="white" opacity="0.80"/>
 
   <!-- Stars — bottom row -->
-  <circle cx="55"  cy="575" r="1.5" fill="white" opacity="0.70"/>
-  <circle cx="142" cy="595" r="1"   fill="white" opacity="0.60"/>
-  <circle cx="228" cy="565" r="1"   fill="white" opacity="0.75"/>
-  <circle cx="312" cy="590" r="1.5" fill="white" opacity="0.55"/>
-  <circle cx="405" cy="572" r="1"   fill="white" opacity="0.65"/>
-  <circle cx="488" cy="610" r="1"   fill="white" opacity="0.50"/>
-  <circle cx="575" cy="582" r="1.5" fill="white" opacity="0.70"/>
-  <circle cx="652" cy="598" r="1"   fill="white" opacity="0.60"/>
-  <circle cx="738" cy="568" r="1"   fill="white" opacity="0.75"/>
-  <circle cx="825" cy="590" r="1.5" fill="white" opacity="0.55"/>
-  <circle cx="908" cy="572" r="1"   fill="white" opacity="0.65"/>
-  <circle cx="985" cy="602" r="1"   fill="white" opacity="0.50"/>
+  <circle cx="55"   cy="575" r="1.5" fill="white" opacity="0.70"/>
+  <circle cx="142"  cy="595" r="1"   fill="white" opacity="0.60"/>
+  <circle cx="228"  cy="565" r="1"   fill="white" opacity="0.75"/>
+  <circle cx="312"  cy="590" r="1.5" fill="white" opacity="0.55"/>
+  <circle cx="405"  cy="572" r="1"   fill="white" opacity="0.65"/>
+  <circle cx="488"  cy="610" r="1"   fill="white" opacity="0.50"/>
+  <circle cx="575"  cy="582" r="1.5" fill="white" opacity="0.70"/>
+  <circle cx="652"  cy="598" r="1"   fill="white" opacity="0.60"/>
+  <circle cx="738"  cy="568" r="1"   fill="white" opacity="0.75"/>
+  <circle cx="825"  cy="590" r="1.5" fill="white" opacity="0.55"/>
+  <circle cx="908"  cy="572" r="1"   fill="white" opacity="0.65"/>
+  <circle cx="985"  cy="602" r="1"   fill="white" opacity="0.50"/>
   <circle cx="1058" cy="575" r="1.5" fill="white" opacity="0.70"/>
-  <circle cx="1138" cy="592" r="1"  fill="white" opacity="0.60"/>
-  <circle cx="1178" cy="568" r="1"  fill="white" opacity="0.80"/>
+  <circle cx="1138" cy="592" r="1"   fill="white" opacity="0.60"/>
+  <circle cx="1178" cy="568" r="1"   fill="white" opacity="0.80"/>
 
-  <!-- ── Flower decoration (center: 950, 315) ── -->
+  <!-- ── Flower (center: 950, 315) ── -->
   <!-- Aura -->
-  <circle cx="950" cy="315" r="210" fill="url(#aura)"/>
-  <circle cx="950" cy="315" r="95"  fill="#76d4ff" opacity="0.06" filter="url(#sglow)"/>
+  <circle cx="950" cy="315" r="225" fill="url(#aura)"/>
+  <circle cx="950" cy="315" r="100" fill="#76d4ff" opacity="0.06" filter="url(#sglow)"/>
+
   <!-- Decorative rings -->
-  <circle cx="950" cy="315" r="158" fill="none" stroke="white"   stroke-width="0.5" opacity="0.12"/>
-  <circle cx="950" cy="315" r="175" fill="none" stroke="#76d4ff" stroke-width="0.5" opacity="0.09"/>
+  <circle cx="950" cy="315" r="162" fill="none" stroke="white"   stroke-width="0.6" opacity="0.14"/>
+  <circle cx="950" cy="315" r="180" fill="none" stroke="#76d4ff" stroke-width="0.5" opacity="0.10"/>
 
-  <!-- Outer petals (blue) -->
+  <!-- Outer petals — blue -->
   <g transform="translate(950,315)" filter="url(#glow)">
-    <use href="#po" fill="#9dd5ff" opacity="0.68" transform="rotate(0)"/>
-    <use href="#po" fill="#9dd5ff" opacity="0.68" transform="rotate(45)"/>
-    <use href="#po" fill="#9dd5ff" opacity="0.68" transform="rotate(90)"/>
-    <use href="#po" fill="#9dd5ff" opacity="0.68" transform="rotate(135)"/>
-    <use href="#po" fill="#9dd5ff" opacity="0.68" transform="rotate(180)"/>
-    <use href="#po" fill="#9dd5ff" opacity="0.68" transform="rotate(225)"/>
-    <use href="#po" fill="#9dd5ff" opacity="0.68" transform="rotate(270)"/>
-    <use href="#po" fill="#9dd5ff" opacity="0.68" transform="rotate(315)"/>
+    <use href="#po" fill="#8ecfff" opacity="0.70" transform="rotate(0)"/>
+    <use href="#po" fill="#8ecfff" opacity="0.70" transform="rotate(45)"/>
+    <use href="#po" fill="#8ecfff" opacity="0.70" transform="rotate(90)"/>
+    <use href="#po" fill="#8ecfff" opacity="0.70" transform="rotate(135)"/>
+    <use href="#po" fill="#8ecfff" opacity="0.70" transform="rotate(180)"/>
+    <use href="#po" fill="#8ecfff" opacity="0.70" transform="rotate(225)"/>
+    <use href="#po" fill="#8ecfff" opacity="0.70" transform="rotate(270)"/>
+    <use href="#po" fill="#8ecfff" opacity="0.70" transform="rotate(315)"/>
   </g>
 
-  <!-- Inner petals (white, offset 22.5°) -->
+  <!-- Inner petals — white, offset 22.5° -->
   <g transform="translate(950,315)">
-    <use href="#pi" fill="white" opacity="0.78" transform="rotate(22.5)"/>
-    <use href="#pi" fill="white" opacity="0.78" transform="rotate(67.5)"/>
-    <use href="#pi" fill="white" opacity="0.78" transform="rotate(112.5)"/>
-    <use href="#pi" fill="white" opacity="0.78" transform="rotate(157.5)"/>
-    <use href="#pi" fill="white" opacity="0.78" transform="rotate(202.5)"/>
-    <use href="#pi" fill="white" opacity="0.78" transform="rotate(247.5)"/>
-    <use href="#pi" fill="white" opacity="0.78" transform="rotate(292.5)"/>
-    <use href="#pi" fill="white" opacity="0.78" transform="rotate(337.5)"/>
+    <use href="#pi" fill="white" opacity="0.80" transform="rotate(22.5)"/>
+    <use href="#pi" fill="white" opacity="0.80" transform="rotate(67.5)"/>
+    <use href="#pi" fill="white" opacity="0.80" transform="rotate(112.5)"/>
+    <use href="#pi" fill="white" opacity="0.80" transform="rotate(157.5)"/>
+    <use href="#pi" fill="white" opacity="0.80" transform="rotate(202.5)"/>
+    <use href="#pi" fill="white" opacity="0.80" transform="rotate(247.5)"/>
+    <use href="#pi" fill="white" opacity="0.80" transform="rotate(292.5)"/>
+    <use href="#pi" fill="white" opacity="0.80" transform="rotate(337.5)"/>
   </g>
 
-  <!-- Center -->
-  <circle cx="950" cy="315" r="28" fill="#76d4ff" opacity="0.30" filter="url(#glow)"/>
+  <!-- Center glow layers -->
+  <circle cx="950" cy="315" r="40" fill="#76d4ff" opacity="0.20" filter="url(#glow)"/>
+  <circle cx="950" cy="315" r="28" fill="#b8e8ff" opacity="0.50"/>
   <circle cx="950" cy="315" r="22" fill="url(#cdot)"/>
-  <circle cx="950" cy="315" r="10" fill="white"/>
+  <circle cx="950" cy="315" r="11" fill="white"/>
+  <circle cx="946" cy="311" r="5"  fill="white" opacity="0.75"/>
 
-  <!-- Sparkles near flower -->
-  <circle cx="838"  cy="192" r="3"   fill="white"   opacity="0.82" filter="url(#glow)"/>
-  <circle cx="1082" cy="180" r="2.5" fill="white"   opacity="0.75" filter="url(#glow)"/>
-  <circle cx="1098" cy="445" r="3"   fill="#76d4ff" opacity="0.88" filter="url(#glow)"/>
-  <circle cx="822"  cy="448" r="2.5" fill="white"   opacity="0.72" filter="url(#glow)"/>
-  <circle cx="1148" cy="298" r="2"   fill="white"   opacity="0.90" filter="url(#glow)"/>
-  <circle cx="810"  cy="318" r="2"   fill="#76d4ff" opacity="0.80" filter="url(#glow)"/>
+  <!-- 4-pointed sparkle stars around flower -->
+  <g filter="url(#glow)">
+    <!-- top-left of flower -->
+    <line x1="832" y1="183" x2="848" y2="183" stroke="white"   stroke-width="1.4" opacity="0.82"/>
+    <line x1="840" y1="175" x2="840" y2="191" stroke="white"   stroke-width="1.4" opacity="0.82"/>
+    <!-- top-right -->
+    <line x1="1074" y1="170" x2="1086" y2="170" stroke="white"   stroke-width="1.2" opacity="0.75"/>
+    <line x1="1080" y1="164" x2="1080" y2="176" stroke="white"   stroke-width="1.2" opacity="0.75"/>
+    <!-- bottom-right -->
+    <line x1="1090" y1="450" x2="1106" y2="450" stroke="#76d4ff" stroke-width="1.4" opacity="0.88"/>
+    <line x1="1098" y1="442" x2="1098" y2="458" stroke="#76d4ff" stroke-width="1.4" opacity="0.88"/>
+    <!-- bottom-left of flower -->
+    <line x1="814" y1="450" x2="828" y2="450" stroke="white"   stroke-width="1.2" opacity="0.72"/>
+    <line x1="821" y1="443" x2="821" y2="457" stroke="white"   stroke-width="1.2" opacity="0.72"/>
+    <!-- right edge -->
+    <line x1="1142" y1="295" x2="1154" y2="295" stroke="white"   stroke-width="1"   opacity="0.88"/>
+    <line x1="1148" y1="289" x2="1148" y2="301" stroke="white"   stroke-width="1"   opacity="0.88"/>
+    <!-- left edge (near text) -->
+    <line x1="804" y1="316" x2="814" y2="316" stroke="#76d4ff" stroke-width="1"   opacity="0.78"/>
+    <line x1="809" y1="311" x2="809" y2="321" stroke="#76d4ff" stroke-width="1"   opacity="0.78"/>
+    <!-- small far sparkle top -->
+    <line x1="1052" y1="196" x2="1060" y2="196" stroke="white"   stroke-width="0.9" opacity="0.62"/>
+    <line x1="1056" y1="192" x2="1056" y2="200" stroke="white"   stroke-width="0.9" opacity="0.62"/>
+  </g>
 
   <!-- ── Text ── -->
+
   <!-- Brand decoration: · ———— 별꽃노리 ———— · -->
-  <g opacity="0.75" font-family="'Gowun Batang', Georgia, serif">
-    <circle cx="112" cy="90" r="2.5" fill="white"/>
-    <line x1="122" y1="90" x2="230" y2="90" stroke="white" stroke-width="1"/>
-    <text x="300" y="98" text-anchor="middle" font-size="20" letter-spacing="12" fill="white">별꽃노리</text>
-    <line x1="370" y1="90" x2="478" y2="90" stroke="white" stroke-width="1"/>
-    <circle cx="488" cy="90" r="2.5" fill="white"/>
+  <g font-family="'Gowun Batang', Georgia, serif" opacity="0.75">
+    <circle cx="118"  cy="96" r="2.5" fill="white"/>
+    <line x1="128" y1="96" x2="235" y2="96" stroke="white" stroke-width="1"/>
+    <text x="302" y="104" text-anchor="middle" font-size="30" letter-spacing="12" fill="white">별꽃노리</text>
+    <line x1="369" y1="96" x2="476" y2="96" stroke="white" stroke-width="1"/>
+    <circle cx="486" cy="96" r="2.5" fill="white"/>
   </g>
 
   <!-- Subtitle -->
   <text
-    x="108" y="232"
+    x="108" y="222"
     font-family="'Gowun Batang', Georgia, serif"
-    font-size="24"
+    font-size="34"
     fill="white"
-    opacity="0.62"
+    opacity="0.65"
     letter-spacing="1.5"
   >당신에게 맞는 꽃을 추천해 드려요</text>
 
+  <!-- Decorative divider between subtitle and heading -->
+  <g transform="translate(108, 272)" opacity="0.42">
+    <line x1="0" y1="0" x2="60" y2="0" stroke="white" stroke-width="1"/>
+    <circle cx="68" cy="0" r="3" fill="#76d4ff"/>
+    <line x1="76" y1="0" x2="136" y2="0" stroke="white" stroke-width="1"/>
+  </g>
+
   <!-- Main heading — line 1 -->
   <text
-    x="108" y="362"
+    x="108" y="368"
     font-family="'Gowun Batang', Georgia, serif"
-    font-size="82"
+    font-size="120"
     font-weight="700"
     fill="white"
-    letter-spacing="3"
+    letter-spacing="4"
   >오늘의</text>
 
   <!-- Main heading — line 2 -->
   <text
-    x="108" y="460"
+    x="108" y="498"
     font-family="'Gowun Batang', Georgia, serif"
-    font-size="82"
+    font-size="120"
     font-weight="700"
-    letter-spacing="3"
+    letter-spacing="4"
   ><tspan fill="#76d4ff">별꽃</tspan><tspan fill="white"> 운세</tspan></text>
+
+  <!-- Thin border frame -->
+  <rect x="14" y="14" width="1172" height="602" rx="4"
+        fill="none" stroke="white" stroke-width="0.75" opacity="0.12"/>
 </svg>
