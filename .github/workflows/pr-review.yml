@@ -20,8 +20,9 @@ jobs:
 
       - uses: anthropics/claude-code-action@beta
         with:
-          claude_access_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          prompt: |
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          direct_prompt: |
             QA.md 체크리스트 기준으로 이 PR을 리뷰해줘.
             변경된 파일들을 확인하고 각 화면별 QA 항목과 대조해서 아래 형식으로 작성해줘:
 
