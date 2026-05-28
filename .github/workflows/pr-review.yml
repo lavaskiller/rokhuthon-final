@@ -1,0 +1,43 @@
+name: QA Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [master]
+
+jobs:
+  qa-review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: anthropics/claude-code-action@beta
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        with:
+          prompt: |
+            QA.md 체크리스트 기준으로 이 PR을 리뷰해줘.
+            변경된 파일들을 확인하고 각 화면별 QA 항목과 대조해서 아래 형식으로 작성해줘:
+
+            ### 📋 영향받는 화면
+            - 화면 번호와 이름
+
+            ### ✅ 검증된 항목
+            - 항목번호: 항목명 — 확인 근거
+
+            ### ❌ 미해결 / 새로운 문제
+            - 항목번호: 항목명 — 근거 (없으면 생략)
+
+            ### ⚠️ 주의사항
+            - 있으면 작성, 없으면 생략
+
+            ### 결론
+            **APPROVE** 또는 **REQUEST_CHANGES** + 한 줄 이유
+
+            결과를 PR 코멘트로 게시해줘. 한국어로 작성해줘.

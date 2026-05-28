@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&amp;display=swap');
+    </style>
+
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d1b4b"/>
+      <stop offset="100%" stop-color="#3a1f6e"/>
+    </linearGradient>
+
+    <radialGradient id="vig" cx="50%" cy="50%" r="70%">
+      <stop offset="30%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.5"/>
+    </radialGradient>
+
+    <radialGradient id="aura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"  stop-color="#76d4ff" stop-opacity="0.22"/>
+      <stop offset="55%" stop-color="#4a90d9" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#3a1f6e" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="cdot" cx="38%" cy="32%" r="60%">
+      <stop offset="0%"   stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#b8e6ff"/>
+    </radialGradient>
+
+    <!-- Petal templates — no fill, inherited from <use> -->
+    <ellipse id="po" cx="0" cy="-98" rx="15" ry="60"/>
+    <ellipse id="pi" cx="0" cy="-68" rx="10" ry="42"/>
+
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <filter id="sglow" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="28"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#vig)"/>
+
+  <!-- Stars — top row -->
+  <circle cx="45"  cy="18" r="1.5" fill="white" opacity="0.85"/>
+  <circle cx="97"  cy="42" r="1"   fill="white" opacity="0.60"/>
+  <circle cx="153" cy="12" r="1"   fill="white" opacity="0.70"/>
+  <circle cx="210" cy="65" r="1.5" fill="white" opacity="0.75"/>
+  <circle cx="278" cy="28" r="1"   fill="white" opacity="0.50"/>
+  <circle cx="345" cy="48" r="1.5" fill="white" opacity="0.80"/>
+  <circle cx="412" cy="15" r="1"   fill="white" opacity="0.65"/>
+  <circle cx="475" cy="72" r="1"   fill="white" opacity="0.55"/>
+  <circle cx="543" cy="32" r="1.5" fill="white" opacity="0.70"/>
+  <circle cx="615" cy="20" r="1"   fill="white" opacity="0.60"/>
+  <circle cx="688" cy="55" r="1"   fill="white" opacity="0.75"/>
+  <circle cx="752" cy="28" r="1.5" fill="white" opacity="0.85"/>
+  <circle cx="818" cy="12" r="1"   fill="white" opacity="0.50"/>
+  <circle cx="880" cy="62" r="1"   fill="white" opacity="0.60"/>
+  <circle cx="948" cy="25" r="1.5" fill="white" opacity="0.70"/>
+  <circle cx="1015" cy="45" r="1"  fill="white" opacity="0.65"/>
+  <circle cx="1082" cy="18" r="1"  fill="white" opacity="0.80"/>
+  <circle cx="1142" cy="52" r="1.5" fill="white" opacity="0.55"/>
+  <circle cx="1178" cy="28" r="1"  fill="white" opacity="0.70"/>
+
+  <!-- Stars — upper-mid row -->
+  <circle cx="28"  cy="142" r="1"   fill="white" opacity="0.50"/>
+  <circle cx="85"  cy="122" r="1.5" fill="white" opacity="0.70"/>
+  <circle cx="165" cy="165" r="1"   fill="white" opacity="0.60"/>
+  <circle cx="235" cy="138" r="1"   fill="white" opacity="0.55"/>
+  <circle cx="318" cy="178" r="1.5" fill="white" opacity="0.80"/>
+  <circle cx="420" cy="148" r="1"   fill="white" opacity="0.60"/>
+  <circle cx="490" cy="162" r="1"   fill="white" opacity="0.50"/>
+  <circle cx="565" cy="128" r="1.5" fill="white" opacity="0.75"/>
+  <circle cx="635" cy="168" r="1"   fill="white" opacity="0.65"/>
+  <circle cx="712" cy="140" r="1"   fill="white" opacity="0.70"/>
+  <circle cx="778" cy="158" r="1.5" fill="white" opacity="0.55"/>
+  <circle cx="842" cy="122" r="1"   fill="white" opacity="0.80"/>
+  <circle cx="1058" cy="135" r="1"  fill="white" opacity="0.60"/>
+  <circle cx="1128" cy="165" r="1.5" fill="white" opacity="0.70"/>
+  <circle cx="1165" cy="118" r="1"  fill="white" opacity="0.55"/>
+
+  <!-- Stars — mid (sparse, avoid text area) -->
+  <circle cx="22"  cy="288" r="1"   fill="white" opacity="0.50"/>
+  <circle cx="55"  cy="348" r="1"   fill="white" opacity="0.45"/>
+  <circle cx="30"  cy="420" r="1.5" fill="white" opacity="0.60"/>
+  <circle cx="65"  cy="480" r="1"   fill="white" opacity="0.55"/>
+  <circle cx="1155" cy="280" r="1"  fill="white" opacity="0.60"/>
+  <circle cx="1188" cy="355" r="1"  fill="white" opacity="0.50"/>
+  <circle cx="1162" cy="422" r="1.5" fill="white" opacity="0.55"/>
+
+  <!-- Stars — lower-mid row -->
+  <circle cx="48"  cy="492" r="1"   fill="white" opacity="0.65"/>
+  <circle cx="115" cy="468" r="1.5" fill="white" opacity="0.70"/>
+  <circle cx="195" cy="512" r="1"   fill="white" opacity="0.55"/>
+  <circle cx="272" cy="488" r="1"   fill="white" opacity="0.60"/>
+  <circle cx="368" cy="508" r="1.5" fill="white" opacity="0.80"/>
+  <circle cx="448" cy="472" r="1"   fill="white" opacity="0.65"/>
+  <circle cx="512" cy="495" r="1"   fill="white" opacity="0.55"/>
+  <circle cx="572" cy="478" r="1.5" fill="white" opacity="0.70"/>
+  <circle cx="642" cy="515" r="1"   fill="white" opacity="0.60"/>
+  <circle cx="718" cy="490" r="1"   fill="white" opacity="0.75"/>
+  <circle cx="788" cy="508" r="1"   fill="white" opacity="0.50"/>
+  <circle cx="858" cy="478" r="1.5" fill="white" opacity="0.65"/>
+  <circle cx="930" cy="510" r="1"   fill="white" opacity="0.70"/>
+  <circle cx="1008" cy="492" r="1"  fill="white" opacity="0.60"/>
+  <circle cx="1088" cy="515" r="1.5" fill="white" opacity="0.55"/>
+  <circle cx="1152" cy="480" r="1"  fill="white" opacity="0.80"/>
+
+  <!-- Stars — bottom row -->
+  <circle cx="55"  cy="575" r="1.5" fill="white" opacity="0.70"/>
+  <circle cx="142" cy="595" r="1"   fill="white" opacity="0.60"/>
+  <circle cx="228" cy="565" r="1"   fill="white" opacity="0.75"/>
+  <circle cx="312" cy="590" r="1.5" fill="white" opacity="0.55"/>
+  <circle cx="405" cy="572" r="1"   fill="white" opacity="0.65"/>
+  <circle cx="488" cy="610" r="1"   fill="white" opacity="0.50"/>
+  <circle cx="575" cy="582" r="1.5" fill="white" opacity="0.70"/>
+  <circle cx="652" cy="598" r="1"   fill="white" opacity="0.60"/>
+  <circle cx="738" cy="568" r="1"   fill="white" opacity="0.75"/>
+  <circle cx="825" cy="590" r="1.5" fill="white" opacity="0.55"/>
+  <circle cx="908" cy="572" r="1"   fill="white" opacity="0.65"/>
+  <circle cx="985" cy="602" r="1"   fill="white" opacity="0.50"/>
+  <circle cx="1058" cy="575" r="1.5" fill="white" opacity="0.70"/>
+  <circle cx="1138" cy="592" r="1"  fill="white" opacity="0.60"/>
+  <circle cx="1178" cy="568" r="1"  fill="white" opacity="0.80"/>
+
+  <!-- ── Flower decoration (center: 950, 315) ── -->
+  <!-- Aura -->
+  <circle cx="950" cy="315" r="210" fill="url(#aura)"/>
+  <circle cx="950" cy="315" r="95"  fill="#76d4ff" opacity="0.06" filter="url(#sglow)"/>
+  <!-- Decorative rings -->
+  <circle cx="950" cy="315" r="158" fill="none" stroke="white"   stroke-width="0.5" opacity="0.12"/>
+  <circle cx="950" cy="315" r="175" fill="none" stroke="#76d4ff" stroke-width="0.5" opacity="0.09"/>
+
+  <!-- Outer petals (blue) -->
+  <g transform="translate(950,315)" filter="url(#glow)">
+    <use href="#po" fill="#9dd5ff" opacity="0.68" transform="rotate(0)"/>
+    <use href="#po" fill="#9dd5ff" opacity="0.68" transform="rotate(45)"/>
+    <use href="#po" fill="#9dd5ff" opacity="0.68" transform="rotate(90)"/>
+    <use href="#po" fill="#9dd5ff" opacity="0.68" transform="rotate(135)"/>
+    <use href="#po" fill="#9dd5ff" opacity="0.68" transform="rotate(180)"/>
+    <use href="#po" fill="#9dd5ff" opacity="0.68" transform="rotate(225)"/>
+    <use href="#po" fill="#9dd5ff" opacity="0.68" transform="rotate(270)"/>
+    <use href="#po" fill="#9dd5ff" opacity="0.68" transform="rotate(315)"/>
+  </g>
+
+  <!-- Inner petals (white, offset 22.5°) -->
+  <g transform="translate(950,315)">
+    <use href="#pi" fill="white" opacity="0.78" transform="rotate(22.5)"/>
+    <use href="#pi" fill="white" opacity="0.78" transform="rotate(67.5)"/>
+    <use href="#pi" fill="white" opacity="0.78" transform="rotate(112.5)"/>
+    <use href="#pi" fill="white" opacity="0.78" transform="rotate(157.5)"/>
+    <use href="#pi" fill="white" opacity="0.78" transform="rotate(202.5)"/>
+    <use href="#pi" fill="white" opacity="0.78" transform="rotate(247.5)"/>
+    <use href="#pi" fill="white" opacity="0.78" transform="rotate(292.5)"/>
+    <use href="#pi" fill="white" opacity="0.78" transform="rotate(337.5)"/>
+  </g>
+
+  <!-- Center -->
+  <circle cx="950" cy="315" r="28" fill="#76d4ff" opacity="0.30" filter="url(#glow)"/>
+  <circle cx="950" cy="315" r="22" fill="url(#cdot)"/>
+  <circle cx="950" cy="315" r="10" fill="white"/>
+
+  <!-- Sparkles near flower -->
+  <circle cx="838"  cy="192" r="3"   fill="white"   opacity="0.82" filter="url(#glow)"/>
+  <circle cx="1082" cy="180" r="2.5" fill="white"   opacity="0.75" filter="url(#glow)"/>
+  <circle cx="1098" cy="445" r="3"   fill="#76d4ff" opacity="0.88" filter="url(#glow)"/>
+  <circle cx="822"  cy="448" r="2.5" fill="white"   opacity="0.72" filter="url(#glow)"/>
+  <circle cx="1148" cy="298" r="2"   fill="white"   opacity="0.90" filter="url(#glow)"/>
+  <circle cx="810"  cy="318" r="2"   fill="#76d4ff" opacity="0.80" filter="url(#glow)"/>
+
+  <!-- ── Text ── -->
+  <!-- Brand decoration: · ———— 별꽃노리 ———— · -->
+  <g opacity="0.75" font-family="'Gowun Batang', Georgia, serif">
+    <circle cx="112" cy="90" r="2.5" fill="white"/>
+    <line x1="122" y1="90" x2="230" y2="90" stroke="white" stroke-width="1"/>
+    <text x="300" y="98" text-anchor="middle" font-size="20" letter-spacing="12" fill="white">별꽃노리</text>
+    <line x1="370" y1="90" x2="478" y2="90" stroke="white" stroke-width="1"/>
+    <circle cx="488" cy="90" r="2.5" fill="white"/>
+  </g>
+
+  <!-- Subtitle -->
+  <text
+    x="108" y="232"
+    font-family="'Gowun Batang', Georgia, serif"
+    font-size="24"
+    fill="white"
+    opacity="0.62"
+    letter-spacing="1.5"
+  >당신에게 맞는 꽃을 추천해 드려요</text>
+
+  <!-- Main heading — line 1 -->
+  <text
+    x="108" y="362"
+    font-family="'Gowun Batang', Georgia, serif"
+    font-size="82"
+    font-weight="700"
+    fill="white"
+    letter-spacing="3"
+  >오늘의</text>
+
+  <!-- Main heading — line 2 -->
+  <text
+    x="108" y="460"
+    font-family="'Gowun Batang', Georgia, serif"
+    font-size="82"
+    font-weight="700"
+    letter-spacing="3"
+  ><tspan fill="#76d4ff">별꽃</tspan><tspan fill="white"> 운세</tspan></text>
+</svg>
