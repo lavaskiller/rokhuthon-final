@@ -15,25 +15,27 @@ export default function PrintCard({ flower }: Props) {
         <p className="font-gowun text-xs text-[#0a205c] mb-4 tracking-widest">
           별꽃노리
         </p>
-        <h2 className="font-gowun text-2xl font-bold text-[#0a205c] mb-6">
+        <h2
+          className="font-sejong text-2xl font-bold mb-6 text-[#847918]"
+        >
           {flower.name}
         </h2>
         <div
-          className="w-36 h-36 mx-auto rounded-full flex items-center justify-center mb-4"
-          style={{ border: '4px solid #c8a96e', background: '#faf5e4' }}
+          className="w-44 h-36 mx-auto rounded-xl overflow-hidden flex items-center justify-center mb-4"
+          style={{ border: '4px solid #928437', background: '#faf5e4' }}
         >
           {flower.imageUrl ? (
             <img
               src={flower.imageUrl}
               alt={flower.name}
-              className="w-full h-full rounded-full object-cover"
+              className="w-full h-full object-cover"
             />
           ) : (
             <span style={{ fontSize: 48 }}>🌸</span>
           )}
         </div>
       </div>
-      <div className="px-6 py-4" style={{ background: '#f5d76e' }}>
+      <div className="px-6 py-4" style={{ background: 'rgba(246,240,207,0.95)' }}>
         <p className="font-gowun text-xs text-[#5c4000] leading-relaxed text-center">
           {flower.description}
         </p>

@@ -106,11 +106,12 @@ export default function LuckyElements() {
             <div className="w-10" />
           </div>
 
-          {/* CTA */}
+          {/* CTA — lucky 데이터 로드 전 비활성 (QA 5-9) */}
           <GlassCard
             variant="pill"
             className="px-14 py-5"
             onClick={handleFlowerCTA}
+            disabled={!lucky}
           >
             <span className="font-gowun text-lg text-white">
               당신에게 필요한 꽃을 확인해보세요
