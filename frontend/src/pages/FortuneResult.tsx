@@ -12,12 +12,16 @@ import type { ZodiacSign } from '../types'
 export default function FortuneResult() {
   const { zodiac } = useParams<{ zodiac: string }>()
   const navigate = useNavigate()
-  const { state } = useFortuneFlow()
+  const { state, loadLucky } = useFortuneFlow()
   const { fortune, selectedZodiac } = state
 
   useEffect(() => {
     if (!selectedZodiac || !fortune) navigate('/', { replace: true })
   }, [selectedZodiac, fortune, navigate])
+
+  useEffect(() => {
+    if (fortune) loadLucky()
+  }, [fortune, loadLucky])
 
   if (!fortune || !zodiac) return null
 
