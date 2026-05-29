@@ -58,7 +58,7 @@ export default function StarBackground({
 
   if (variant === 'loading') {
     return (
-      <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-r from-[#002075] to-[#583a8e]">
+      <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-b from-[#002075] to-[#44257e]">
         {/* 1. 별 배경 사진 — Figma uiux 11 "별 배경사진" */}
         <img
           src="/assets/loading-stars.png"
@@ -114,7 +114,7 @@ export default function StarBackground({
 
   // main variant — 그라디언트 + 별 사진 + 언덕 레이어
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-b from-[#0a205c] to-[#44257e]">
+    <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-b from-[#002075] to-[#44257e]">
       {/* 1. 별 배경 사진 */}
       <picture className="pointer-events-none absolute inset-0 h-full w-full">
         <source srcSet="/assets/bg-stars.webp" type="image/webp" />

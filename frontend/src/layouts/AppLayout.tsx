@@ -49,7 +49,7 @@ export default function AppLayout({
   if (showFlowers) {
     return (
       <div className="relative min-h-screen w-full overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0a205c] to-[#44257e]" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#002075] to-[#44257e]" />
         <picture className="pointer-events-none absolute inset-0 h-full w-full">
           <source srcSet="/assets/bg-flowers.webp" type="image/webp" />
           <img src="/assets/bg-flowers.png" alt="" aria-hidden draggable={false} className="h-full w-full object-cover" />

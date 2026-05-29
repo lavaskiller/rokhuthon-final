@@ -8,13 +8,13 @@ import { useFortuneFlow } from '../hooks/useFortuneFlow'
 export default function FlowerLoading() {
   const navigate = useNavigate()
   const { state } = useFortuneFlow()
-  const { selectedZodiac, flower } = state
+  const { selectedZodiac, flower, fortune } = state
   const [animDone, setAnimDone] = useState(false)
 
-  // Guard: 직접 URL 접근 방지
+  // Guard: 별자리 미선택 또는 운세 결과 없으면 처음으로
   useEffect(() => {
-    if (!selectedZodiac) navigate('/', { replace: true })
-  }, [selectedZodiac, navigate])
+    if (!selectedZodiac || !fortune) navigate('/', { replace: true })
+  }, [selectedZodiac, fortune, navigate])
 
   useEffect(() => {
     if (animDone && flower && selectedZodiac) {

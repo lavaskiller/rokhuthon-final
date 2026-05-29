@@ -5,6 +5,7 @@ export default {
     extend: {
       fontFamily: {
         gowun: ['"Gowun Batang"', 'serif'],
+        sejong: ['"SejongGeulggot"', 'serif'],
       },
       colors: {
         accent: '#76d4ff',
