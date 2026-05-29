@@ -16,8 +16,7 @@ export default function PrintCard({ flower }: Props) {
           별꽃노리
         </p>
         <h2
-          className="text-2xl font-bold mb-6"
-          style={{ fontFamily: '"SejongGeulggot", serif', color: '#847918' }}
+          className="font-sejong text-2xl font-bold mb-6 text-[#847918]"
         >
           {flower.name}
         </h2>

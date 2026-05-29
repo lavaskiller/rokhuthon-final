@@ -107,17 +107,16 @@ export default function LuckyElements() {
           </div>
 
           {/* CTA — lucky 데이터 로드 전 비활성 (QA 5-9) */}
-          <div className={!lucky ? 'opacity-50 pointer-events-none' : ''}>
-            <GlassCard
-              variant="pill"
-              className="px-14 py-5"
-              onClick={handleFlowerCTA}
-            >
-              <span className="font-gowun text-lg text-white">
-                당신에게 필요한 꽃을 확인해보세요
-              </span>
-            </GlassCard>
-          </div>
+          <GlassCard
+            variant="pill"
+            className="px-14 py-5"
+            onClick={handleFlowerCTA}
+            disabled={!lucky}
+          >
+            <span className="font-gowun text-lg text-white">
+              당신에게 필요한 꽃을 확인해보세요
+            </span>
+          </GlassCard>
         </div>
       </div>
     </AppLayout>
