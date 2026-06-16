@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useCallback, type ReactNode } from 'react'
+import { createContext, useContext, useReducer, useCallback, useRef, type ReactNode } from 'react'
 import { createElement } from 'react'
 import type { ZodiacSign, FortuneResult, LuckyElements, FlowerResult } from '../types'
 import { fetchFortune, fetchLucky, fetchFlower } from '../api/client'
@@ -65,8 +65,10 @@ function reducer(state: State, action: Action): State {
 
 interface ContextValue {
   state: State
-  /** 별자리 선택 → fetchFortune 자동 호출 */
-  selectZodiac: (zodiac: ZodiacSign) => Promise<void>
+  /** 별자리 선택 → fetchFortune 자동 호출. 캐시 히트 시 true 반환 (로딩 스킵 가능) */
+  selectZodiac: (zodiac: ZodiacSign) => Promise<boolean>
+  /** hover 시 미리 운세 fetch — 클릭 전 캐시 워밍 */
+  prefetchFortune: (zodiac: ZodiacSign) => void
   /** 행운 요소 로드 (FortuneResult 페이지 진입 시 호출) */
   loadLucky: () => Promise<void>
   /** 꽃 추천 로드 (LuckyElements 페이지 CTA 클릭 시 호출) */
@@ -81,16 +83,36 @@ const FortuneContext = createContext<ContextValue | null>(null)
 
 export function FortuneProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState)
+  const prefetchCache = useRef<Partial<Record<ZodiacSign, FortuneResult>>>({})
+  const inflight = useRef<Partial<Record<ZodiacSign, Promise<FortuneResult>>>>({})
 
-  const selectZodiac = useCallback(async (zodiac: ZodiacSign) => {
+  const prefetchFortune = useCallback((zodiac: ZodiacSign) => {
+    if (prefetchCache.current[zodiac] || inflight.current[zodiac]) return
+    const p = fetchFortune(zodiac)
+    inflight.current[zodiac] = p
+    p.then(fortune => {
+      prefetchCache.current[zodiac] = fortune
+    }).catch(() => {}).finally(() => {
+      delete inflight.current[zodiac]
+    })
+  }, [])
+
+  const selectZodiac = useCallback(async (zodiac: ZodiacSign): Promise<boolean> => {
     dispatch({ type: 'SELECT_ZODIAC', zodiac })
+    const cached = prefetchCache.current[zodiac]
+    if (cached) {
+      dispatch({ type: 'SET_FORTUNE', fortune: cached })
+      return true
+    }
     dispatch({ type: 'SET_LOADING_FORTUNE', loading: true })
     try {
-      const fortune = await fetchFortune(zodiac)
+      const fortune = await (inflight.current[zodiac] ?? fetchFortune(zodiac))
+      prefetchCache.current[zodiac] = fortune
       dispatch({ type: 'SET_FORTUNE', fortune })
     } catch (e) {
       dispatch({ type: 'SET_ERROR', error: String(e) })
     }
+    return false
   }, [])
 
   const loadLucky = useCallback(async () => {
@@ -123,7 +145,7 @@ export function FortuneProvider({ children }: { children: ReactNode }) {
 
   const reset = useCallback(() => dispatch({ type: 'RESET' }), [])
 
-  return createElement(FortuneContext.Provider, { value: { state, selectZodiac, loadLucky, loadFlower, reset } }, children)
+  return createElement(FortuneContext.Provider, { value: { state, selectZodiac, prefetchFortune, loadLucky, loadFlower, reset } }, children)
 }
 
 // ── Hook ──────────────────────────────────────────────────────────────────────

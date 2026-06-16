@@ -15,13 +15,15 @@ interface Props {
   meta: ZodiacMeta;
   selected?: boolean;
   onClick: (id: ZodiacSign) => void;
+  onHover?: (id: ZodiacSign) => void;
 }
 
-export default function ZodiacButton({ meta, selected, onClick }: Props) {
+export default function ZodiacButton({ meta, selected, onClick, onHover }: Props) {
   return (
     <button
       type="button"
       onClick={() => onClick(meta.id)}
+      onMouseEnter={() => onHover?.(meta.id)}
       aria-label={`${meta.name} ${meta.dateRange}, 오늘의 운세 순위 ${meta.rank}위`}
       className="group flex w-full items-center gap-2.5 focus:outline-none"
     >

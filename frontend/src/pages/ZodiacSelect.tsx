@@ -9,7 +9,7 @@ import type { ZodiacMeta, ZodiacSign } from '../types'
 
 export default function ZodiacSelect() {
   const navigate = useNavigate()
-  const { state, selectZodiac } = useFortuneFlow()
+  const { state, selectZodiac, prefetchFortune } = useFortuneFlow()
   const [zodiacs, setZodiacs] = useState<ZodiacMeta[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -22,9 +22,13 @@ export default function ZodiacSelect() {
       .finally(() => setLoading(false))
   }, [])
 
-  const handleSelect = (id: ZodiacSign) => {
-    void selectZodiac(id)
-    navigate('/loading/fortune')
+  const handleSelect = async (id: ZodiacSign) => {
+    const cached = await selectZodiac(id)
+    if (cached) {
+      navigate(`/fortune/${id}`)
+    } else {
+      navigate('/loading/fortune')
+    }
   }
 
   return (
@@ -61,6 +65,7 @@ export default function ZodiacSelect() {
                     meta={z}
                     selected={state.selectedZodiac === z.id}
                     onClick={handleSelect}
+                    onHover={prefetchFortune}
                   />
                 </li>
               ))}
