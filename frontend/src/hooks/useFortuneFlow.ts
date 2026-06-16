@@ -137,6 +137,9 @@ export function FortuneProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'SET_LOADING_FLOWER', loading: true })
     try {
       const flower = await fetchFlower(zodiac as ZodiacSign, scores)
+      // 꽃 이미지 미리 로드 — FlowerResult 진입 전 캐시 워밍
+      const imgUrl = flower.main.imageUrl?.replace(/\.png$/, '.webp')
+      if (imgUrl) { const img = new Image(); img.src = imgUrl }
       dispatch({ type: 'SET_FLOWER', flower })
     } catch (e) {
       dispatch({ type: 'SET_ERROR', error: String(e) })
