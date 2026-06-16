@@ -46,7 +46,7 @@ export default function LuckyCard({ category, content }: Props) {
       </span>
 
       {/* 원 안 내용 — 가운데 정렬 */}
-      <p className="px-4 text-center font-gowun text-sm leading-snug text-white">
+      <p className="px-4 text-center font-gowun text-sm leading-snug text-white break-keep">
         {lines.map((line, i) => (
           <Fragment key={i}>
             {i > 0 && (

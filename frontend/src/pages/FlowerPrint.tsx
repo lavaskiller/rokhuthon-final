@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout'
 import GlassCard from '../components/GlassCard'
@@ -32,11 +32,18 @@ export default function FlowerPrint() {
 
   const flower = state.flower ?? (isDev ? MOCK_FLOWER : null)
   const { selectedZodiac } = state
+  const [countdown, setCountdown] = useState(15)
 
   useEffect(() => {
     if (isDev) return
     if (!selectedZodiac || !state.flower) navigate('/', { replace: true })
   }, [isDev, selectedZodiac, state.flower, navigate])
+
+  useEffect(() => {
+    if (countdown <= 0) { navigate('/'); return }
+    const t = setTimeout(() => setCountdown(c => c - 1), 1000)
+    return () => clearTimeout(t)
+  }, [countdown, navigate])
 
   if (!flower) return null
 
@@ -49,7 +56,7 @@ export default function FlowerPrint() {
         </div>
 
         {/* 우측: 메시지 + 버튼들 */}
-        <div className="flex-1 flex flex-col items-center justify-center gap-[220px] px-8">
+        <div className="flex-1 flex flex-col items-center justify-center gap-[220px] px-8 relative">
           {/* 헤딩 */}
           <div className="text-center">
             <p className="font-gowun text-base text-white/70 mb-3">
@@ -86,6 +93,18 @@ export default function FlowerPrint() {
               </div>
             </GlassCard>
           </div>
+
+          {/* 처음으로 버튼 — 우측 패널 하단 */}
+          <button
+            type="button"
+            onClick={() => navigate('/')}
+            className="absolute bottom-6 font-gowun text-sm text-white/50 hover:text-white/80 transition-colors flex items-center gap-2"
+          >
+            <span>처음으로</span>
+            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full border border-white/30 text-xs tabular-nums">
+              {countdown}
+            </span>
+          </button>
         </div>
       </div>
     </AppLayout>
