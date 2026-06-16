@@ -91,7 +91,7 @@ def get_flower(zodiac: str, scores: dict) -> dict:
             "meanings":    f["meanings"],
             "luckItems":   f["luck_items"],
             "places":      f["places"],
-            "imageUrl":    f"/assets/flowers/{fortune_type}.jpg",
+            "imageUrl":    f"/assets/flowers/{f['image']}.png",
         }
 
     return {
