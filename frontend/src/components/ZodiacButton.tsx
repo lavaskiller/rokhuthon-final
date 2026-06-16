@@ -26,9 +26,9 @@ const MEDAL: Record<number, { rank: string; pill: string; glow: string }> = {
     glow: 'shadow-[0_0_14px_rgba(255,217,102,0.35)]',
   },
   2: {
-    rank: 'text-[#C8D8E8] drop-shadow-[0_0_6px_rgba(200,216,232,0.7)]',
-    pill: 'bg-[rgba(200,216,232,0.13)] border-[rgba(200,216,232,0.38)]',
-    glow: 'shadow-[0_0_10px_rgba(200,216,232,0.25)]',
+    rank: 'text-[#E8EEF4] drop-shadow-[0_0_8px_rgba(232,238,244,0.95)]',
+    pill: 'bg-[rgba(220,230,240,0.18)] border-[rgba(220,230,240,0.60)]',
+    glow: 'shadow-[0_0_12px_rgba(220,230,240,0.40)]',
   },
   3: {
     rank: 'text-[#E8B48A] drop-shadow-[0_0_6px_rgba(232,180,138,0.7)]',
