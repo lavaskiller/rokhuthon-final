@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import FlowerDecoration from './FlowerDecoration';
 
 interface Props {
   /** 'main' (default) | 'loading' */
@@ -105,9 +104,6 @@ export default function StarBackground({
           />
         </picture>
 
-        {/* 4. 낙화 꽃잎 애니메이션 */}
-        <FlowerDecoration />
-
         {/* 5. 콘텐츠 */}
         <div className="relative z-10">{children}</div>
       </div>
@@ -158,10 +154,7 @@ export default function StarBackground({
         <img src="/assets/bg-hills.png" alt="" aria-hidden draggable={false} className="w-full" />
       </picture>
 
-      {/* 4. 꽃잎 파티클 — 위치 고정 후 drift 애니메이션으로 흘러내림 */}
-      <FlowerDecoration />
-
-      {/* 5. 콘텐츠 */}
+      {/* 4. 콘텐츠 */}
       <div className="relative z-10">{children}</div>
     </div>
   );

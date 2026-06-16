@@ -73,8 +73,8 @@ export default function FortuneResult() {
               <span className="flex-1 h-px bg-white" />
               <span className="w-1.5 h-1.5 rounded-full bg-white" />
             </div>
-            <p className="font-gowun text-sm text-white leading-7">
-              {fortune.summary}
+            <p className="font-gowun text-sm text-white leading-7 whitespace-pre-line">
+              {fortune.summary.replace(/\.(?!\n)/g, '.\n')}
             </p>
           </div>
 
