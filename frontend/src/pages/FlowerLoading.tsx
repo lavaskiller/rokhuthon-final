@@ -8,19 +8,24 @@ import { useFortuneFlow } from '../hooks/useFortuneFlow'
 export default function FlowerLoading() {
   const navigate = useNavigate()
   const { state } = useFortuneFlow()
-  const { selectedZodiac, flower, fortune } = state
+  const { selectedZodiac, flower } = state
+  const isDev = import.meta.env.DEV
+  const effectiveZodiac = selectedZodiac ?? (isDev ? 'aries' : null)
   const [animDone, setAnimDone] = useState(false)
 
-  // Guard: 별자리 미선택 또는 운세 결과 없으면 처음으로
+  // Guard: 별자리 미선택이면 처음으로 (dev 모드 skip)
   useEffect(() => {
-    if (!selectedZodiac || !fortune) navigate('/', { replace: true })
-  }, [selectedZodiac, fortune, navigate])
+    if (!effectiveZodiac) navigate('/', { replace: true })
+  }, [effectiveZodiac, navigate])
 
   useEffect(() => {
-    if (animDone && flower && selectedZodiac) {
-      navigate(`/flower/${selectedZodiac}`, { replace: true })
+    if (!effectiveZodiac || !animDone) return
+    if (flower) {
+      navigate(`/flower/${effectiveZodiac}`, { replace: true })
+    } else if (isDev) {
+      navigate(`/flower/${effectiveZodiac}`, { replace: true })
     }
-  }, [animDone, flower, selectedZodiac, navigate])
+  }, [animDone, flower, effectiveZodiac, isDev, navigate])
 
   const today = new Date()
   const dateStr = [

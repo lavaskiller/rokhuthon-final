@@ -94,9 +94,12 @@ export function FortuneProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const loadLucky = useCallback(async () => {
-    if (!state.selectedZodiac || state.lucky) return  // 이미 로드됐으면 스킵
+    if (state.lucky) return  // 이미 로드됐으면 스킵
+    const isDev = import.meta.env.DEV
+    const zodiac = state.selectedZodiac ?? (isDev ? 'aries' : null)
+    if (!zodiac) return
     try {
-      const lucky = await fetchLucky(state.selectedZodiac)
+      const lucky = await fetchLucky(zodiac as ZodiacSign)
       dispatch({ type: 'SET_LUCKY', lucky })
     } catch (e) {
       dispatch({ type: 'SET_ERROR', error: String(e) })
@@ -104,10 +107,14 @@ export function FortuneProvider({ children }: { children: ReactNode }) {
   }, [state.selectedZodiac, state.lucky])
 
   const loadFlower = useCallback(async () => {
-    if (!state.selectedZodiac || !state.fortune) return
+    const isDev = import.meta.env.DEV
+    const zodiac = state.selectedZodiac ?? (isDev ? 'aries' : null)
+    if (!zodiac) return
+    const scores = state.fortune?.scores ?? (isDev ? { relationship: 80, money: 67, work: 91 } : null)
+    if (!scores) return
     dispatch({ type: 'SET_LOADING_FLOWER', loading: true })
     try {
-      const flower = await fetchFlower(state.selectedZodiac, state.fortune.scores)
+      const flower = await fetchFlower(zodiac as ZodiacSign, scores)
       dispatch({ type: 'SET_FLOWER', flower })
     } catch (e) {
       dispatch({ type: 'SET_ERROR', error: String(e) })
