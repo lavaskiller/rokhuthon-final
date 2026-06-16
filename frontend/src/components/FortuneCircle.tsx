@@ -10,9 +10,26 @@
 //   · 하단 라벨 (관계 운 / 금전 운 / 업무 운)
 // ─────────────────────────────────────────────
 
-import { useId } from 'react'
+import { useId, useEffect, useState } from 'react'
 
 import { FORTUNE_COLORS, FORTUNE_LABELS } from '../constants/zodiacs'
+
+function useCountUp(target: number, duration = 900) {
+  const [value, setValue] = useState(0)
+  useEffect(() => {
+    const start = performance.now()
+    let raf: number
+    const tick = (now: number) => {
+      const t = Math.min((now - start) / duration, 1)
+      const eased = 1 - Math.pow(1 - t, 3) // ease-out cubic
+      setValue(Math.round(eased * target))
+      if (t < 1) raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [target, duration])
+  return value
+}
 import type { FortuneType } from '../types'
 
 interface Props {
@@ -51,11 +68,12 @@ export default function FortuneCircle({ type, score, size = 'lg' }: Props) {
 
 // ─────────── sm (Figma uiux 15 총운 미니) ───────────
 function FortuneMini({ type, score }: { type: FortuneType; score: number }) {
+  const animated = useCountUp(score)
   const dim = 80
   const strokeW = 2.5
   const radius = dim / 2 - strokeW
   const circumference = 2 * Math.PI * radius
-  const dashOffset = circumference * (1 - score / 100)
+  const dashOffset = circumference * (1 - animated / 100)
   const scoreColor = FORTUNE_COLORS[type]
   const label = FORTUNE_LABELS[type]
   const stops = RING_STOPS[type]
@@ -120,7 +138,7 @@ function FortuneMini({ type, score }: { type: FortuneType; score: number }) {
           className="font-gowun text-xl font-bold leading-none"
           style={{ color: scoreColor }}
         >
-          {score}
+          {animated}
           <span className="ml-1 font-normal">%</span>
         </span>
       </div>
@@ -130,11 +148,12 @@ function FortuneMini({ type, score }: { type: FortuneType; score: number }) {
 
 // ─────────── lg (결과 화면 메인, uiux 6/7) ───────────
 function FortuneArc({ type, score }: { type: FortuneType; score: number }) {
+  const animated = useCountUp(score)
   const dim = 120
   const strokeW = 8
   const radius = dim / 2 - strokeW
   const circumference = 2 * Math.PI * radius
-  const dashOffset = circumference * (1 - score / 100)
+  const dashOffset = circumference * (1 - animated / 100)
   const color = FORTUNE_COLORS[type]
   const label = FORTUNE_LABELS[type]
 
@@ -185,7 +204,7 @@ function FortuneArc({ type, score }: { type: FortuneType; score: number }) {
             className="font-gowun font-bold"
             style={{ color, fontSize: 26 }}
           >
-            {score}
+            {animated}
             <span style={{ fontSize: 16, marginLeft: 1 }}>%</span>
           </span>
         </div>

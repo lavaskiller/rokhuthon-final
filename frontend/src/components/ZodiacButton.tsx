@@ -39,7 +39,7 @@ export default function ZodiacButton({ meta, selected, onClick, onHover }: Props
           'transition-all duration-150',
           selected
             ? 'border-[#71fffd] bg-white/30 shadow-[0_0_14px_rgba(113,255,253,0.5)]'
-            : 'border-white/15 bg-[rgba(218,249,255,0.18)] group-hover:bg-[rgba(218,249,255,0.28)] group-focus-visible:ring-2 group-focus-visible:ring-[#71fffd]',
+            : 'border-white/15 bg-[rgba(218,249,255,0.18)] group-hover:bg-[rgba(218,249,255,0.42)] group-hover:border-white/40 group-hover:shadow-[0_0_10px_rgba(113,255,253,0.25)] group-focus-visible:ring-2 group-focus-visible:ring-[#71fffd]',
         ].join(' ')}
       >
         {/* 원형 thumb — pill 과 같은 크기(h-[50px] = 50px), 좌측 끝 정확히 맞붙음 */}

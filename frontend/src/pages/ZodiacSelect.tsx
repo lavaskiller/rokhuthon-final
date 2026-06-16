@@ -15,10 +15,7 @@ export default function ZodiacSelect() {
   )
 
   useEffect(() => {
-    fetchZodiacs().then(ranked => {
-      const rankMap = new Map(ranked.map(z => [z.id, z.rank]))
-      setZodiacs(prev => prev.map(z => ({ ...z, rank: rankMap.get(z.id) ?? z.rank })))
-    }).catch(() => {})
+    fetchZodiacs().then(setZodiacs).catch(() => {})
   }, [])
 
   const handleSelect = async (id: ZodiacSign) => {
