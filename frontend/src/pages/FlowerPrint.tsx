@@ -42,14 +42,14 @@ export default function FlowerPrint() {
 
   return (
     <AppLayout>
-      <div className="min-h-screen flex items-center">
+      <div className="min-h-screen flex items-stretch">
         {/* 좌측: 출력 카드 */}
         <div className="flex-1 flex items-center justify-center py-8">
           <PrintCard flower={flower.main} />
         </div>
 
         {/* 우측: 메시지 + 버튼들 */}
-        <div className="flex-1 flex flex-col items-center justify-center gap-8 px-8">
+        <div className="flex-1 flex flex-col items-center justify-center gap-[220px] px-8">
           {/* 헤딩 */}
           <div className="text-center">
             <p className="font-gowun text-base text-white/70 mb-3">
@@ -61,24 +61,29 @@ export default function FlowerPrint() {
           </div>
 
           {/* 버튼들 */}
-          <div className="flex flex-col items-center gap-4 w-full max-w-xs">
+          <div className="flex flex-col items-center gap-4 w-full max-w-sm">
             <GlassCard
               variant="pill"
-              className="w-full px-8 py-4 text-center"
+              className="w-full text-center"
               onClick={() => window.print()}
             >
-              <span className="font-gowun text-lg text-white flex items-center justify-center gap-2">
-                <span>→</span>
-                <span>출력하기</span>
-              </span>
+              <div className="h-[88px] flex flex-col items-center justify-center gap-3 px-10">
+                <svg viewBox="0 0 200 14" className="w-3/4 h-3.5" fill="none">
+                  <line x1="4" y1="7" x2="188" y2="7" stroke="rgba(255,255,255,0.85)" strokeWidth="1.5"/>
+                  <path d="M183 1L197 7L183 13" stroke="rgba(255,255,255,0.85)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <span className="font-gowun text-[24px] leading-none text-[rgba(255,255,255,0.85)]">출력하기</span>
+              </div>
             </GlassCard>
 
             <GlassCard
               variant="pill"
-              className="w-full px-8 py-4 text-center"
+              className="w-full text-center"
               onClick={() => navigate(`/flower/${zodiac ?? ''}`)}
             >
-              <span className="font-gowun text-lg text-white">뒤로가기</span>
+              <div className="h-[88px] flex items-center justify-center px-10">
+                <span className="font-gowun text-[24px] leading-none text-[rgba(255,255,255,0.85)]">뒤로가기</span>
+              </div>
             </GlassCard>
           </div>
         </div>

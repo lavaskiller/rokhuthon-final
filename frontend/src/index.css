@@ -72,8 +72,8 @@ body {
 
 @media print {
   @page {
-    size: A4 portrait;
-    margin: 15mm;
+    size: 104mm 189mm;
+    margin: 0;
   }
 
   /* 카드 외 모든 요소 숨김 */
