@@ -61,7 +61,7 @@ export default function PrintCard({ flower, date }: Props) {
 
       {/* 설명 */}
       <div className="px-6 py-5 text-center">
-        <p className="font-gowun text-xs text-[#444] leading-relaxed whitespace-pre-line">
+        <p className="font-gowun text-xs text-[#444] leading-relaxed whitespace-pre-line break-keep">
           {flower.description}
         </p>
       </div>

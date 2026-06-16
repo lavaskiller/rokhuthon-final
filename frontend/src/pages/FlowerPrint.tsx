@@ -13,7 +13,7 @@ const MOCK_FLOWER: FlowerResult = {
     fortuneType: 'money',
     subtitle: '금전운을 담은 꽃',
     imageUrl: '/assets/flowers/freesia.png',
-    description: '은은한 향처럼 좋은 기회가\n천천히 스며드는 하루예요.\n작은 행운이 예상치 못한\n풍요로 이어질 수 있어요',
+    description: '새로운 시작을 응원하는 향기로운 기운이\n당신 곁에 오래 머물러요.\n좋은 일들이 은은하게, 그러나 분명하게\n당신의 일상에 스며들 거예요.',
     meanings: ['새로운 시작', '순수한 기대', '당신의 앞날을 응원합니다'],
     luckItems: ['예상 밖의 작은 수입', '기분 좋은 연락', '새로운 제안과 기회'],
     places: ['책상 위', '침대 옆 협탁', '햇빛이 드는 창가'],
