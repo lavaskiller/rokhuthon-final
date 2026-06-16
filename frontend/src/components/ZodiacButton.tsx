@@ -50,8 +50,8 @@ export default function ZodiacButton({ meta, selected, onClick, onHover }: Props
     >
       {/* 순위 숫자 — 1·2·3등은 메달 색상 */}
       <span className={[
-        'w-7 shrink-0 text-center text-[22px] font-normal leading-none tabular-nums',
-        medal ? medal.rank : 'text-white/80',
+        'w-7 shrink-0 text-center text-[22px] leading-none tabular-nums',
+        medal ? `font-bold ${medal.rank}` : 'font-normal text-white/80',
       ].join(' ')}>
         {meta.rank}
       </span>
