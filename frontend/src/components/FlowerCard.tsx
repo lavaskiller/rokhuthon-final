@@ -29,12 +29,15 @@ export default function FlowerCard({ flower }: Props) {
         {/* 좌측: 꽃 이미지 (투명배경 PNG, 배경 없음) */}
         <div className="h-full w-[224px] shrink-0 overflow-hidden rounded-[72px] flex items-center justify-center">
           {flower.imageUrl && (
-            <img
-              src={flower.imageUrl}
-              alt={flower.name}
-              className="h-full w-full object-contain"
-              draggable={false}
-            />
+            <picture className="h-full w-full">
+              <source srcSet={flower.imageUrl.replace(/\.png$/, '.webp')} type="image/webp" />
+              <img
+                src={flower.imageUrl}
+                alt={flower.name}
+                className="h-full w-full object-contain"
+                draggable={false}
+              />
+            </picture>
           )}
         </div>
 

@@ -48,11 +48,14 @@ export default function PrintCard({ flower, date }: Props) {
       {/* 꽃 이미지 — 투명배경 PNG, 프레임 없음 */}
       <div className="flex items-center justify-center py-6 px-6">
         {flower.imageUrl && (
-          <img
-            src={flower.imageUrl}
-            alt={flower.name}
-            className="w-44 h-44 object-contain"
-          />
+          <picture>
+            <source srcSet={flower.imageUrl.replace(/\.png$/, '.webp')} type="image/webp" />
+            <img
+              src={flower.imageUrl}
+              alt={flower.name}
+              className="w-44 h-44 object-contain"
+            />
+          </picture>
         )}
       </div>
 

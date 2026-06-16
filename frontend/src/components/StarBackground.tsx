@@ -60,14 +60,16 @@ export default function StarBackground({
     return (
       <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-b from-[#002075] to-[#44257e]">
         {/* 1. 별 배경 사진 — Figma uiux 11 "별 배경사진" */}
-        <img
-          src="/assets/loading-stars.png"
-          alt=""
-          aria-hidden
-          draggable={false}
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-          style={{ opacity: starOpacity }}
-        />
+        <picture className="pointer-events-none absolute inset-0 h-full w-full" style={{ opacity: starOpacity }}>
+          <source srcSet="/assets/loading-stars.webp" type="image/webp" />
+          <img
+            src="/assets/loading-stars.png"
+            alt=""
+            aria-hidden
+            draggable={false}
+            className="h-full w-full object-cover"
+          />
+        </picture>
 
         {/* 2. 반짝이는 별 procedural 레이어 — twinkle 애니메이션 */}
         <div aria-hidden className="pointer-events-none absolute inset-0">

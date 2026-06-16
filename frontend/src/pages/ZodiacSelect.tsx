@@ -10,16 +10,12 @@ import type { ZodiacMeta, ZodiacSign } from '../types'
 export default function ZodiacSelect() {
   const navigate = useNavigate()
   const { state, selectZodiac, prefetchFortune } = useFortuneFlow()
-  const [zodiacs, setZodiacs] = useState<ZodiacMeta[]>([])
-  const [loading, setLoading] = useState(true)
+  const [zodiacs, setZodiacs] = useState<ZodiacMeta[]>(() =>
+    ZODIAC_LIST.map((z, i) => ({ ...z, rank: i + 1 }))
+  )
 
   useEffect(() => {
-    fetchZodiacs()
-      .then(setZodiacs)
-      .catch(() => {
-        setZodiacs(ZODIAC_LIST.map((z, i) => ({ ...z, rank: i + 1 })))
-      })
-      .finally(() => setLoading(false))
+    fetchZodiacs().then(setZodiacs).catch(() => {})
   }, [])
 
   const handleSelect = async (id: ZodiacSign) => {
@@ -49,28 +45,22 @@ export default function ZodiacSelect() {
         </header>
 
         <section className="w-full">
-          {loading ? (
-            <div className="flex items-center justify-center py-12">
-              <p className="text-sm text-white/50">불러오는 중…</p>
-            </div>
-          ) : (
-            <ul
-              role="listbox"
-              aria-label="별자리 선택"
-              className="grid grid-flow-col grid-cols-2 grid-rows-6 gap-x-6 gap-y-3"
-            >
-              {zodiacs.map((z) => (
-                <li key={z.id} role="option" aria-selected={state.selectedZodiac === z.id}>
-                  <ZodiacButton
-                    meta={z}
-                    selected={state.selectedZodiac === z.id}
-                    onClick={handleSelect}
-                    onHover={prefetchFortune}
-                  />
-                </li>
-              ))}
-            </ul>
-          )}
+          <ul
+            role="listbox"
+            aria-label="별자리 선택"
+            className="grid grid-flow-col grid-cols-2 grid-rows-6 gap-x-6 gap-y-3"
+          >
+            {zodiacs.map((z) => (
+              <li key={z.id} role="option" aria-selected={state.selectedZodiac === z.id}>
+                <ZodiacButton
+                  meta={z}
+                  selected={state.selectedZodiac === z.id}
+                  onClick={handleSelect}
+                  onHover={prefetchFortune}
+                />
+              </li>
+            ))}
+          </ul>
         </section>
       </div>
     </AppLayout>
