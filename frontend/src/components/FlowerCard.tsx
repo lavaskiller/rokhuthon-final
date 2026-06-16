@@ -26,17 +26,14 @@ export default function FlowerCard({ flower }: Props) {
             'linear-gradient(90deg, rgba(118,171,200,0.32) 0%, rgba(50,93,141,0.32) 100%)',
         }}
       >
-        {/* 좌측: 회색 oval placeholder (pill 과 동일 corner) */}
-        <div className="h-full w-[224px] shrink-0 overflow-hidden rounded-[72px] bg-[#8F8F8F]/60">
+        {/* 좌측: 꽃 이미지 (투명배경 PNG, 배경 없음) */}
+        <div className="h-full w-[224px] shrink-0 overflow-hidden rounded-[72px] flex items-center justify-center">
           {flower.imageUrl && (
             <img
               src={flower.imageUrl}
               alt={flower.name}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-contain"
               draggable={false}
-              onError={(e) => {
-                ;(e.currentTarget as HTMLImageElement).style.display = 'none'
-              }}
             />
           )}
         </div>

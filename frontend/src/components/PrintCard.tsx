@@ -37,30 +37,23 @@ export default function PrintCard({ flower, date }: Props) {
       {/* 꽃 이름 */}
       <div className="px-6 py-4 text-center">
         <p className="font-gowun text-2xl font-bold text-[#1a1a1a] mb-1">{flower.name}</p>
-        {flower.subtitle && (
-          <p className="font-gowun text-xs text-[#888]">{flower.subtitle}</p>
+        {flower.englishName && (
+          <p className="font-gowun text-xs text-[#888]">{flower.englishName}</p>
         )}
       </div>
 
       {/* 구분선 */}
       <hr className="mx-6 border-t border-[#ddd]" />
 
-      {/* 꽃 이미지 */}
+      {/* 꽃 이미지 — 투명배경 PNG, 프레임 없음 */}
       <div className="flex items-center justify-center py-6 px-6">
-        <div
-          className="w-36 h-36 rounded-full overflow-hidden flex items-center justify-center"
-          style={{ background: '#f5f0e8', border: '2px solid #e8dfc8' }}
-        >
-          {flower.imageUrl ? (
-            <img
-              src={flower.imageUrl}
-              alt={flower.name}
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <span className="text-5xl">🌸</span>
-          )}
-        </div>
+        {flower.imageUrl && (
+          <img
+            src={flower.imageUrl}
+            alt={flower.name}
+            className="w-36 h-36 object-contain"
+          />
+        )}
       </div>
 
       {/* 구분선 */}

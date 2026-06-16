@@ -108,6 +108,7 @@ def get_flower(zodiac: str, scores: dict) -> dict:
         f = options[idx]
         return {
             "name":        f["name"],
+            "englishName": f.get("english_name", ""),
             "fortuneType": fortune_type,
             "subtitle":    SUBTITLE_BY_TYPE.get(fortune_type, "오늘의 꽃"),
             "description": f["description"],

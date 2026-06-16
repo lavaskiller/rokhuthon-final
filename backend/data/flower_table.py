@@ -9,6 +9,7 @@ FLOWER_OPTIONS: dict[str, list[dict]] = {
     "money": [
         {
             "name": "수선화",
+            "english_name": "Narcissus",
             "image": "narcissus",
             "description": "새해의 풍요와 재물복을 불러오는 수선화가 금전 운을 끌어올립니다. 은은한 향처럼 좋은 기회가 천천히 스며드는 하루예요.",
             "meanings": ["새해의 풍요", "재물복", "새로운 시작"],
@@ -17,6 +18,7 @@ FLOWER_OPTIONS: dict[str, list[dict]] = {
         },
         {
             "name": "버터플라이 라넌큘러스",
+            "english_name": "Butterfly Ranunculus",
             "image": "ranunculus",
             "description": "번창하고 밝은 재물운의 기운을 가득 담은 라넌큘러스가 풍요로운 하루를 열어줍니다.",
             "meanings": ["번창하는 재물", "밝은 미래", "풍요로운 기운"],
@@ -25,6 +27,7 @@ FLOWER_OPTIONS: dict[str, list[dict]] = {
         },
         {
             "name": "황하코스모스",
+            "english_name": "Cosmos",
             "image": "cosmos",
             "description": "황금빛 가을의 풍요로움을 상징하는 황하코스모스가 금전 운을 밝게 비춥니다.",
             "meanings": ["황금빛 풍요", "가을의 결실", "끊임없는 도전"],
@@ -35,6 +38,7 @@ FLOWER_OPTIONS: dict[str, list[dict]] = {
     "relationship": [
         {
             "name": "작약",
+            "english_name": "Peony",
             "image": "peony",
             "description": "영원히 시들지 않는 행복한 인연의 메시지를 전하는 작약이 관계의 온기를 가득 채워줍니다.",
             "meanings": ["영원한 인연", "행복한 만남", "시들지 않는 사랑"],
@@ -43,6 +47,7 @@ FLOWER_OPTIONS: dict[str, list[dict]] = {
         },
         {
             "name": "연꽃",
+            "english_name": "Lotus",
             "image": "lotus",
             "description": "어떤 상황에서도 흔들리지 않는 숭고하고 깊은 사랑과 인연을 담은 연꽃이 관계를 더욱 단단하게 만들어줍니다.",
             "meanings": ["숭고한 사랑", "깊은 인연", "흔들리지 않는 마음"],
@@ -51,6 +56,7 @@ FLOWER_OPTIONS: dict[str, list[dict]] = {
         },
         {
             "name": "장미",
+            "english_name": "Rose",
             "image": "rose",
             "description": "열렬한 사랑의 기운이 당신 주변을 가득 채우고 있어요. 용기 있게 마음을 전하면 그 진심이 반드시 닿을 거예요.",
             "meanings": ["진심 어린 사랑", "소중한 인연", "당신을 향한 마음"],
@@ -61,6 +67,7 @@ FLOWER_OPTIONS: dict[str, list[dict]] = {
     "work": [
         {
             "name": "프리지아",
+            "english_name": "Freesia",
             "image": "freesia",
             "description": "당신의 새로운 시작을 응원하는 프리지아가 업무의 흐름을 밝게 열어줍니다. 은은한 향처럼 좋은 기회가 스며드는 하루예요.",
             "meanings": ["새로운 시작", "응원과 격려", "밝은 출발"],
@@ -69,6 +76,7 @@ FLOWER_OPTIONS: dict[str, list[dict]] = {
         },
         {
             "name": "블루델피늄",
+            "english_name": "Blue Delphinium",
             "image": "delphinium",
             "description": "맑고 시원한 기운의 블루델피늄이 새로운 도전을 앞둔 당신에게 청량한 용기를 불어넣어 줍니다.",
             "meanings": ["고요한 집중", "청량한 용기", "맑은 사고"],
@@ -77,6 +85,7 @@ FLOWER_OPTIONS: dict[str, list[dict]] = {
         },
         {
             "name": "거베라",
+            "english_name": "Gerbera",
             "image": "gerbera",
             "description": "언제나 긍정적으로 앞으로 나아가라는 에너지를 전하는 거베라가 업무 열정을 북돋아 줍니다.",
             "meanings": ["긍정적인 에너지", "앞으로 나아가는 힘", "밝은 성취"],

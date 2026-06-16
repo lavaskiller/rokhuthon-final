@@ -33,6 +33,7 @@ const MOCK_FORTUNE: FortuneResult = {
 const MOCK_FLOWER: FlowerResultData = {
   main: {
     name: '프리지아',
+    englishName: 'Freesia',
     fortuneType: 'money',
     subtitle: '금전운을 담은 꽃',
     description:
@@ -44,6 +45,7 @@ const MOCK_FLOWER: FlowerResultData = {
       '새로운 제안과 기회',
     ],
     places: ['책상 위', '침대 옆 협탁', '햇빛이 드는 창가'],
+    imageUrl: '/assets/flowers/freesia.png',
   },
   subs: [
     {

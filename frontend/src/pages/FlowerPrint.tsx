@@ -9,8 +9,10 @@ import type { FlowerResult } from '../types'
 const MOCK_FLOWER: FlowerResult = {
   main: {
     name: '프리지아',
+    englishName: 'Freesia',
     fortuneType: 'money',
     subtitle: '금전운을 담은 꽃',
+    imageUrl: '/assets/flowers/freesia.png',
     description: '은은한 향처럼 좋은 기회가\n천천히 스며드는 하루예요.\n작은 행운이 예상치 못한\n풍요로 이어질 수 있어요',
     meanings: ['새로운 시작', '순수한 기대', '당신의 앞날을 응원합니다'],
     luckItems: ['예상 밖의 작은 수입', '기분 좋은 연락', '새로운 제안과 기회'],

@@ -43,7 +43,8 @@ export interface LuckyElements {
 
 // 꽃 단일 항목
 export interface FlowerItem {
-  name: string;           // ex. "아네모네"
+  name: string;           // ex. "장미"
+  englishName?: string;   // ex. "Rose"
   fortuneType: FortuneType; // 어떤 운을 보완하는 꽃인지
   subtitle: string;       // ex. "관계운을 담은 꽃"
   description: string;    // 꽃 소개 2줄
