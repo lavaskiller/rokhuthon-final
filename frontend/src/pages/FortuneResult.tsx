@@ -4,20 +4,28 @@ import AppLayout from '../layouts/AppLayout'
 import FortuneCircle from '../components/FortuneCircle'
 import NavArrow from '../components/NavArrow'
 import GlassCard from '../components/GlassCard'
-import ZodiacIconPlaceholder from '../components/ZodiacIconPlaceholder'
 import { useFortuneFlow } from '../hooks/useFortuneFlow'
 import { getZodiacMeta } from '../constants/zodiacs'
-import type { ZodiacSign } from '../types'
+import type { ZodiacSign, FortuneResult as FortuneResultType } from '../types'
+
+const MOCK_FORTUNE: FortuneResultType = {
+  zodiac: 'aries',
+  date: '2026. 06. 17',
+  summary: '오늘은 새로운 시작에 좋은 기운이 가득해요.\n작은 용기가 큰 행운을 불러올 거예요.',
+  scores: { relationship: 82, money: 67, work: 91 },
+}
 
 export default function FortuneResult() {
   const { zodiac } = useParams<{ zodiac: string }>()
   const navigate = useNavigate()
   const { state, loadLucky } = useFortuneFlow()
-  const { fortune, selectedZodiac } = state
-
+  const { fortune: fortuneFromState, selectedZodiac } = state
+  const isDev = import.meta.env.DEV
+  const fortune = fortuneFromState ?? (isDev ? MOCK_FORTUNE : null)
   useEffect(() => {
+    if (isDev) return
     if (!selectedZodiac || !fortune) navigate('/', { replace: true })
-  }, [selectedZodiac, fortune, navigate])
+  }, [isDev, selectedZodiac, fortune, navigate])
 
   useEffect(() => {
     if (fortune) loadLucky()
@@ -45,9 +53,11 @@ export default function FortuneResult() {
             <span className="font-gowun text-2xl font-bold text-white">
               {meta?.name}
             </span>
-            <ZodiacIconPlaceholder
-              size={160}
-              className="text-[#71fffd]"
+            <img
+              src={`/assets/zodiacs/${zodiac}.svg`}
+              alt={meta?.name}
+              width={160}
+              height={160}
               style={{
                 filter:
                   'drop-shadow(0 4px 4px #1a2144) drop-shadow(0 0 6px #71fffd55) drop-shadow(0 0 14px #71fffd22)',

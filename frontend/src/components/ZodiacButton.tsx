@@ -10,7 +10,6 @@
 // ─────────────────────────────────────────────
 
 import type { ZodiacMeta, ZodiacSign } from '../types';
-import ZodiacIconPlaceholder from './ZodiacIconPlaceholder';
 
 interface Props {
   meta: ZodiacMeta;
@@ -43,19 +42,7 @@ export default function ZodiacButton({ meta, selected, onClick }: Props) {
       >
         {/* 원형 thumb — pill 과 같은 크기(h-[50px] = 50px), 좌측 끝 정확히 맞붙음 */}
         <span className="relative flex h-[50px] w-[50px] shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#71fffd] bg-[#0a205c]/60">
-          {/* Figma "컴포넌트 정리" placeholder — size 34 → 30 으로 sign 살짝 축소 */}
-          <ZodiacIconPlaceholder size={30} className="text-[#71fffd]" />
-          {/* iconUrl 이미지 — 로드되면 placeholder 위에 덮어쓰기, 실패하면 숨김 */}
-          <img
-            src={meta.iconUrl}
-            alt=""
-            className="absolute inset-0 m-auto h-8 w-8 object-contain"
-            loading="lazy"
-            draggable={false}
-            onError={(e) => {
-              (e.currentTarget as HTMLImageElement).style.display = 'none';
-            }}
-          />
+          <img src={meta.iconUrl} alt={meta.name} className="w-8 h-8 object-contain" />
         </span>
 
         {/* 한글 이름 + 괄호 안 날짜 — 한 줄, 이름과 날짜 사이 ml-2 여백 */}

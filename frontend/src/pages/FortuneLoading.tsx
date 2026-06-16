@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout'
 import LoadingArc from '../components/LoadingArc'
-import ZodiacIconPlaceholder from '../components/ZodiacIconPlaceholder'
 import { useFortuneFlow } from '../hooks/useFortuneFlow'
 
 const LOADING_MESSAGES = [
@@ -18,13 +17,15 @@ const LOADING_MESSAGES = [
 export default function FortuneLoading() {
   const navigate = useNavigate()
   const { state } = useFortuneFlow()
-  const { selectedZodiac, isLoadingFortune, fortune } = state
+  const { selectedZodiac, isLoadingFortune, fortune, error } = state
+  const isDev = import.meta.env.DEV
+  const effectiveZodiac = selectedZodiac ?? (isDev ? 'aries' : null)
   const [minTimePassed, setMinTimePassed] = useState(false)
   const [msgIndex] = useState(() => Math.floor(Math.random() * LOADING_MESSAGES.length))
 
   useEffect(() => {
-    if (!selectedZodiac) navigate('/', { replace: true })
-  }, [selectedZodiac, navigate])
+    if (!effectiveZodiac) navigate('/', { replace: true })
+  }, [effectiveZodiac, navigate])
 
   useEffect(() => {
     const t = setTimeout(() => setMinTimePassed(true), 1800)
@@ -32,10 +33,14 @@ export default function FortuneLoading() {
   }, [])
 
   useEffect(() => {
-    if (selectedZodiac && !isLoadingFortune && fortune && minTimePassed) {
-      navigate(`/fortune/${selectedZodiac}`, { replace: true })
+    if (!effectiveZodiac || !minTimePassed) return
+    if (fortune && !isLoadingFortune) {
+      navigate(`/fortune/${effectiveZodiac}`, { replace: true })
+    } else if (isDev && !isLoadingFortune) {
+      // dev: API 없어도 mock 데이터로 다음 화면 진행
+      navigate(`/fortune/${effectiveZodiac}`, { replace: true })
     }
-  }, [selectedZodiac, isLoadingFortune, fortune, minTimePassed, navigate])
+  }, [effectiveZodiac, isLoadingFortune, fortune, minTimePassed, isDev, navigate])
 
   const today = new Date()
   const dateStr = [
@@ -62,9 +67,12 @@ export default function FortuneLoading() {
           aria-label="운세를 불러오는 중"
         >
           <LoadingArc size={ARC_SIZE} />
-          <ZodiacIconPlaceholder
-            size={Math.round(ARC_SIZE * 0.42)}
-            className="absolute text-[#71FFFD]"
+          <img
+            src={`/assets/zodiacs/${effectiveZodiac ?? 'aries'}.svg`}
+            alt=""
+            width={Math.round(ARC_SIZE * 0.42)}
+            height={Math.round(ARC_SIZE * 0.42)}
+            className="absolute"
           />
         </div>
 

@@ -5,7 +5,6 @@ import AppLayout from '../layouts/AppLayout'
 import GlassCard from '../components/GlassCard'
 import LuckyCard from '../components/LuckyCard'
 import NavArrow from '../components/NavArrow'
-import ZodiacIconPlaceholder from '../components/ZodiacIconPlaceholder'
 import { useFortuneFlow } from '../hooks/useFortuneFlow'
 import { getZodiacMeta } from '../constants/zodiacs'
 import type { ZodiacSign } from '../types'
@@ -59,9 +58,11 @@ export default function LuckyElements() {
             <span className="font-gowun text-2xl font-bold text-white">
               {meta?.name ?? '별자리'}
             </span>
-            <ZodiacIconPlaceholder
-              size={160}
-              className="text-[#71fffd]"
+            <img
+              src={`/assets/zodiacs/${zodiac}.svg`}
+              alt={meta?.name ?? '별자리'}
+              width={160}
+              height={160}
               style={{
                 filter:
                   'drop-shadow(0 4px 4px #1a2144) drop-shadow(0 0 6px #71fffd55) drop-shadow(0 0 14px #71fffd22)',
