@@ -16,7 +16,7 @@ export default function PrintCard({ flower, date }: Props) {
   return (
     <div
       id="print-card"
-      className="w-[300px] rounded-2xl overflow-hidden shadow-2xl flex flex-col"
+      className="w-[392px] rounded-2xl overflow-hidden shadow-2xl flex flex-col"
       style={{ background: '#ffffff' }}
     >
       {/* 상단 브랜드 */}
@@ -51,7 +51,7 @@ export default function PrintCard({ flower, date }: Props) {
           <img
             src={flower.imageUrl}
             alt={flower.name}
-            className="w-36 h-36 object-contain"
+            className="w-44 h-44 object-contain"
           />
         )}
       </div>

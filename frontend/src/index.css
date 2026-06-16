@@ -71,14 +71,40 @@ body {
 }
 
 @media print {
-  body * { visibility: hidden; }
+  @page {
+    size: A4 portrait;
+    margin: 15mm;
+  }
+
+  /* 카드 외 모든 요소 숨김 */
+  body * {
+    visibility: hidden !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* 카드 + 자식만 표시 */
   #print-card,
-  #print-card * { visibility: visible; }
+  #print-card * {
+    visibility: visible !important;
+  }
+
+  /* 카드 위치: 페이지 상단 중앙 고정 */
   #print-card {
-    position: fixed;
-    inset: 0;
-    margin: auto;
-    width: fit-content;
-    height: fit-content;
+    position: fixed !important;
+    top: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  /* 꽃 이미지 흑백 변환 (Figma 흑백 카드 매칭) */
+  #print-card img {
+    filter: grayscale(100%) !important;
+    -webkit-filter: grayscale(100%) !important;
   }
 }

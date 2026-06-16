@@ -55,7 +55,7 @@ export default function FlowerPrint() {
             <p className="font-gowun text-base text-white/70 mb-3">
               오늘의 운세에 맞는 꽃을 추천해 드렸어요
             </p>
-            <h1 className="font-gowun text-3xl font-bold text-white">
+            <h1 className="font-gowun text-2xl font-bold text-white whitespace-nowrap">
               ✿ 당신의 하루를 응원합니다 ✿
             </h1>
           </div>
