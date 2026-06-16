@@ -1,9 +1,15 @@
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout'
 import GlassCard from '../components/GlassCard'
+import { fetchZodiacs } from '../api/client'
 
 export default function Landing() {
   const navigate = useNavigate()
+
+  useEffect(() => {
+    fetchZodiacs().catch(() => {})
+  }, [])
 
   return (
     <AppLayout showFlowers>

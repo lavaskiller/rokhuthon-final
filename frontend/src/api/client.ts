@@ -14,9 +14,12 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
   return res.json() as Promise<T>
 }
 
-/** 12개 별자리 + 오늘의 순위 */
-export const fetchZodiacs = (): Promise<ZodiacMeta[]> =>
-  request('/zodiacs')
+/** 12개 별자리 + 오늘의 순위 — 모듈 레벨 캐시로 중복 요청 방지 */
+let _zodiacCache: Promise<ZodiacMeta[]> | null = null
+export const fetchZodiacs = (): Promise<ZodiacMeta[]> => {
+  if (!_zodiacCache) _zodiacCache = request<ZodiacMeta[]>('/zodiacs').catch(e => { _zodiacCache = null; throw e })
+  return _zodiacCache
+}
 
 /** 별자리 → 총운 텍스트 + 관계/금전/업무 수치 */
 export const fetchFortune = (zodiac: string): Promise<FortuneResult> =>
