@@ -1,7 +1,9 @@
+import json
 import random
 from datetime import date
+from pathlib import Path
 from data.fortune_table import FORTUNE_TABLE
-from data.flower_table import FLOWER_TABLE, SUBTITLE_BY_TYPE
+from data.flower_table import FLOWER_OPTIONS, SUBTITLE_BY_TYPE
 
 ZODIAC_META = [
     {"id": "aries",       "name": "양자리",     "dateRange": "3.21–4.19"},
@@ -17,6 +19,23 @@ ZODIAC_META = [
     {"id": "aquarius",    "name": "물병자리",   "dateRange": "1.20–2.18"},
     {"id": "pisces",      "name": "물고기자리", "dateRange": "2.19–3.20"},
 ]
+
+_CONFIG_PATH = Path(__file__).parent.parent / "data" / "flower_config.json"
+_DEFAULT_CONFIG = {"money": 0, "relationship": 0, "work": 0}
+
+
+def load_flower_config() -> dict:
+    try:
+        return json.loads(_CONFIG_PATH.read_text(encoding="utf-8"))
+    except Exception:
+        return _DEFAULT_CONFIG.copy()
+
+
+def save_flower_config(config: dict) -> None:
+    _CONFIG_PATH.write_text(
+        json.dumps(config, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
 
 
 def _day_seed() -> int:
@@ -76,13 +95,17 @@ def get_lucky(zodiac: str) -> dict:
 
 def get_flower(zodiac: str, scores: dict) -> dict:
     """별자리 + 운세 수치 → 꽃 추천 반환
-    main  : 가장 낮은 운 타입 → 보완해주는 꽃
-    subs  : 나머지 2개 운 타입 꽃 (작게 표시용)
+    main  : 가장 낮은 운 타입 → 관리자 설정 꽃
+    subs  : 나머지 2개 운 타입 꽃
     """
     sorted_types = sorted(scores, key=lambda k: scores[k])  # 낮은 순
+    config = load_flower_config()
 
     def build_entry(fortune_type: str) -> dict:
-        f = FLOWER_TABLE[fortune_type]
+        options = FLOWER_OPTIONS[fortune_type]
+        idx = config.get(fortune_type, 0)
+        idx = max(0, min(idx, len(options) - 1))  # 범위 보정
+        f = options[idx]
         return {
             "name":        f["name"],
             "fortuneType": fortune_type,
