@@ -39,8 +39,14 @@ export default function ZodiacSelect() {
 
   return (
     <AppLayout>
+      {/* 상단 그라디언트 — 스테이지 밖 여백까지 이어지도록 화면 기준으로 배치.
+          끝점은 Figma 프레임 y=511 (스테이지 중심 417 + 94) */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-x-0 top-0 bg-gradient-to-b from-zodiac-fade to-zodiac-fade-end opacity-50"
+        style={{ height: 'calc(50vh + 94 * min(100vw / 1194, 100vh / 834))' }}
+      />
       <FigmaStage>
-        <div aria-hidden className="absolute left-0 top-0 h-[511px] w-[1194px] bg-gradient-to-b from-zodiac-fade to-zodiac-fade-end opacity-50" />
 
         <header>
           <StageImage src="/assets/zodiacs/rank/z-line-l.svg" box={[325, 112.5, 129.5, 0]} inset="-2.17px -1.67% -2.17px 0" className="rotate-180" />
