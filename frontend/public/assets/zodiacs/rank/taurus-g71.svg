@@ -1,0 +1,24 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="8.01974" height="1.53641" viewBox="0 0 8.01974 1.53641" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 71">
+<ellipse id="Ellipse 43" cx="0.822491" cy="0.768142" rx="0.82249" ry="0.768082" fill="url(#paint0_linear_0_625)"/>
+<ellipse id="Ellipse 44" cx="7.19723" cy="0.768318" rx="0.82249" ry="0.768082" fill="url(#paint1_linear_0_625)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_625" x1="0.112891" y1="1.31634" x2="1.45923" y2="0.0532248" gradientUnits="userSpaceOnUse">
+<stop offset="0.00961538" stop-color="#F16A75"/>
+<stop offset="0.158654" stop-color="#FFC1C6"/>
+<stop offset="0.413462" stop-color="#EF5281"/>
+<stop offset="0.706731" stop-color="#FD8DAB"/>
+<stop offset="0.793269" stop-color="#FF9DA4"/>
+<stop offset="0.942308" stop-color="#F05669"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_625" x1="6.48763" y1="1.31652" x2="7.83397" y2="0.0534011" gradientUnits="userSpaceOnUse">
+<stop offset="0.00961538" stop-color="#F16A75"/>
+<stop offset="0.158654" stop-color="#FFC1C6"/>
+<stop offset="0.413462" stop-color="#EF5281"/>
+<stop offset="0.706731" stop-color="#FD8DAB"/>
+<stop offset="0.793269" stop-color="#FF9DA4"/>
+<stop offset="0.942308" stop-color="#F05669"/>
+</linearGradient>
+</defs>
+</svg>

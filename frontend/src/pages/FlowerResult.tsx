@@ -1,73 +1,46 @@
 // ─────────────────────────────────────────────
-// FlowerResult — uiux 15: 꽃 추천 결과 화면
+// FlowerResult — Figma "결과" (1:412 거베라 / 1:452 장미 / 1:492 수선화)
 //
 // 라우트: /flower/:zodiac
-//
-// 레이아웃 (Figma uiux 15 매칭):
-//   - 좌상단: 날짜 + 큰 제목 "오늘을 위한 꽃 추천을 해드릴게요"
-//   - 우상단: FortuneCircle 미니 3개 (관계 운 / 금전 운 / 업무 운)
-//   - 중앙: 메인 꽃 (가로 글래스 pill — 회색 원 + 이름·부제·설명)
-//   - 하단: 꽃말 / 기대되는 행운 / 함께 두면 좋은 장소 카드 3개
-//   - 우하단: '꽃 출력하기 →' 링크
-//
-// 가드: selectedZodiac · flower 없으면 / 로 리다이렉트
-// dev 모드: 가드 skip + flower/fortune mock — hot-reload 시 페이지 머무름
+// 서버 추천 꽃(main) 이미지 · 부제 · 이름 + 꽃말 / 기대되는 행운 / 함께 두면 좋은 장소 카드
+// 가드: selectedZodiac · flower 없으면 / 로 리다이렉트 (dev 모드는 mock)
 // ─────────────────────────────────────────────
 
 import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import AppLayout from '../layouts/AppLayout'
-import FortuneCircle from '../components/FortuneCircle'
-import FlowerCard from '../components/FlowerCard'
+import FigmaStage from '../components/FigmaStage'
+import PillButton from '../components/PillButton'
+import SurfaceCard from '../components/SurfaceCard'
 import { useFortuneFlow } from '../hooks/useFortuneFlow'
-import type { FlowerResult as FlowerResultData, FortuneResult } from '../types'
-
-const MOCK_FORTUNE: FortuneResult = {
-  zodiac: 'pisces',
-  date: '2026. 05. 27',
-  summary: '',
-  scores: { relationship: 80, money: 80, work: 80 },
-}
+import type { FlowerResult as FlowerResultData } from '../types'
 
 const MOCK_FLOWER: FlowerResultData = {
   main: {
-    name: '프리지아',
-    englishName: 'Freesia',
-    fortuneType: 'money',
-    subtitle: '금전운을 담은 꽃',
+    name: '거베라',
+    englishName: 'Gerbera',
+    fortuneType: 'work',
+    subtitle: '업무운을 담은 꽃',
     description:
-      '은은한 향처럼 좋은 기회가 천천히 스며드는 하루예요.\n작은 행운이 예상치 못한 풍요로 이어질 수 있어요',
-    meanings: ['새로운 시작', '순수한 기대', '당신의 앞날을 응원합니다'],
-    luckItems: [
-      '예상 밖의 작은 수입',
-      '기분 좋은 연락',
-      '새로운 제안과 기회',
-    ],
-    places: ['책상 위', '침대 옆 협탁', '햇빛이 드는 창가'],
-    imageUrl: '/assets/flowers/freesia.png',
+      '언제나 긍정적인 에너지가\n당신의 하루를 환하게 밝혀줄 거예요.\n앞으로 나아가는 발걸음마다\n따뜻한 응원이 함께할 거예요.',
+    meanings: ['긍정적인 에너지', '앞으로 나아가는 힘', '밝은 성취'],
+    luckItems: ['인정받는 성과', '팀워크 향상', '새로운 기회 포착'],
+    places: ['책상 위', '사무실 창가', '회의실'],
+    imageUrl: '/assets/flowers/gerbera.png',
   },
   subs: [
-    {
-      name: '',
-      fortuneType: 'money',
-      subtitle: '',
-      description: '',
-      meanings: [],
-      luckItems: [],
-      places: [],
-    },
-    {
-      name: '',
-      fortuneType: 'work',
-      subtitle: '',
-      description: '',
-      meanings: [],
-      luckItems: [],
-      places: [],
-    },
+    { name: '', fortuneType: 'money', subtitle: '', description: '', meanings: [], luckItems: [], places: [] },
+    { name: '', fortuneType: 'relationship', subtitle: '', description: '', meanings: [], luckItems: [], places: [] },
   ],
 }
+
+// 정보 카드 3개 — Figma 카드 좌표 / 내부 좌측 여백
+const INFO_CARDS = [
+  { title: '꽃말', key: 'meanings', left: 167, padLeft: 36 },
+  { title: '기대되는 행운', key: 'luckItems', left: 460.2, padLeft: 39.4 },
+  { title: '함께 두면 좋은 장소', key: 'places', left: 760.2, padLeft: 39.4 },
+] as const
 
 export default function FlowerResult() {
   const { zodiac } = useParams<{ zodiac: string }>()
@@ -77,68 +50,57 @@ export default function FlowerResult() {
 
   // dev fallback: backend 없이도 시각 검증 가능 (prod 영향 X)
   const flower = state.flower ?? (isDev ? MOCK_FLOWER : null)
-  const fortune = state.fortune ?? (isDev ? MOCK_FORTUNE : null)
 
-  // Guard: 별자리 / 꽃 결과 없으면 처음으로 (dev 모드 skip)
   useEffect(() => {
     if (isDev) return
     if (!state.selectedZodiac || !state.flower) navigate('/', { replace: true })
   }, [isDev, state.selectedZodiac, state.flower, navigate])
 
-  if (!flower || !fortune) return null
-
-  const today = new Date()
-  const dateStr = `${today.getFullYear()}. ${String(today.getMonth() + 1).padStart(2, '0')}. ${String(today.getDate()).padStart(2, '0')}`
+  if (!flower) return null
+  const { main } = flower
 
   return (
     <AppLayout>
-      <div className="relative min-h-screen flex flex-col px-8 py-6">
-        <div className="flex-1 flex flex-col gap-8 max-w-[1600px] w-full mx-auto justify-center">
-          {/* 헤더 */}
-          <header className="flex items-start justify-between gap-8">
-            {/* 좌측: 날짜 + 큰 제목 */}
-            <div>
-              <p className="mb-3 font-gowun text-sm text-white/85">{dateStr}</p>
-              <h1 className="font-gowun text-3xl font-medium leading-tight text-white">
-                오늘을 위한 꽃 추천을 해드릴게요
-              </h1>
-            </div>
+      <FigmaStage>
+        <h1 className="absolute left-0 right-0 top-[74.5px] text-center text-title font-bold leading-[40px]">
+          오늘의 행운의 꽃
+        </h1>
 
-            {/* 우측: FortuneCircle 3개 */}
-            <div className="flex shrink-0 gap-4">
-              <FortuneCircle
-                type="relationship"
-                score={fortune.scores.relationship}
-                size="sm"
-              />
-              <FortuneCircle
-                type="money"
-                score={fortune.scores.money}
-                size="sm"
-              />
-              <FortuneCircle
-                type="work"
-                score={fortune.scores.work}
-                size="sm"
-              />
-            </div>
-          </header>
+        {main.imageUrl && (
+          <picture>
+            <source srcSet={main.imageUrl.replace(/\.png$/, '.webp')} type="image/webp" />
+            <img
+              src={main.imageUrl}
+              alt={main.name}
+              className="absolute left-[467px] top-[147px] h-[256px] w-[256px] object-contain"
+            />
+          </picture>
+        )}
+        <img src="/assets/sparkle.svg" alt="" aria-hidden className="absolute left-[230.4px] top-[335.4px] h-[9px] w-[9.1px]" />
 
-          {/* 꽃 메인 + 3개 정보 카드 */}
-          <FlowerCard flower={flower.main} />
+        <p className="absolute left-[597.5px] top-[442px] flex -translate-x-1/2 -translate-y-1/2 flex-col items-center whitespace-nowrap font-bold">
+          <span className="text-[15px]">{main.subtitle}</span>
+          <span className="text-label">
+            {main.name}
+            {main.englishName && ` ${main.englishName}`}
+          </span>
+        </p>
 
-          {/* 우하단: 꽃 출력하기 → */}
-          <div className="flex justify-end">
-            <button
-              type="button"
-              onClick={() => navigate(`/flower/${zodiac}/print`)}
-              className="font-gowun text-base text-white/85 transition-opacity hover:opacity-100"
-            >
-              꽃 출력하기 →
-            </button>
+        {INFO_CARDS.map(card => (
+          <div key={card.key} className="absolute top-[501px]" style={{ left: card.left }}>
+            <SurfaceCard className="h-[172.383px] w-[262.8px] pt-[26px]">
+              <div style={{ paddingLeft: card.padLeft }}>
+                <h2 className="whitespace-nowrap text-label font-bold leading-[29px]">{card.title}</h2>
+                <ul className="-ml-[5px] mt-px list-disc whitespace-nowrap pl-6 text-body">
+                  {main[card.key].map(item => <li key={item}>{item}</li>)}
+                </ul>
+              </div>
+            </SurfaceCard>
           </div>
-        </div>
-      </div>
+        ))}
+
+        <PillButton label="출력하기" onClick={() => navigate(`/flower/${zodiac}/print`)} className="absolute left-[466px] top-[709.5px]" />
+      </FigmaStage>
     </AppLayout>
   )
 }
