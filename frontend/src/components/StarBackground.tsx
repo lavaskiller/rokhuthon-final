@@ -20,21 +20,47 @@ const BG_SRC = {
   landing: 'bg-sky-landing',
 } as const;
 
+// bg-sky(1024×768) 에 그려진 별 중심 좌표·크기(px) — 반짝임 오버레이 위치
+// landing 은 표지에서 별 스프라이트를 따로 올리므로 제외
+const GLINTS: { x: number; y: number; size: number; delay: number; dur: number }[] = [
+  { x: 93, y: 158, size: 56, delay: 0, dur: 3.6 },
+  { x: 153, y: 50, size: 28, delay: 1.5, dur: 3.2 },
+  { x: 829, y: 50, size: 30, delay: 0.7, dur: 3.4 },
+  { x: 865, y: 112, size: 76, delay: 2.2, dur: 4 },
+  { x: 939, y: 166, size: 34, delay: 1.1, dur: 3.3 },
+  { x: 858, y: 263, size: 32, delay: 2.8, dur: 3 },
+];
+
+const pct = (v: number, total: number) => `${(v / total) * 100}%`;
+
 export default function StarBackground({ variant = 'main', children }: Props) {
   const src = BG_SRC[variant];
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-sky-fallback">
-      <picture className="pointer-events-none absolute inset-0 h-full w-full">
-        <source srcSet={`/assets/${src}.webp`} type="image/webp" />
-        <img
-          src={`/assets/${src}.png`}
-          alt=""
-          aria-hidden
-          draggable={false}
-          className="h-full w-full object-cover object-bottom"
-        />
-      </picture>
+      {/* object-cover + object-bottom 과 같은 배치를 직접 계산 — 반짝임을 이미지 속 별 위치에 고정하기 위함 */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 [container-type:size]">
+        <div className="absolute bottom-0 left-1/2 aspect-[4/3] -translate-x-1/2" style={{ width: 'max(100cqw, 133.334cqh)' }}>
+          <picture>
+            <source srcSet={`/assets/${src}.webp`} type="image/webp" />
+            <img src={`/assets/${src}.png`} alt="" draggable={false} className="h-full w-full" />
+          </picture>
+          {variant !== 'landing' &&
+            GLINTS.map(g => (
+              <span
+                key={`${g.x}-${g.y}`}
+                className="star-glint"
+                style={{
+                  left: pct(g.x, 1024),
+                  top: pct(g.y, 768),
+                  width: pct(g.size, 1024),
+                  animationDelay: `${g.delay}s`,
+                  animationDuration: `${g.dur}s`,
+                }}
+              />
+            ))}
+        </div>
+      </div>
 
       <div className="relative z-10">{children}</div>
     </div>
