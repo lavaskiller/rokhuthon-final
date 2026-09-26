@@ -35,6 +35,10 @@ const MOCK_FLOWER: FlowerResult = {
 // Figma 카드 자리
 const CARD_BOX = { left: 452, top: 151.5, width: 289, height: 521 }
 
+// 인쇄 용지 104×189mm (index.css @page) 를 CSS px(96dpi) 로 환산
+const MM = 96 / 25.4
+const PRINT_PAGE = { width: 104 * MM, height: 189 * MM }
+
 export default function FlowerPrint() {
   const navigate = useNavigate()
   const { state } = useFortuneFlow()
@@ -61,11 +65,19 @@ export default function FlowerPrint() {
   useLayoutEffect(() => {
     const el = cardRef.current
     if (!el) return
-    const fit = () => setCardScale(Math.min(CARD_BOX.width / el.offsetWidth, CARD_BOX.height / el.offsetHeight))
+    const fit = () => {
+      setCardScale(Math.min(CARD_BOX.width / el.offsetWidth, CARD_BOX.height / el.offsetHeight))
+      // 인쇄용 축소 비율 — index.css @media print 의 #print-card 가 사용
+      const printScale = Math.min(1, PRINT_PAGE.width / el.offsetWidth, PRINT_PAGE.height / el.offsetHeight)
+      document.documentElement.style.setProperty('--print-scale', String(printScale))
+    }
     fit()
     const ro = new ResizeObserver(fit)
     ro.observe(el)
-    return () => ro.disconnect()
+    return () => {
+      ro.disconnect()
+      document.documentElement.style.removeProperty('--print-scale')
+    }
   }, [flower])
 
   if (!flower) return null

@@ -126,6 +126,18 @@ body {
     margin: 0;
   }
 
+  /* 숨긴 화면 요소 때문에 빈 페이지가 이어지지 않도록 한 장으로 고정 */
+  html,
+  body {
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+
+  /* 페이지 진입 애니메이션(opacity 0 시작)이 인쇄 스냅샷에 끼지 않도록 */
+  .page-enter {
+    animation: none !important;
+  }
+
   /* 카드 외 모든 요소 숨김 */
   body * {
     visibility: hidden !important;
@@ -144,7 +156,9 @@ body {
     position: fixed !important;
     top: 0 !important;
     left: 50% !important;
-    transform: translateX(-50%) !important;
+    /* --print-scale: 용지(104×189mm)에 카드 전체가 들어가도록 FlowerPrint 가 인쇄 직전 계산 */
+    transform: translateX(-50%) scale(var(--print-scale, 1)) !important;
+    transform-origin: top center !important;
     border-radius: 0 !important;
     box-shadow: none !important;
     background: #ffffff !important;
