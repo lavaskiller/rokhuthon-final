@@ -34,7 +34,6 @@ const MOCK_FLOWER: FlowerResult = {
 
 // Figma 카드 자리
 const CARD_BOX = { left: 452, top: 151.5, width: 289, height: 521 }
-
 export default function FlowerPrint() {
   const navigate = useNavigate()
   const { state } = useFortuneFlow()

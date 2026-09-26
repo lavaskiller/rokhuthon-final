@@ -6,6 +6,7 @@ interface Props {
 }
 
 // Figma "리디자인05" 출력 종이 — 직사각형 흰 종이, 검정 텍스트·장식, 회색 구분선
+// 크기는 인쇄 용지(104×189mm) 비율 고정 — 남는 높이는 꽃 이미지 영역이 채움
 const Divider = () => <hr className="mx-4 border-t border-[#999]" />
 
 // ✽ 장식 — 폰트마다 글리프 굵기가 달라 SVG 로 고정 (중심으로 가늘어지는 물방울 꽃잎 5장)
@@ -28,14 +29,14 @@ export default function PrintCard({ flower, date }: Props) {
   return (
     <div
       id="print-card"
-      className="flex w-[392px] flex-col overflow-hidden font-gowun text-[#1a1a1a] shadow-2xl"
+      className="flex h-[712px] w-[392px] flex-col overflow-hidden font-gowun text-[#1a1a1a] shadow-2xl"
       style={{ background: '#ffffff' }}
     >
       {/* 상단 브랜드 */}
       <p className="pt-2 text-center text-[12px]">papernori</p>
 
       {/* 타이틀 */}
-      <h2 className="flex items-center justify-center gap-3 pb-8 pt-7 text-[25px] leading-none">
+      <h2 className="flex items-center justify-center gap-3 pb-6 pt-5 text-[25px] leading-none">
         <Florette size={28} />
         당신의 행운의 꽃은?
         <Florette size={28} />
@@ -52,11 +53,11 @@ export default function PrintCard({ flower, date }: Props) {
       <Divider />
 
       {/* 꽃 이미지 — 투명배경 PNG, 프레임 없음 */}
-      <div className="flex items-center justify-center py-7">
+      <div className="flex min-h-0 flex-1 items-center justify-center py-4">
         {flower.imageUrl && (
           <picture>
             <source srcSet={flower.imageUrl.replace(/\.png$/, '.webp')} type="image/webp" />
-            <img src={flower.imageUrl} alt={flower.name} className="h-48 w-48 object-contain" />
+            <img src={flower.imageUrl} alt={flower.name} className="h-full max-h-48 w-48 object-contain" />
           </picture>
         )}
       </div>
@@ -64,7 +65,7 @@ export default function PrintCard({ flower, date }: Props) {
       <Divider />
 
       {/* 설명 */}
-      <p className="whitespace-pre-line break-keep px-6 pt-8 text-center text-[16px] leading-[1.7] text-[#333]">
+      <p className="whitespace-pre-line break-keep px-6 pt-5 text-center text-[16px] leading-[1.7] text-[#333]">
         {flower.description}
       </p>
 
@@ -80,7 +81,7 @@ export default function PrintCard({ flower, date }: Props) {
       <p className="whitespace-pre py-5 text-center text-[13px]">{displayDate}</p>
 
       {/* 하단 브랜드 */}
-      <p className="pb-3 pt-6 text-center text-[12px]">papernori</p>
+      <p className="pb-3 pt-2 text-center text-[12px]">papernori</p>
     </div>
   )
 }

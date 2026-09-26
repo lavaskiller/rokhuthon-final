@@ -126,6 +126,18 @@ body {
     margin: 0;
   }
 
+  /* 숨긴 화면 요소 때문에 빈 페이지가 이어지지 않도록 한 장으로 고정 */
+  html,
+  body {
+    height: 100% !important;
+    overflow: hidden !important;
+  }
+
+  /* 페이지 진입 애니메이션(opacity 0 시작)이 인쇄 스냅샷에 끼지 않도록 */
+  .page-enter {
+    animation: none !important;
+  }
+
   /* 카드 외 모든 요소 숨김 */
   body * {
     visibility: hidden !important;
@@ -142,9 +154,11 @@ body {
   /* 카드 위치: 페이지 상단 중앙 고정 */
   #print-card {
     position: fixed !important;
-    top: 0 !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
+    /* 용지 전체를 채움 — 카드는 flex 로 남는 높이를 꽃 이미지 영역에 배분 */
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    transform: none !important;
     border-radius: 0 !important;
     box-shadow: none !important;
     background: #ffffff !important;
