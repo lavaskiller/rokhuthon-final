@@ -10,13 +10,11 @@ export type ZodiacSign =
   | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
 
 // 별자리 메타데이터 (ZodiacSelect 화면에서 렌더링)
-// 아이콘: iconUrl 이 로드되면 그 PNG, 실패하면 Figma placeholder(ZodiacIconPlaceholder) 표시
 export interface ZodiacMeta {
   id: ZodiacSign;
   name: string;       // 한글 이름 ex. "물고기 자리"
   dateRange: string;  // ex. "2.19–3.20"
   rank: number;       // 오늘의 별자리 순위 1~12 (서버에서 결정)
-  iconUrl: string;    // 원형 아이콘 이미지 경로 (미배치 시 placeholder 폴백)
 }
 
 // 운세 수치 (0~100)
@@ -65,5 +63,5 @@ export interface FlowerResult {
 // 꽃 개화 상태 (FlowerBloom 컴포넌트 prop)
 export type BloomState = 25 | 50 | 75 | 100;
 
-// 운세 타입 레이블 (FortuneCircle / FortuneBadge)
+// 운세 타입 (관계 / 금전 / 업무)
 export type FortuneType = 'relationship' | 'money' | 'work';

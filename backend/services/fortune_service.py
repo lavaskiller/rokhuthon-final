@@ -50,7 +50,7 @@ def get_zodiacs() -> list[dict]:
     shuffled = ZODIAC_META.copy()
     rng.shuffle(shuffled)
     return [
-        {**meta, "rank": rank + 1, "iconUrl": f"/assets/zodiacs/{meta['id']}.svg"}
+        {**meta, "rank": rank + 1}
         for rank, meta in enumerate(shuffled)
     ]
 

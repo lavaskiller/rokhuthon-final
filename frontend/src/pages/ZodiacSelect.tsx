@@ -10,7 +10,7 @@ import AppLayout from '../layouts/AppLayout'
 import FigmaStage, { StageImage } from '../components/FigmaStage'
 import ZodiacRankCard from '../components/ZodiacRankCard'
 import { useFortuneFlow } from '../hooks/useFortuneFlow'
-import { fetchZodiacs } from '../api/client'
+import { fetchZodiacs, getCachedZodiacs } from '../api/client'
 import { ZODIAC_LIST } from '../constants/zodiacs'
 import type { ZodiacMeta, ZodiacSign } from '../types'
 
@@ -22,8 +22,9 @@ const ROW_TOP = [251, 508]
 export default function ZodiacSelect() {
   const navigate = useNavigate()
   const { selectZodiac, prefetchFortune } = useFortuneFlow()
+  // 표지에서 미리 받은 순위가 있으면 바로 사용, 없으면 기본 순서로 그린 뒤 응답 오면 갱신
   const [zodiacs, setZodiacs] = useState<ZodiacMeta[]>(() =>
-    ZODIAC_LIST.map((z, i) => ({ ...z, rank: i + 1 }))
+    getCachedZodiacs() ?? ZODIAC_LIST.map((z, i) => ({ ...z, rank: i + 1 }))
   )
 
   useEffect(() => {
