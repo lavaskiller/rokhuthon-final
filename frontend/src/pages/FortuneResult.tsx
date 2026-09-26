@@ -12,6 +12,7 @@ import PillButton from '../components/PillButton'
 import RadarChart from '../components/RadarChart'
 import { useFortuneFlow } from '../hooks/useFortuneFlow'
 import { getZodiacMeta } from '../constants/zodiacs'
+import { overallScore } from '../utils/fortuneCopy'
 import type { ZodiacSign } from '../types'
 
 export default function FortuneResult() {
@@ -48,7 +49,10 @@ export default function FortuneResult() {
 
         {/* 총운 */}
         <StageImage src="/assets/fortune/f-glow.svg" box={[374, 659, 446, 99]} inset="-36.57% -8.12%" />
-        <p className="absolute left-[573.5px] top-[610.5px] w-[48px] text-center text-button font-bold leading-[48px] text-white/90">총운</p>
+        <p className="absolute inset-x-0 top-[610.5px] whitespace-nowrap text-center font-bold leading-[48px] text-white/90">
+          <span className="text-button">총운</span>
+          <span className="ml-2 text-label">{overallScore(fortune.scores)}%</span>
+        </p>
         <StageImage src="/assets/fortune/f-line.svg" box={[390, 665.5, 415, 0]} inset="-2.17px -0.52%" />
         <p className="absolute left-[297px] top-[711.5px] w-[600px] -translate-y-1/2 whitespace-pre-line break-keep text-center text-[16px] font-bold leading-[2]">
           {fortune.summary.replace(/\.(?!\n)/g, '.\n').trim()}

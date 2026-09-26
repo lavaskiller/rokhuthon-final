@@ -28,7 +28,7 @@ export default {
         radar: {
           area: '#ef759a',                     // 오늘의운세 레이더 — 데이터 영역 (opacity 50%)
           line: '#ffc2c2',                     // 오늘의운세 레이더 — 데이터 외곽선
-          overall: '#fb729b',                  // 총운 점 / 범례
+          relationship: '#fb729b',             // 관계 운 점 / 범례
           money: '#ffbbb2',                    // 금전 운 점 / 범례
           work: '#ffc9d9',                     // 업무 운 점 / 범례
         },
