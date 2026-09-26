@@ -12,31 +12,25 @@ import PillButton from '../components/PillButton'
 import RadarChart from '../components/RadarChart'
 import { useFortuneFlow } from '../hooks/useFortuneFlow'
 import { getZodiacMeta } from '../constants/zodiacs'
-import type { ZodiacSign, FortuneResult as FortuneResultType } from '../types'
-
-const MOCK_FORTUNE: FortuneResultType = {
-  zodiac: 'aries',
-  date: '2026. 06. 17',
-  summary: '오늘은 새로운 시작에 좋은 기운이 가득해요.\n작은 용기가 큰 행운을 불러올 거예요.',
-  scores: { relationship: 82, money: 67, work: 91 },
-}
+import type { ZodiacSign } from '../types'
 
 export default function FortuneResult() {
   const { zodiac } = useParams<{ zodiac: string }>()
   const navigate = useNavigate()
-  const { state, loadFlower } = useFortuneFlow()
-  const { fortune: fortuneFromState, selectedZodiac } = state
-  const isDev = import.meta.env.DEV
-  const fortune = fortuneFromState ?? (isDev ? MOCK_FORTUNE : null)
+  const { state, selectZodiac, loadFlower } = useFortuneFlow()
+  const meta = zodiac ? getZodiacMeta(zodiac as ZodiacSign) : undefined
+  // URL 의 별자리와 일치하는 운세만 사용 — 직접 진입·새로고침 시에는 아래에서 다시 불러온다
+  const fortune = state.fortune?.zodiac === zodiac ? state.fortune : null
 
   useEffect(() => {
-    if (isDev) return
-    if (!selectedZodiac || !fortune) navigate('/', { replace: true })
-  }, [isDev, selectedZodiac, fortune, navigate])
+    if (!meta || state.error) {
+      navigate('/', { replace: true })
+      return
+    }
+    if (!fortune && !state.isLoadingFortune) void selectZodiac(meta.id)
+  }, [meta, fortune, state.error, state.isLoadingFortune, selectZodiac, navigate])
 
-  if (!fortune || !zodiac) return null
-
-  const meta = getZodiacMeta(zodiac as ZodiacSign)
+  if (!fortune) return null
 
   const handleFlowerCTA = () => {
     void loadFlower()
