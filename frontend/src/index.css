@@ -28,6 +28,18 @@ body {
   }
 }
 
+/* 표지 별 스프라이트 깜빡임 — 크기 변화 없이 밝기만 잠깐 내려갔다 돌아옴 */
+@keyframes blink {
+  0%, 60%, 100% { opacity: 1; }
+  80% { opacity: 0.25; }
+}
+.star-blink {
+  animation: blink 3s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .star-blink { animation: none; }
+}
+
 /* 배경 이미지 속 별 위 반짝임 — 빛 번짐 + 십자 광선 (StarBackground GLINTS) */
 .star-glint {
   position: absolute;

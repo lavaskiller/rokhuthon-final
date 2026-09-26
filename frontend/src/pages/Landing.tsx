@@ -31,15 +31,18 @@ const DIM_SPARKLES: [number, number, number, number][] = [
   [236, 200, 16, 22], [829, 222, 24, 33], [488, 257, 18, 25], [889, 473, 18, 25], [306, 417, 18, 25], [623, 66, 12, 17],
 ]
 
-function Sparkle({ box: [left, top, width, height], dim = false }: { box: [number, number, number, number]; dim?: boolean }) {
+// 깜빡임 주기·지연 — 별마다 달라 동시에 깜빡이지 않도록 인덱스로 분산
+const blinkTiming = (i: number) => ({ animationDuration: `${2.6 + (i % 4) * 0.45}s`, animationDelay: `${(i * 0.73) % 3}s` })
+
+function Sparkle({ box: [left, top, width, height], dim = false, index }: { box: [number, number, number, number]; dim?: boolean; index: number }) {
   return (
     <div className={`absolute overflow-hidden mix-blend-lighten ${dim ? 'opacity-50' : ''}`} style={{ left, top, width, height }}>
       <img
         src={SPRITE}
         alt=""
         draggable={false}
-        className="absolute max-w-none"
-        style={{ width: '6033.33%', height: '3290.91%', left: '-2950%', top: '-406.06%' }}
+        className="star-blink absolute max-w-none"
+        style={{ width: '6033.33%', height: '3290.91%', left: '-2950%', top: '-406.06%', ...blinkTiming(index) }}
       />
     </div>
   )
@@ -67,8 +70,8 @@ export default function Landing() {
               />
             </div>
           ))}
-          {SPARKLES.map((box, i) => <Sparkle key={i} box={box} />)}
-          {DIM_SPARKLES.map((box, i) => <Sparkle key={i} box={box} dim />)}
+          {SPARKLES.map((box, i) => <Sparkle key={i} box={box} index={i} />)}
+          {DIM_SPARKLES.map((box, i) => <Sparkle key={i} box={box} dim index={SPARKLES.length + i} />)}
         </div>
 
         <div className="absolute left-[595.5px] top-1/2 flex w-[365px] -translate-x-1/2 -translate-y-1/2 flex-col items-center">
