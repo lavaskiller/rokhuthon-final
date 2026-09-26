@@ -5,11 +5,16 @@ import { readFileSync } from 'fs'
 
 const { GH_TOKEN, PR_NUMBER, BASE_SHA, HEAD_SHA, GITHUB_REPOSITORY } = process.env
 
-// diff 수집 (frontend/ 전체, lock·dist 제외, 최대 20000자)
+// claude CLI 응답 대기 한도 — 120초에선 큰 PR 에서 ETIMEDOUT 이 났음 (PR #20)
+const CLAUDE_TIMEOUT_MS = 360_000
+// 리뷰에 넘기는 diff 최대 길이 — 프롬프트가 길수록 응답이 느려져 타임아웃 위험이 커짐
+const MAX_DIFF_CHARS = 15000
+
+// diff 수집 (frontend/ 전체, lock·dist·정적 에셋 제외 — SVG/이미지 diff 는 리뷰에 의미 없고 길이만 차지)
 let diff = ''
 try {
   diff = execSync(
-    `git diff ${BASE_SHA}..${HEAD_SHA} -- frontend/ ':(exclude)*.lock' ':(exclude)frontend/dist'`,
+    `git diff ${BASE_SHA}..${HEAD_SHA} -- frontend/ ':(exclude)*.lock' ':(exclude)frontend/dist' ':(exclude)frontend/public/assets'`,
     {
       encoding: 'utf-8',
       maxBuffer: 4 * 1024 * 1024,
@@ -18,7 +23,7 @@ try {
 } catch {
   diff = '(diff 수집 실패)'
 }
-if (diff.length > 20000) diff = diff.slice(0, 20000) + '\n...(truncated)'
+if (diff.length > MAX_DIFF_CHARS) diff = diff.slice(0, MAX_DIFF_CHARS) + '\n...(truncated)'
 
 const qa = readFileSync('QA.md', 'utf-8')
 
@@ -62,16 +67,22 @@ ${diff}
 ]
 \`\`\``
 
-// claude CLI로 리뷰 생성
+// claude CLI로 리뷰 생성 — 타임아웃 등 일시적 실패는 1회 재시도
 let review
-try {
-  review = execSync('claude --print', {
-    input: prompt,
-    encoding: 'utf-8',
-    timeout: 120_000,
-  })
-} catch (err) {
-  console.error('claude CLI 실패:', err.message)
+for (let attempt = 1; attempt <= 2 && !review; attempt++) {
+  try {
+    review = execSync('claude --print', {
+      input: prompt,
+      encoding: 'utf-8',
+      timeout: CLAUDE_TIMEOUT_MS,
+      maxBuffer: 4 * 1024 * 1024,
+    })
+  } catch (err) {
+    console.error(`claude CLI 실패 (${attempt}/2):`, err.message)
+  }
+}
+if (!review?.trim()) {
+  console.error('Claude QA 리뷰를 생성하지 못했습니다 (재시도 후에도 CLI 실패/타임아웃)')
   process.exit(1)
 }
 

@@ -8,6 +8,8 @@ on:
 jobs:
   qa-review:
     runs-on: ubuntu-latest
+    # claude CLI 6분 × 재시도 1회 + 설치 시간
+    timeout-minutes: 20
     permissions:
       contents: read
       pull-requests: write
