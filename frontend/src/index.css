@@ -154,11 +154,11 @@ body {
   /* 카드 위치: 페이지 상단 중앙 고정 */
   #print-card {
     position: fixed !important;
-    top: 0 !important;
-    left: 50% !important;
-    /* --print-scale: 용지(104×189mm)에 카드 전체가 들어가도록 FlowerPrint 가 인쇄 직전 계산 */
-    transform: translateX(-50%) scale(var(--print-scale, 1)) !important;
-    transform-origin: top center !important;
+    /* 용지 전체를 채움 — 카드는 flex 로 남는 높이를 꽃 이미지 영역에 배분 */
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    transform: none !important;
     border-radius: 0 !important;
     box-shadow: none !important;
     background: #ffffff !important;
