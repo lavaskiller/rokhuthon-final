@@ -1,8 +1,14 @@
+// ─────────────────────────────────────────────
+// FlowerLoading — Figma "로딩1~4" (1:343 ~ 1:362)
+//
+// 로딩 원 안에서 꽃잎 1장 → 만개 (FlowerBloom). 애니메이션 종료 + 꽃 추천 도착 시 결과로 이동
+// ─────────────────────────────────────────────
+
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout'
+import FigmaLoading from '../components/FigmaLoading'
 import FlowerBloom from '../components/FlowerBloom'
-import LoadingArc from '../components/LoadingArc'
 import { useFortuneFlow } from '../hooks/useFortuneFlow'
 
 export default function FlowerLoading() {
@@ -20,48 +26,17 @@ export default function FlowerLoading() {
 
   useEffect(() => {
     if (!effectiveZodiac || !animDone) return
-    if (flower) {
-      navigate(`/flower/${effectiveZodiac}`, { replace: true })
-    } else if (isDev) {
-      navigate(`/flower/${effectiveZodiac}`, { replace: true })
-    }
+    if (flower || isDev) navigate(`/flower/${effectiveZodiac}`, { replace: true })
   }, [animDone, flower, effectiveZodiac, isDev, navigate])
 
-  const today = new Date()
-  const dateStr = [
-    today.getFullYear(),
-    String(today.getMonth() + 1).padStart(2, '0'),
-    String(today.getDate()).padStart(2, '0'),
-  ].join('. ')
-
-  const ARC_SIZE = 220
-
   return (
-    <AppLayout variant="loading" starOpacity={0.4}>
-      <div className="relative min-h-screen flex flex-col items-center justify-center">
-        {/* 날짜 — 좌상단 (Figma: 20px, white/85) */}
-        <p className="absolute top-8 left-10 font-gowun text-xl text-white/85">
-          {dateStr}
-        </p>
-
-        {/* 중앙: 회전 arc + 꽃 개화 그래픽 */}
-        <div
-          className="relative flex items-center justify-center"
-          style={{ width: ARC_SIZE, height: ARC_SIZE }}
-          role="status"
-          aria-label="꽃을 피우는 중"
-        >
-          <LoadingArc size={ARC_SIZE} showInner={false} />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <FlowerBloom animated onComplete={() => setAnimDone(true)} />
-          </div>
+    <AppLayout variant="loading">
+      <FigmaLoading message="오늘의 꽃을 피우는 중이에요" label="꽃을 피우는 중">
+        {/* Figma 로딩 꽃 110.9×103.8 — FlowerBloom(132×124) 을 축소해 같은 자리에 */}
+        <div className="absolute left-[531.5px] top-[325.4px] origin-center scale-[0.84]">
+          <FlowerBloom animated onComplete={() => setAnimDone(true)} />
         </div>
-
-        {/* 메시지 (Figma: 28px white) */}
-        <p className="mt-12 font-gowun text-2xl text-white">
-          오늘의 꽃을 피우는 중이에요
-        </p>
-      </div>
+      </FigmaLoading>
     </AppLayout>
   )
 }

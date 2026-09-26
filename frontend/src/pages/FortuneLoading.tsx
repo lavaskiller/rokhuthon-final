@@ -1,7 +1,13 @@
+// ─────────────────────────────────────────────
+// FortuneLoading — 운세 로딩 (Figma 로딩 레이아웃 + 선택한 별자리 아이콘)
+// ─────────────────────────────────────────────
+
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout'
-import LoadingArc from '../components/LoadingArc'
+import FigmaLoading, { RING_CENTER } from '../components/FigmaLoading'
+import ZodiacFigmaIcon from '../components/ZodiacFigmaIcon'
+import { ZODIAC_FIGMA_ICONS } from '../constants/zodiacFigmaIcons'
 import { useFortuneFlow } from '../hooks/useFortuneFlow'
 
 const LOADING_MESSAGES = [
@@ -17,7 +23,7 @@ const LOADING_MESSAGES = [
 export default function FortuneLoading() {
   const navigate = useNavigate()
   const { state } = useFortuneFlow()
-  const { selectedZodiac, isLoadingFortune, fortune, error } = state
+  const { selectedZodiac, isLoadingFortune, fortune } = state
   const isDev = import.meta.env.DEV
   const effectiveZodiac = selectedZodiac ?? (isDev ? 'aries' : null)
   const [minTimePassed, setMinTimePassed] = useState(false)
@@ -42,45 +48,14 @@ export default function FortuneLoading() {
     }
   }, [effectiveZodiac, isLoadingFortune, fortune, minTimePassed, isDev, navigate])
 
-  const today = new Date()
-  const dateStr = [
-    today.getFullYear(),
-    String(today.getMonth() + 1).padStart(2, '0'),
-    String(today.getDate()).padStart(2, '0'),
-  ].join('. ')
-
-  const ARC_SIZE = 180
+  if (!effectiveZodiac) return null
+  const { box: [, , w, h], shiftY = 0 } = ZODIAC_FIGMA_ICONS[effectiveZodiac]
 
   return (
-    <AppLayout variant="loading" starOpacity={0.4}>
-      <div className="min-h-screen flex flex-col items-center justify-center">
-        {/* 날짜 — 좌상단 */}
-        <p className="absolute top-8 left-10 font-gowun text-xl text-white/85">
-          {dateStr}
-        </p>
-
-        {/* 회전 arc + 별자리 아이콘 */}
-        <div
-          className="relative flex items-center justify-center"
-          style={{ width: ARC_SIZE, height: ARC_SIZE }}
-          role="status"
-          aria-label="운세를 불러오는 중"
-        >
-          <LoadingArc size={ARC_SIZE} />
-          <img
-            src={`/assets/zodiacs/${effectiveZodiac ?? 'aries'}.svg`}
-            alt=""
-            width={Math.round(ARC_SIZE * 0.42)}
-            height={Math.round(ARC_SIZE * 0.42)}
-            className="absolute"
-          />
-        </div>
-
-        {/* 로딩 메시지 */}
-        <p className="mt-12 font-gowun text-2xl text-white">
-          {LOADING_MESSAGES[msgIndex]}
-        </p>
-      </div>
+    <AppLayout variant="loading">
+      <FigmaLoading message={LOADING_MESSAGES[msgIndex]} label="운세를 불러오는 중">
+        <ZodiacFigmaIcon zodiac={effectiveZodiac} style={{ left: RING_CENTER[0] - w / 2, top: RING_CENTER[1] - h / 2 + shiftY }} />
+      </FigmaLoading>
     </AppLayout>
   )
 }
