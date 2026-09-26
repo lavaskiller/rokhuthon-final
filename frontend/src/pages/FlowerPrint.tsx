@@ -1,38 +1,50 @@
-import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+// ─────────────────────────────────────────────
+// FlowerPrint — Figma "리디자인05" 출력 화면 (1:532 / 1:540 / 1:548)
+//
+// PrintCard(오늘 날짜 포함)를 Figma 카드 자리(289×521)에 맞춰 축소 표시, "출력하기" → window.print()
+// 15초 후 자동으로 처음 화면 복귀 (키오스크)
+// ─────────────────────────────────────────────
+
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import AppLayout from '../layouts/AppLayout'
-import GlassCard from '../components/GlassCard'
+import FigmaStage from '../components/FigmaStage'
+import PillButton from '../components/PillButton'
 import PrintCard from '../components/PrintCard'
 import { useFortuneFlow } from '../hooks/useFortuneFlow'
 import type { FlowerResult } from '../types'
 
 const MOCK_FLOWER: FlowerResult = {
   main: {
-    name: '프리지아',
-    englishName: 'Freesia',
-    fortuneType: 'money',
-    subtitle: '금전운을 담은 꽃',
-    imageUrl: '/assets/flowers/freesia.png',
-    description: '새로운 시작을 응원하는 향기로운 기운이\n당신 곁에 오래 머물러요.\n좋은 일들이 은은하게, 그러나 분명하게\n당신의 일상에 스며들 거예요.',
-    meanings: ['새로운 시작', '순수한 기대', '당신의 앞날을 응원합니다'],
-    luckItems: ['예상 밖의 작은 수입', '기분 좋은 연락', '새로운 제안과 기회'],
-    places: ['책상 위', '침대 옆 협탁', '햇빛이 드는 창가'],
+    name: '거베라',
+    englishName: 'Gerbera',
+    fortuneType: 'work',
+    subtitle: '업무운을 담은 꽃',
+    imageUrl: '/assets/flowers/gerbera.png',
+    description: '언제나 긍정적인 에너지가\n당신의 하루를 환하게 밝혀줄 거예요.\n앞으로 나아가는 발걸음마다\n따뜻한 응원이 함께할 거예요.',
+    meanings: ['긍정적인 에너지', '앞으로 나아가는 힘', '밝은 성취'],
+    luckItems: ['인정받는 성과', '팀워크 향상', '새로운 기회 포착'],
+    places: ['책상 위', '사무실 창가', '회의실'],
   },
   subs: [
-    { name: '장미', fortuneType: 'relationship', subtitle: '관계운을 담은 꽃', description: '사랑', meanings: [], luckItems: [], places: [] },
-    { name: '라벤더', fortuneType: 'work', subtitle: '업무운을 담은 꽃', description: '집중', meanings: [], luckItems: [], places: [] },
+    { name: '', fortuneType: 'money', subtitle: '', description: '', meanings: [], luckItems: [], places: [] },
+    { name: '', fortuneType: 'relationship', subtitle: '', description: '', meanings: [], luckItems: [], places: [] },
   ],
 }
 
+// Figma 카드 자리
+const CARD_BOX = { left: 452, top: 151.5, width: 289, height: 521 }
+
 export default function FlowerPrint() {
   const navigate = useNavigate()
-  const { zodiac } = useParams<{ zodiac: string }>()
   const { state } = useFortuneFlow()
   const isDev = import.meta.env.DEV
 
   const flower = state.flower ?? (isDev ? MOCK_FLOWER : null)
   const { selectedZodiac } = state
   const [countdown, setCountdown] = useState(15)
+  const cardRef = useRef<HTMLDivElement>(null)
+  const [cardScale, setCardScale] = useState(CARD_BOX.width / 392)
 
   useEffect(() => {
     if (isDev) return
@@ -45,68 +57,45 @@ export default function FlowerPrint() {
     return () => clearTimeout(t)
   }, [countdown, navigate])
 
+  // PrintCard(392px 폭) 를 Figma 카드 자리에 맞게 축소 — 설명 길이에 따라 높이가 달라지므로 측정
+  useLayoutEffect(() => {
+    const el = cardRef.current
+    if (!el) return
+    const fit = () => setCardScale(Math.min(CARD_BOX.width / el.offsetWidth, CARD_BOX.height / el.offsetHeight))
+    fit()
+    const ro = new ResizeObserver(fit)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [flower])
+
   if (!flower) return null
 
   return (
     <AppLayout>
-      <div className="min-h-screen flex items-stretch">
-        {/* 좌측: 출력 카드 */}
-        <div className="flex-1 flex items-center justify-center py-8">
-          <PrintCard flower={flower.main} />
+      <FigmaStage>
+        <h1 className="absolute left-0 right-0 top-[74.5px] text-center text-title font-bold leading-[40px]">
+          오늘의 행운의 꽃
+        </h1>
+
+        <div className="absolute flex items-center justify-center" style={CARD_BOX}>
+          <div ref={cardRef} className="shrink-0 print:![transform:none]" style={{ transform: `scale(${cardScale})` }}>
+            <PrintCard flower={flower.main} />
+          </div>
         </div>
 
-        {/* 우측: 메시지 + 버튼들 */}
-        <div className="flex-1 flex flex-col items-center justify-center gap-[220px] px-8 relative">
-          {/* 헤딩 */}
-          <div className="text-center">
-            <p className="font-gowun text-base text-white/70 mb-3">
-              오늘의 운세에 맞는 꽃을 추천해 드렸어요
-            </p>
-            <h1 className="font-gowun text-2xl font-bold text-white whitespace-nowrap">
-              ✿ 당신의 하루를 응원합니다 ✿
-            </h1>
-          </div>
+        <PillButton label="출력하기" onClick={() => window.print()} className="absolute left-[466px] top-[709.5px]" />
 
-          {/* 버튼들 */}
-          <div className="flex flex-col items-center gap-4 w-full max-w-sm">
-            <GlassCard
-              variant="pill"
-              className="w-full text-center"
-              onClick={() => window.print()}
-            >
-              <div className="h-[88px] flex flex-col items-center justify-center gap-3 px-10">
-                <svg viewBox="0 0 200 14" className="w-3/4 h-3.5" fill="none">
-                  <line x1="4" y1="7" x2="188" y2="7" stroke="rgba(255,255,255,0.85)" strokeWidth="1.5"/>
-                  <path d="M183 1L197 7L183 13" stroke="rgba(255,255,255,0.85)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <span className="font-gowun text-[24px] leading-none text-[rgba(255,255,255,0.85)]">출력하기</span>
-              </div>
-            </GlassCard>
-
-            <GlassCard
-              variant="pill"
-              className="w-full text-center"
-              onClick={() => navigate(`/flower/${zodiac ?? ''}`)}
-            >
-              <div className="h-[88px] flex items-center justify-center px-10">
-                <span className="font-gowun text-[24px] leading-none text-[rgba(255,255,255,0.85)]">뒤로가기</span>
-              </div>
-            </GlassCard>
-          </div>
-
-          {/* 처음으로 버튼 — 우측 패널 하단 */}
-          <button
-            type="button"
-            onClick={() => navigate('/')}
-            className="absolute bottom-6 font-gowun text-sm text-white/50 hover:text-white/80 transition-colors flex items-center gap-2"
-          >
-            <span>처음으로</span>
-            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full border border-white/30 text-xs tabular-nums">
-              {countdown}
-            </span>
-          </button>
-        </div>
-      </div>
+        <button
+          type="button"
+          onClick={() => navigate('/')}
+          className="absolute bottom-[28px] right-[40px] flex items-center gap-2 text-sm text-white/50 transition-colors hover:text-white/80"
+        >
+          <span>처음으로</span>
+          <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-white/30 text-xs tabular-nums">
+            {countdown}
+          </span>
+        </button>
+      </FigmaStage>
     </AppLayout>
   )
 }
