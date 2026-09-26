@@ -19,22 +19,11 @@
     <link rel="preload" href="/assets/bloom-75.png" as="image" />
     <link rel="preload" href="/assets/bloom-50.png" as="image" />
     <link rel="preload" href="/assets/bloom-25.png" as="image" />
-    <!-- 별자리 아이콘 12개 — ZodiacSelect 진입 전 미리 로드 -->
-    <link rel="preload" href="/assets/zodiacs/aries.svg" as="image" type="image/svg+xml" />
-    <link rel="preload" href="/assets/zodiacs/taurus.svg" as="image" type="image/svg+xml" />
-    <link rel="preload" href="/assets/zodiacs/gemini.svg" as="image" type="image/svg+xml" />
-    <link rel="preload" href="/assets/zodiacs/cancer.svg" as="image" type="image/svg+xml" />
-    <link rel="preload" href="/assets/zodiacs/leo.svg" as="image" type="image/svg+xml" />
-    <link rel="preload" href="/assets/zodiacs/virgo.svg" as="image" type="image/svg+xml" />
-    <link rel="preload" href="/assets/zodiacs/libra.svg" as="image" type="image/svg+xml" />
-    <link rel="preload" href="/assets/zodiacs/scorpio.svg" as="image" type="image/svg+xml" />
-    <link rel="preload" href="/assets/zodiacs/sagittarius.svg" as="image" type="image/svg+xml" />
-    <link rel="preload" href="/assets/zodiacs/capricorn.svg" as="image" type="image/svg+xml" />
-    <link rel="preload" href="/assets/zodiacs/aquarius.svg" as="image" type="image/svg+xml" />
-    <link rel="preload" href="/assets/zodiacs/pisces.svg" as="image" type="image/svg+xml" />
     <!-- 공통 배경 (Figma 20260926 "UIUX 최종") — 표지 / 나머지 전 화면 -->
     <link rel="preload" href="/assets/bg-sky-landing.webp" as="image" type="image/webp" />
     <link rel="preload" href="/assets/bg-sky.webp" as="image" type="image/webp" />
+    <!-- 표지 별 장식 스프라이트 — 첫 화면에 바로 필요 (별자리순위 SVG 는 Landing 마운트 시 preloadImages) -->
+    <link rel="preload" href="/assets/cover-star-sprite.webp" as="image" type="image/webp" />
   </head>
   <body>
     <div id="root"></div>

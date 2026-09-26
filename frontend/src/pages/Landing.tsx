@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────
 // Landing — Figma "표지" (1:735)
 //
-// 별 장식은 cover-star-sprite.png 한 장을 크롭해 배치 (Figma 원본 크롭 비율 그대로)
+// 별 장식은 cover-star-sprite.webp 한 장을 크롭해 배치 (Figma 원본 크롭 비율 그대로)
 // ─────────────────────────────────────────────
 
 import { useEffect } from 'react'
@@ -10,8 +10,11 @@ import AppLayout from '../layouts/AppLayout'
 import FigmaStage from '../components/FigmaStage'
 import PillButton from '../components/PillButton'
 import { fetchZodiacs } from '../api/client'
+import { ZODIAC_RANK_ASSETS } from '../constants/zodiacFigmaIcons'
+import { preloadImages } from '../utils/preloadImages'
 
-const SPRITE = '/assets/cover-star-sprite.png'
+// index.html 에서 preload — PNG 728KB → WebP 323KB
+const SPRITE = '/assets/cover-star-sprite.webp'
 
 // 매달린 별: [left, top, w, h, 이미지 w%, h%, left%, top%, 좌우반전]
 const HANGING: [number, number, number, number, number, number, number, number, boolean][] = [
@@ -53,6 +56,7 @@ export default function Landing() {
 
   useEffect(() => {
     fetchZodiacs().catch(() => {})
+    preloadImages(ZODIAC_RANK_ASSETS)
   }, [])
 
   return (

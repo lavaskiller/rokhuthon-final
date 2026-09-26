@@ -118,3 +118,17 @@ export const CARD_BG_INSET: Record<ZodiacFigmaIcon['card'], string> = {
   '87': '-0.88% -3.36% -5.03% -3.36%',
   '88': '-1.04% -3.53% -5.18% -3.53%',
 }
+
+/** 별자리순위 화면에서 쓰는 모든 SVG 경로 — 표지에서 미리 받아 순위 화면 진입 시 조각이 늦게 뜨지 않도록 */
+export const ZODIAC_RANK_ASSETS: string[] = [
+  ...new Set([
+    ...Object.values(ZODIAC_FIGMA_ICONS).flatMap(({ parts, card, frame }) => [
+      ...parts.map(([, file]) => file),
+      `z-card-${card}.svg`,
+      `z-frame-${frame}.svg`,
+    ]),
+    'z-line-l.svg',
+    'z-line-r.svg',
+    'z-subtitle-glow.svg',
+  ]),
+].map(file => `/assets/zodiacs/rank/${file}`)
