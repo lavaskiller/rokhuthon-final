@@ -91,7 +91,7 @@ export default function FlowerResult() {
             <SurfaceCard className="h-[172.383px] w-[262.8px] pt-[26px]">
               <div style={{ paddingLeft: card.padLeft }}>
                 <h2 className="whitespace-nowrap text-label font-bold leading-[29px]">{card.title}</h2>
-                <ul className="-ml-[5px] mt-px list-disc whitespace-nowrap pl-6 text-body">
+                <ul className="-ml-[5px] mt-px list-disc whitespace-nowrap pl-6 text-[18px] leading-[1.6] marker:text-[12px]">
                   {main[card.key].map(item => <li key={item}>{item}</li>)}
                 </ul>
               </div>
