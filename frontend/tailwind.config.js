@@ -19,6 +19,19 @@ export default {
           highlight: '#ffdbdb',                // 강조 텍스트/라인
         },
         'sky-fallback': '#b0506e',             // 배경 이미지 로드 전 바탕색
+        zodiac: {
+          name: '#a21f53',                     // 별자리순위 카드 — 별자리 이름
+          date: '#db427f',                     // 별자리순위 카드 — 날짜 범위
+          fade: '#e96680',                     // 별자리순위 상단 그라디언트 시작색
+          'fade-end': 'rgba(255,170,179,0)',   // 별자리순위 상단 그라디언트 끝색
+        },
+        radar: {
+          area: '#ef759a',                     // 오늘의운세 레이더 — 데이터 영역 (opacity 50%)
+          line: '#ffc2c2',                     // 오늘의운세 레이더 — 데이터 외곽선
+          relationship: '#fb729b',             // 관계 운 점 / 범례
+          money: '#ffbbb2',                    // 금전 운 점 / 범례
+          work: '#ffc9d9',                     // 업무 운 점 / 범례
+        },
 
         // ── 이전 디자인(남색 우주) 토큰 — 화면 이전 완료 후 제거 예정 ──
         accent: '#76d4ff',
