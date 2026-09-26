@@ -16,10 +16,18 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
 
 /** 12개 별자리 + 오늘의 순위 — 모듈 레벨 캐시로 중복 요청 방지 */
 let _zodiacCache: Promise<ZodiacMeta[]> | null = null
+let _zodiacData: ZodiacMeta[] | null = null
 export const fetchZodiacs = (): Promise<ZodiacMeta[]> => {
-  if (!_zodiacCache) _zodiacCache = request<ZodiacMeta[]>('/zodiacs').catch(e => { _zodiacCache = null; throw e })
+  if (!_zodiacCache) {
+    _zodiacCache = request<ZodiacMeta[]>('/zodiacs')
+      .then(data => (_zodiacData = data))
+      .catch(e => { _zodiacCache = null; throw e })
+  }
   return _zodiacCache
 }
+
+/** 이미 받아 둔 순위 (없으면 null) — 첫 렌더부터 실제 순위로 그려 카드가 재배치되며 깜빡이지 않도록 */
+export const getCachedZodiacs = (): ZodiacMeta[] | null => _zodiacData
 
 /** 별자리 → 총운 텍스트 + 관계/금전/업무 수치 */
 export const fetchFortune = (zodiac: string): Promise<FortuneResult> =>
