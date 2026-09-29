@@ -7,7 +7,7 @@
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-export const IDLE_RETURN_MS = 90_000
+export const IDLE_RETURN_MS = 30_000
 
 const ACTIVITY_EVENTS = ['pointerdown', 'keydown', 'wheel', 'touchstart', 'scroll'] as const
 
