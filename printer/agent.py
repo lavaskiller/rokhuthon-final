@@ -79,16 +79,40 @@ def _configured() -> bool:
     return DRY_RUN or os.path.exists(USB_DEVICE)
 
 
+# 장치 파일은 한 번 열어 계속 유지 — usblp 는 열려 있는 동안 읽기 요청을 걸어 두는데, 닫을 때마다 이를 취소하는
+# 과정에서 라즈베리파이 5 의 xHCI 컨트롤러가 멈추는 일이 있었음 (dmesg "HC died"). 오류가 났을 때만 닫고 다시 연다.
+# _print_lock 을 잡은 상태에서만 접근.
+_printer: Paperang | None = None
+
+
+def _get_printer() -> Paperang:
+    global _printer
+    if _printer is None:
+        p = Paperang(USB_DEVICE, WIDTH)
+        p.connect()
+        _printer = p
+    return _printer
+
+
+def _drop_printer() -> None:
+    global _printer
+    if _printer is not None:
+        try:
+            _printer.close()
+        except OSError:
+            pass
+        _printer = None
+
+
 def _print_blocking(rows: bytes) -> None:
     # 연결·상태 확인까지만 재시도 — 데이터 전송 중 실패를 재시도하면 반쪽 출력이 두 번 나옴
     last: Exception | None = None
     for attempt in range(1, RETRIES + 2):
-        p = Paperang(USB_DEVICE, WIDTH)
         try:
-            p.connect()
+            p = _get_printer()
             p.status()
         except OSError as e:  # 절전 복귀·케이블 재연결 직후
-            p.close()
+            _drop_printer()
             last = e
             log.warning("printer not ready (attempt %d): %s", attempt, e)
             time.sleep(1.5)
@@ -96,8 +120,9 @@ def _print_blocking(rows: bytes) -> None:
         started = time.monotonic()
         try:
             p.print_rows(rows, DENSITY, FEED_LINES)
-        finally:
-            p.close()
+        except OSError:
+            _drop_printer()
+            raise
         log.info("printed %d lines in %.1fs (frame %dB)", len(rows) // (WIDTH // 8), time.monotonic() - started, p.max_frame)
         return
     raise last  # type: ignore[misc]
@@ -200,13 +225,16 @@ def _keepalive_loop() -> None:
     """P2 는 약 10분 유휴 시 스스로 꺼짐(USB 에서도 사라짐) — 주기적으로 상태를 물어 깨어 있게 함."""
     while True:
         time.sleep(KEEPALIVE_SEC)
-        if DRY_RUN or not os.path.exists(USB_DEVICE) or not _print_lock.acquire(blocking=False):
+        if DRY_RUN or not _print_lock.acquire(blocking=False):
             continue
         try:
-            with Paperang(USB_DEVICE, WIDTH) as p:
-                p.status()
+            if not os.path.exists(USB_DEVICE):
+                _drop_printer()  # 프린터가 꺼지거나 빠짐 — 다시 꽂히면 새로 연다
+                continue
+            _get_printer().status()
         except OSError as e:
             log.warning("keepalive failed: %s", e)
+            _drop_printer()
         finally:
             _print_lock.release()
 
