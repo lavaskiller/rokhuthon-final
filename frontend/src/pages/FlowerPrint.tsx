@@ -102,12 +102,21 @@ export default function FlowerPrint() {
           </div>
         </div>
 
+        {/* 처음으로 · 출력하기 나란히 (261×2 + 간격 24, 가운데 정렬) */}
+        <PillButton
+          label={`처음으로 (${countdown})`}
+          variant="secondary"
+          icon="left"
+          onClick={() => navigate('/')}
+          disabled={printStatus === 'printing'}
+          className="absolute left-[324px] top-[709.5px]"
+        />
         <PillButton
           label={printStatus === 'printing' ? '출력 중…' : printStatus === 'done' ? '출력 완료' : '출력하기'}
           icon={printStatus === 'idle' || printStatus === 'error' ? 'right' : 'none'}
           onClick={handlePrint}
           disabled={printStatus === 'printing' || printStatus === 'done'}
-          className="absolute left-[466px] top-[709.5px]"
+          className="absolute left-[609px] top-[709.5px]"
         />
 
         {printStatus !== 'idle' && (
@@ -119,17 +128,6 @@ export default function FlowerPrint() {
             </span>
           </p>
         )}
-
-        <button
-          type="button"
-          onClick={() => navigate('/')}
-          className="absolute bottom-[32px] right-[40px] flex h-[56px] items-center gap-3 rounded-pill border border-white/80 bg-black/25 pl-7 pr-3 font-gowun text-[20px] font-bold text-white shadow-lg backdrop-blur-sm transition-colors hover:bg-black/35"
-        >
-          <span>처음으로</span>
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/25 text-[16px] tabular-nums">
-            {countdown}
-          </span>
-        </button>
       </FigmaStage>
     </AppLayout>
   )
