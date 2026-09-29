@@ -43,6 +43,7 @@ FEED_LINES = int(os.getenv("PAPERANG_FEED_LINES", "120"))
 MAX_GAP = int(os.getenv("PAPERANG_MAX_GAP", "28"))  # 빈 줄 구간 최대 길이 (0 = 줄이지 않음)
 RETRIES = int(os.getenv("PAPERANG_RETRIES", "2"))
 DRY_RUN = os.getenv("PAPERANG_DRY_RUN", "0") == "1"
+KEEPALIVE_SEC = int(os.getenv("PAPERANG_KEEPALIVE_SEC", "60"))  # 0 = 끄기
 RELAY_URL = os.getenv("RELAY_URL", "").rstrip("/")
 RELAY_TOKEN = os.getenv("RELAY_TOKEN", "")
 OUT_DIR = Path(__file__).parent / "out"
@@ -194,7 +195,25 @@ def _relay_loop() -> None:
             log.warning("relay done report failed: %s", e)
 
 
+# ── 절전 방지 ────────────────────────────────
+def _keepalive_loop() -> None:
+    """P2 는 약 10분 유휴 시 스스로 꺼짐(USB 에서도 사라짐) — 주기적으로 상태를 물어 깨어 있게 함."""
+    while True:
+        time.sleep(KEEPALIVE_SEC)
+        if DRY_RUN or not os.path.exists(USB_DEVICE) or not _print_lock.acquire(blocking=False):
+            continue
+        try:
+            with Paperang(USB_DEVICE, WIDTH) as p:
+                p.status()
+        except OSError as e:
+            log.warning("keepalive failed: %s", e)
+        finally:
+            _print_lock.release()
+
+
 @app.on_event("startup")
-def _start_relay() -> None:
+def _start_background() -> None:
     if RELAY_URL and RELAY_TOKEN:
         threading.Thread(target=_relay_loop, name="relay", daemon=True).start()
+    if KEEPALIVE_SEC > 0:
+        threading.Thread(target=_keepalive_loop, name="keepalive", daemon=True).start()
