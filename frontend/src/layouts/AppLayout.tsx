@@ -5,6 +5,7 @@
 //   - StarBackground 합성 (핑크 하늘 + 구름 + 매달린 별)
 //   - 좌측 세로 "별꽃노리" 브랜드 텍스트 (옵션)
 //   - children: 페이지 콘텐츠 슬롯
+//   - 일정 시간 입력이 없으면 처음 화면으로 (useIdleReturnHome)
 //
 // Props:
 //   variant          — 'main' | 'loading' | 'landing' (표지는 'landing')
@@ -14,6 +15,7 @@
 // ─────────────────────────────────────────────
 
 import StarBackground from '../components/StarBackground';
+import { useIdleReturnHome } from '../hooks/useIdleReturnHome';
 
 interface Props {
   variant?: 'main' | 'loading' | 'landing';
@@ -31,6 +33,8 @@ export default function AppLayout({
   showFlowers = false,
   children,
 }: Props) {
+  useIdleReturnHome(); // 키오스크 — 모든 화면 공통, 오래 방치되면 처음 화면으로
+
   return (
     <StarBackground variant={showFlowers ? 'landing' : variant}>
       <div className="relative min-h-screen w-full font-gowun text-white page-enter">
