@@ -1,7 +1,8 @@
 // ─────────────────────────────────────────────
 // FlowerPrint — Figma "리디자인05" 출력 화면 (1:532 / 1:540 / 1:548)
 //
-// PrintCard(오늘 날짜 포함)를 Figma 카드 자리(289×521)에 맞춰 축소 표시, "출력하기" → window.print()
+// PrintCard(오늘 날짜 포함)를 Figma 카드 자리(289×521)에 맞춰 축소 표시
+// "출력하기" → Paperang 에이전트(라즈베리파이)로 전송, 미설정 시 window.print() — utils/printCard
 // 15초 후 자동으로 처음 화면 복귀 (키오스크)
 // ─────────────────────────────────────────────
 
@@ -13,6 +14,7 @@ import PillButton from '../components/PillButton'
 import PrintCard from '../components/PrintCard'
 import { useFortuneFlow } from '../hooks/useFortuneFlow'
 import type { FlowerResult } from '../types'
+import { printCard } from '../utils/printCard'
 
 const MOCK_FLOWER: FlowerResult = {
   main: {
@@ -44,6 +46,8 @@ export default function FlowerPrint() {
   const [countdown, setCountdown] = useState(15)
   const cardRef = useRef<HTMLDivElement>(null)
   const [cardScale, setCardScale] = useState(CARD_BOX.width / 392)
+  const [printStatus, setPrintStatus] = useState<'idle' | 'printing' | 'done' | 'error'>('idle')
+  const [printError, setPrintError] = useState('')
 
   useEffect(() => {
     if (isDev) return
@@ -51,10 +55,26 @@ export default function FlowerPrint() {
   }, [isDev, selectedZodiac, state.flower, navigate])
 
   useEffect(() => {
+    if (printStatus === 'printing') return // 출력 중에는 자동 복귀 보류
     if (countdown <= 0) { navigate('/'); return }
     const t = setTimeout(() => setCountdown(c => c - 1), 1000)
     return () => clearTimeout(t)
-  }, [countdown, navigate])
+  }, [countdown, navigate, printStatus])
+
+  const handlePrint = async () => {
+    if (printStatus === 'printing') return
+    setPrintStatus('printing')
+    setPrintError('')
+    try {
+      await printCard()
+      setPrintStatus('done')
+    } catch (e) {
+      setPrintError(e instanceof Error ? e.message : String(e))
+      setPrintStatus('error')
+    } finally {
+      setCountdown(15) // 출력 후 카드를 챙길 시간
+    }
+  }
 
   // PrintCard(392px 폭) 를 Figma 카드 자리에 맞게 축소 — 설명 길이에 따라 높이가 달라지므로 측정
   useLayoutEffect(() => {
@@ -82,7 +102,21 @@ export default function FlowerPrint() {
           </div>
         </div>
 
-        <PillButton label="출력하기" onClick={() => window.print()} className="absolute left-[466px] top-[709.5px]" />
+        <PillButton
+          label={printStatus === 'printing' ? '출력 중…' : printStatus === 'done' ? '다시 출력하기' : '출력하기'}
+          onClick={handlePrint}
+          disabled={printStatus === 'printing'}
+          className="absolute left-[466px] top-[709.5px]"
+        />
+
+        {(printStatus === 'done' || printStatus === 'error') && (
+          <p
+            role="status"
+            className={`absolute left-0 right-0 top-[796px] text-center text-sm ${printStatus === 'error' ? 'text-rose-300' : 'text-white/70'}`}
+          >
+            {printStatus === 'error' ? `출력에 실패했어요 — ${printError}` : '카드가 출력됐어요. 프린터에서 가져가세요!'}
+          </p>
+        )}
 
         <button
           type="button"
