@@ -1,0 +1,7 @@
+[Unit]
+Description=인터넷 연결 감시·복구 (별꽃노리 키오스크)
+After=NetworkManager.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/net-watchdog.sh
