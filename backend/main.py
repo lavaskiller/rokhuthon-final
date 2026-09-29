@@ -1,7 +1,7 @@
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import fortune, flower, admin
+from routers import fortune, flower, admin, print_relay
 
 app = FastAPI(title="별꽃노리 API", version="1.0.0")
 
@@ -15,6 +15,7 @@ app.add_middleware(
 app.include_router(fortune.router, prefix="/api")
 app.include_router(flower.router, prefix="/api")
 app.include_router(admin.router, prefix="/api")
+app.include_router(print_relay.router, prefix="/api")
 
 
 @app.get("/health")

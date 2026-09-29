@@ -1,0 +1,14 @@
+[Unit]
+Description=Paperang print agent (별꽃노리 키오스크)
+After=network.target bluetooth.target
+Wants=bluetooth.target
+
+[Service]
+User=htpeo
+WorkingDirectory=/home/htpeo/rokhuthon_final/printer
+ExecStart=/home/htpeo/rokhuthon_final/printer/.venv/bin/uvicorn agent:app --host 127.0.0.1 --port 8765
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

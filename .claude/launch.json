@@ -14,6 +14,13 @@
       "runtimeArgs": ["run", "dev", "--", "--port", "5174", "--strictPort"],
       "cwd": "frontend",
       "port": 5174
+    },
+    {
+      "name": "print-agent-dry-run",
+      "runtimeExecutable": "printer/.venv/Scripts/python.exe",
+      "runtimeArgs": ["-m", "uvicorn", "agent:app", "--app-dir", "printer", "--port", "8765"],
+      "env": { "PAPERANG_DRY_RUN": "1" },
+      "port": 8765
     }
   ]
 }

@@ -111,6 +111,7 @@ rokhuthon_final/
 ### 🖨️ 출력 기능
 - [x] `FlowerPrint` 페이지에서 `window.print()` 트리거
 - [x] 인쇄용 CSS 미디어쿼리 (`@media print`) — 카드 영역만 출력
+- [x] 키오스크(아이패드) → 백엔드 중계(`/api/print`) → 라즈베리파이 에이전트 → Paperang P2 USB 출력 (설치: [printer/README.md](printer/README.md))
 
 ### 🧪 QA
 - [ ] 전체 유저 플로우 E2E 동선 확인

@@ -42,3 +42,6 @@ Thumbs.db
 # Logs
 *.log
 npm-debug.log*
+
+# Paperang 에이전트 dry-run 미리보기
+printer/out/
