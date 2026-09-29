@@ -62,7 +62,7 @@ export default function FlowerPrint() {
   }, [countdown, navigate, printStatus])
 
   const handlePrint = async () => {
-    if (printStatus === 'printing') return
+    if (printStatus === 'printing' || printStatus === 'done') return // 한 번 출력하면 끝 (실패 시에만 재시도)
     setPrintStatus('printing')
     setPrintError('')
     try {
@@ -103,28 +103,30 @@ export default function FlowerPrint() {
         </div>
 
         <PillButton
-          label={printStatus === 'printing' ? '출력 중…' : printStatus === 'done' ? '다시 출력하기' : '출력하기'}
+          label={printStatus === 'printing' ? '출력 중…' : printStatus === 'done' ? '출력 완료' : '출력하기'}
+          icon={printStatus === 'idle' || printStatus === 'error' ? 'right' : 'none'}
           onClick={handlePrint}
-          disabled={printStatus === 'printing'}
+          disabled={printStatus === 'printing' || printStatus === 'done'}
           className="absolute left-[466px] top-[709.5px]"
         />
 
-        {(printStatus === 'done' || printStatus === 'error') && (
-          <p
-            role="status"
-            className={`absolute left-0 right-0 top-[796px] text-center text-sm ${printStatus === 'error' ? 'text-rose-300' : 'text-white/70'}`}
-          >
-            {printStatus === 'error' ? `출력에 실패했어요 — ${printError}` : '카드가 출력됐어요. 프린터에서 가져가세요!'}
+        {printStatus !== 'idle' && (
+          <p role="status" className="absolute left-0 right-0 top-[794px] text-center">
+            <span className={`inline-block rounded-pill bg-black/30 px-5 py-1.5 text-base backdrop-blur-sm ${printStatus === 'error' ? 'text-rose-200' : 'text-white'}`}>
+              {printStatus === 'printing' && '카드를 출력하고 있어요… 잠시만 기다려 주세요'}
+              {printStatus === 'done' && '카드가 출력됐어요. 프린터에서 가져가세요!'}
+              {printStatus === 'error' && `출력에 실패했어요 — ${printError}`}
+            </span>
           </p>
         )}
 
         <button
           type="button"
           onClick={() => navigate('/')}
-          className="absolute bottom-[28px] right-[40px] flex items-center gap-2 text-sm text-white/50 transition-colors hover:text-white/80"
+          className="absolute bottom-[32px] right-[40px] flex h-[56px] items-center gap-3 rounded-pill border border-white/80 bg-black/25 pl-7 pr-3 font-gowun text-[20px] font-bold text-white shadow-lg backdrop-blur-sm transition-colors hover:bg-black/35"
         >
           <span>처음으로</span>
-          <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-white/30 text-xs tabular-nums">
+          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/25 text-[16px] tabular-nums">
             {countdown}
           </span>
         </button>
