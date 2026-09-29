@@ -49,6 +49,21 @@ sudo systemctl enable --now paperang-agent
 journalctl -u paperang-agent -f
 ```
 
+### 인터넷 자동 복구
+
+2분마다 인터넷을 확인하고, 끊기면 Wi-Fi 재연결 → (3회 연속) NetworkManager 재시작 → (15회 ≈ 30분 연속, 부팅 1시간 후) 재부팅.
+
+```bash
+sudo install -m 755 net-watchdog.sh /usr/local/bin/
+sudo install -m 644 net-watchdog.service net-watchdog.timer /etc/systemd/system/
+sudo systemctl daemon-reload && sudo systemctl enable --now net-watchdog.timer
+journalctl -t net-watchdog -f
+# 파이 Wi-Fi 끊김 흔한 원인인 절전 끄기
+sudo nmcli connection modify "<Wi-Fi 연결 이름>" 802-11-wireless.powersave 2
+```
+
+원격 접속은 Tailscale (`sudo tailscale up` 후 표시되는 URL 로 로그인).
+
 ## 3. 백엔드 환경변수 (호스팅 대시보드)
 
 | 변수 | 값 |
